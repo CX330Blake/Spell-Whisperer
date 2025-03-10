@@ -24,4 +24,5 @@ dist-ssr
 *.sw?
 
 # Nextjs
-.next
+.next/
+.next/*
