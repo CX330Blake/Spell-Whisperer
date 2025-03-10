@@ -12,7 +12,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FaQuestion } from "react-icons/fa6";
+import { GrHelp } from "react-icons/gr";
 import { useLevel } from "@/contexts/LevelContext";
 
 export default function ChooseLevel() {
@@ -30,7 +30,7 @@ export default function ChooseLevel() {
                     className="font-playwrite border-primary hover:cursor-pointer"
                 >
                     <div className="flex justify-center items-center space-x-1">
-                        <FaQuestion size={30} />
+                        <GrHelp size={30} />
                         <div>
                             {selectedLevel
                                 ? selectedLevel.charAt(0).toUpperCase() +

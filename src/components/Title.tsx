@@ -2,7 +2,7 @@ import BlurText from "@/components/reactbits/BlurText";
 
 export default function Title() {
     return (
-        <span className="flex flex-col mt-12 space-y-4 items-center">
+        <span className="flex flex-col space-y-4 items-center">
             <span className="font-victor-mono text-2xl md:text-4xl lg:text-6xl">
                 <BlurText text="Spell Incantor" />
             </span>
