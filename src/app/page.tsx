@@ -8,7 +8,7 @@ function App() {
     return (
         <div className="flex flex-col items-center justify-between h-screen">
             <SplashCursor />
-            <div className="mt-12">
+            <div className="mt-12 w-3/5">
                 {/* Main Content */}
                 <div className="h-auto">
                     <Title />

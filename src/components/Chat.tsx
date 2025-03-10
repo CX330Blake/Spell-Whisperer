@@ -16,7 +16,9 @@ export default function Chat() {
                 />
             </div>
             <br />
-            <Button className="font-playwrite w-1/3">Send message</Button>
+            <Button className="font-playwrite w-1/3 hover:cursor-pointer">
+                Send message
+            </Button>
         </div>
     );
 }

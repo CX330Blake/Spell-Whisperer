@@ -2,13 +2,12 @@ import BlurText from "@/components/reactbits/BlurText";
 
 export default function Title() {
     return (
-        <span className="mt-20">
+        <span className="flex flex-col mt-12 space-y-4">
             <span className="font-victor-mono text-2xl md:text-4xl lg:text-6xl">
-                <BlurText text="Prompt Injection Challenges" />
+                <BlurText text="Spell Incantor" />
             </span>
-            <br />
             <span className="font-playwrite justify-center text-sm md:text-base lg:text:xl">
-                <BlurText text="- Test your hacking skill to break LLMs" />
+                <BlurText text="- Prompt injection challenges to test your hacking skills" />
             </span>
         </span>
     );

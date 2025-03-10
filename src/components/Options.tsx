@@ -31,7 +31,7 @@ export default function Options() {
                     <DropdownMenuTrigger asChild>
                         <Button
                             variant="outline"
-                            className="font-playwrite border-primary"
+                            className="font-playwrite border-primary hover:cursor-pointer"
                         >
                             Choose level
                         </Button>
@@ -59,6 +59,8 @@ export default function Options() {
                         </DropdownMenuCheckboxItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
+                {/* Hint */}
+                <Button>Hint</Button>
             </span>
         </>
     );
