@@ -1,21 +1,38 @@
 "use client";
 
 import * as React from "react";
-
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-
+import { useEffect, useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 import { FaLightbulb } from "react-icons/fa6";
 import ChooseLevel from "./ChooseLevel";
 import { Textarea } from "./ui/textarea";
+import { Terminal } from "lucide-react";
 import { Label } from "./ui/label";
 import { IoHelpBuoy } from "react-icons/io5";
 import { useLevel } from "@/contexts/LevelContext";
 
 export default function Options() {
     const { selectedLevel, setSelectedLevel } = useLevel();
+    const [systemPrompt, setSystemPrompt] = useState("");
 
-    const data = fetch("/api/check-flag");
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const res = await fetch("/api/challenges");
+                const data = await res.json();
+
+                if (selectedLevel && data[selectedLevel]) {
+                    setSystemPrompt(data[selectedLevel][0]["system"]);
+                }
+            } catch (error) {
+                console.error("Error fetching challenges:", error);
+            }
+        }
+
+        fetchData();
+    }, [selectedLevel]);
 
     return (
         <>
@@ -25,7 +42,7 @@ export default function Options() {
                     <ThemeToggle />
                     {/* Tutorial */}
                     <Button
-                        className="font-playwrite border-primary"
+                        className="font-playwrite border-primary hover:cursor-pointer"
                         variant={"outline"}
                     >
                         <div className="flex justify-center items-center space-x-1">
@@ -37,7 +54,7 @@ export default function Options() {
                     <ChooseLevel />
                     {/* Hint */}
                     <Button
-                        className="font-playwrite border-primary"
+                        className="font-playwrite border-primary hover:cursor-pointer"
                         variant={"outline"}
                     >
                         <div className="flex justify-center items-center space-x-1">
@@ -49,10 +66,13 @@ export default function Options() {
                 <Label className="font-victor-mono text-base">
                     System prompt (My command to the LLM)
                 </Label>
-                <Textarea
-                    disabled
-                    className="font-victor-mono text-sm md:text-base lg:text-base border-primary resize-none w-full h-2"
-                ></Textarea>
+                <Alert className="flex border-primary">
+                    <Terminal className="h-10 w-10" />
+                    <AlertTitle />
+                    <AlertDescription className="font-victor-mono text-sm md:text-sm lg:text-sm border-primary resize-none w-full h-2">
+                        {systemPrompt || "Loading..."}
+                    </AlertDescription>
+                </Alert>
             </div>
         </>
     );

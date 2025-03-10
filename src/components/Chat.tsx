@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { FaPaperPlane } from "react-icons/fa6";
+import { Input } from "@/components/ui/input";
 
 export default function Chat() {
     return (
@@ -23,6 +24,20 @@ export default function Chat() {
                     <div>Send message</div>
                 </div>
             </Button>
+            <br />
+            <div className="flex w-1/3 max-w-sm items-center space-x-2">
+                <Input
+                    type="text"
+                    placeholder="Submit the flag"
+                    className="border-primary font-victor-mono"
+                />
+                <Button
+                    type="submit"
+                    className="font-playwrite hover:cursor-pointer"
+                >
+                    Submit
+                </Button>
+            </div>
         </div>
     );
 }

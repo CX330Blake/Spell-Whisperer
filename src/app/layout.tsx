@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Prompt Injection Challenges",
-    description: "Test your hacking skill to break LLMs",
+    title: "Spell Incantor",
+    description: "Prompt injection challenges to test your hacking skills",
 };
 
 export default function RootLayout({

@@ -28,7 +28,11 @@ export function ThemeToggle() {
     }
 
     return (
-        <Button variant="default" onClick={toggleTheme}>
+        <Button
+            variant="default"
+            onClick={toggleTheme}
+            className="hover:cursor-pointer"
+        >
             {resolvedTheme === "light" ? (
                 <div className="font-playwrite flex justify-between items-center space-x-2">
                     <Moon className="h-[1.2rem] w-[1.2rem]" />
