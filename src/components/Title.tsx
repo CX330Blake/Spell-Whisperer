@@ -1,15 +1,15 @@
-import BlurText from "@/reactbits/BlurText";
+import BlurText from "@/components/reactbits/BlurText";
 
 export default function Title() {
     return (
         <>
-            <p className="font-victor-mono text-2xl md:text-4xl lg:text-6xl">
+            <span className="font-victor-mono text-2xl md:text-4xl lg:text-6xl">
                 <BlurText text="Prompt Injection Challenges" />
-            </p>
+            </span>
             <br />
-            <p className="font-playwrite justify-center text-sm md:text-base lg:text:xl">
+            <span className="font-playwrite justify-center text-sm md:text-base lg:text:xl">
                 <BlurText text="- Test your hacking skill to break LLMs" />
-            </p>
+            </span>
         </>
     );
 }

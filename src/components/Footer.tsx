@@ -1,4 +1,4 @@
-import ShinyText from "@/reactbits/ShinyText";
+import ShinyText from "@/components/reactbits/ShinyText";
 
 export default function Footer() {
     return (

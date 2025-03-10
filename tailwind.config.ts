@@ -2,7 +2,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-    content: ["index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+    content: ["./src/**/*.{js,jsx,ts,tsx}"],
     darkMode: "class",
     theme: {
         extend: {
@@ -23,7 +23,9 @@ const config: Config = {
             },
         },
     },
-    plugins: [],
+    plugins: {
+        "@tailwindcss/postcss": {},
+    },
 };
 
 export default config;
