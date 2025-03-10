@@ -6,33 +6,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Playwrite+AU+VIC&family=Victor+Mono:ital,wght@0,100..700;1,100..700&display=swap");
 @import "tailwindcss";
 
-/* @import "tailwindcss/base"; */
-/* @import "tailwindcss/components"; */
-/* @import "tailwindcss/utilities"; */
-
 @theme {
     --font-victor-mono: "Victor Mono", monospace;
     --font-playwrite: "Playwrite AU VIC", cursive;
 }
 
-@layer base {
-    :root {
-        --background: white !important;
-        --foreground: black !important;
-    }
-
-    .dark {
-        --background: black !important;
-        --foreground: white !important;
-    }
-}
-
 :root {
+    --background: oklch(97.75% 0.0079 106.55);
+    --foreground: oklch(28.82% 0.0221 277.51);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
+    --primary: oklch(28.82% 0.0221 277.51);
     --primary-foreground: oklch(0.985 0 0);
     --secondary: oklch(0.97 0 0);
     --secondary-foreground: oklch(0.205 0 0);
@@ -59,13 +45,11 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
+    --background: oklch(23.93% 0 0);
+    --foreground: oklch(97.75% 0.0079 106.55);
     --card: oklch(0.145 0 0);
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.145 0 0);

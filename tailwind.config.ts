@@ -2,30 +2,35 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-    content: ["./src/**/*.{js,jsx,ts,tsx}"],
+    content: ["./src/**/*.{js,jsx,ts,tsx.css}"],
     darkMode: "class",
     theme: {
         extend: {
             colors: {
-                primary: "#f9f9f9",
-                "dark-blue": "#0A192F",
-                "light-blue": "#112240",
-                "light-gray": "#F4F6F8",
-                "dark-gray": "#E5E5E5",
-                "dark-red": "#FF4949",
-                "light-red": "#FFCFCF",
-                "dark-green": "#00C48C",
-                "light-green": "#CFFAF1",
-                "dark-yellow": "#FFB800",
-                "light-yellow": "#FFFAE5",
-                "dark-purple": "#7F5AF0",
-                "light-purple": "#EAE6FF",
+                border: "hsl(var(--border))",
             },
         },
     },
-    plugins: {
-        "@tailwindcss/postcss": {},
-    },
+    // theme: {
+    //     extend: {
+    //         colors: {
+    //             background: "hsl(var(--background))",
+    //             foreground: "hsl(var(--foreground))",
+    //             primary: "hsl(var(--primary))",
+    //             primaryForeground: "hsl(var(--primary-foreground))",
+    //             secondary: "hsl(var(--secondary))",
+    //             secondaryForeground: "hsl(var(--secondary-foreground))",
+    //             accent: "hsl(var(--accent))",
+    //             accentForeground: "hsl(var(--accent-foreground))",
+    //             muted: "hsl(var(--muted))",
+    //             mutedForeground: "hsl(var(--muted-foreground))",
+    //             border: "hsl(var(--border))",
+    //             input: "hsl(var(--input))",
+    //             ring: "hsl(var(--ring))",
+    //         },
+    //     },
+    // },
+    plugins: [require("tailwindcss-animate")],
 };
 
 export default config;

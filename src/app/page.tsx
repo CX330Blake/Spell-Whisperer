@@ -6,10 +6,11 @@ import SplashCursor from "@/components/reactbits/SplashCursor";
 
 function App() {
     return (
-        <>
-            <span className="w-3/4">
-                <SplashCursor />
-                <span className=" align-middle justify-center">
+        <div className="flex flex-col items-center justify-between h-screen">
+            <SplashCursor />
+            <div className="mt-12">
+                {/* Main Content */}
+                <div className="h-auto">
                     <Title />
                     <br />
                     <Options />
@@ -17,12 +18,16 @@ function App() {
                     <Chat />
                     <br />
                     <br />
-                </span>
-                <span>
+                </div>
+                {/* Footer */}
+                <br />
+                <br />
+                <div className="flex justify-center w-full">
                     <Footer />
-                </span>
-            </span>
-        </>
+                </div>
+                {/* <div className="bg-primary">TEST</div> */}
+            </div>
+        </div>
     );
 }
 

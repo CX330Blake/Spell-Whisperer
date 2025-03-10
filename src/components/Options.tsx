@@ -24,33 +24,38 @@ export default function Options() {
     const [showPanel, setShowPanel] = React.useState<Checked>(false);
     return (
         <>
-            <span className="flex items-center">
+            <span className="flex items-center justify-start space-x-2">
                 <ThemeToggle />
+                <br />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline">Open</Button>
+                        <Button
+                            variant="outline"
+                            className="font-playwrite border-primary"
+                        >
+                            Choose level
+                        </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56">
-                        <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+                        <DropdownMenuLabel>Difficulty</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuCheckboxItem
                             checked={showStatusBar}
                             onCheckedChange={setShowStatusBar}
                         >
-                            Status Bar
+                            Simple
                         </DropdownMenuCheckboxItem>
                         <DropdownMenuCheckboxItem
                             checked={showActivityBar}
                             onCheckedChange={setShowActivityBar}
-                            disabled
                         >
-                            Activity Bar
+                            Medium
                         </DropdownMenuCheckboxItem>
                         <DropdownMenuCheckboxItem
                             checked={showPanel}
                             onCheckedChange={setShowPanel}
                         >
-                            Panel
+                            Hard
                         </DropdownMenuCheckboxItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

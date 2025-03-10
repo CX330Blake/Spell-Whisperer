@@ -1,14 +1,14 @@
-import ShinyText from "@/components/reactbits/ShinyText";
+import CircularText from "./reactbits/CircularText";
 
 export default function Footer() {
     return (
-        <>
-            <ShinyText
-                text="Made by CX330 with love"
-                speed={3}
-                className="font-playwrite"
-                disabled={false}
+        <div>
+            <CircularText
+                text="Made*By*CX330*With*Love*"
+                onHover="slowDown"
+                spinDuration={20}
+                className="text-primary font-playwrite"
             />
-        </>
+        </div>
     );
 }
