@@ -1,3 +1,6 @@
+# Nextjs
+.next
+
 # Logs
 logs
 *.log
@@ -23,6 +26,3 @@ dist-ssr
 *.sln
 *.sw?
 
-# Nextjs
-.next/
-.next/*
