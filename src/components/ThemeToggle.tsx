@@ -28,11 +28,17 @@ export function ThemeToggle() {
     }
 
     return (
-        <Button variant="default" size="icon" onClick={toggleTheme}>
+        <Button variant="default" onClick={toggleTheme}>
             {resolvedTheme === "light" ? (
-                <Moon className="h-[1.2rem] w-[1.2rem]" />
+                <div className="font-playwrite flex justify-between items-center space-x-2">
+                    <Moon className="h-[1.2rem] w-[1.2rem]" />
+                    <div>Dark</div>
+                </div>
             ) : (
-                <Sun className="h-[1.2rem] w-[1.2rem]" />
+                <div className="font-playwrite flex justify-between items-center space-x-2">
+                    <Sun className="h-[1.2rem] w-[1.2rem]" />
+                    <div>Light</div>
+                </div>
             )}
             <span className="sr-only">Toggle theme</span>
         </Button>

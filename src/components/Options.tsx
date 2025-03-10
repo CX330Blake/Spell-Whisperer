@@ -1,67 +1,40 @@
 "use client";
 
 import * as React from "react";
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 
 import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 import { ThemeToggle } from "./ThemeToggle";
+import { FaLightbulb } from "react-icons/fa6";
+import ChooseLevel from "./ChooseLevel";
+import { Textarea } from "./ui/textarea";
+import { Label } from "./ui/label";
 
 export default function Options() {
-    const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true);
-    const [showActivityBar, setShowActivityBar] =
-        React.useState<Checked>(false);
-    const [showPanel, setShowPanel] = React.useState<Checked>(false);
     return (
         <>
-            <span className="flex items-center justify-start space-x-2">
-                <ThemeToggle />
-                <br />
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button
-                            variant="outline"
-                            className="font-playwrite border-primary hover:cursor-pointer"
-                        >
-                            Choose level
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56">
-                        <DropdownMenuLabel>Difficulty</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuCheckboxItem
-                            checked={showStatusBar}
-                            onCheckedChange={setShowStatusBar}
-                        >
-                            Simple
-                        </DropdownMenuCheckboxItem>
-                        <DropdownMenuCheckboxItem
-                            checked={showActivityBar}
-                            onCheckedChange={setShowActivityBar}
-                        >
-                            Medium
-                        </DropdownMenuCheckboxItem>
-                        <DropdownMenuCheckboxItem
-                            checked={showPanel}
-                            onCheckedChange={setShowPanel}
-                        >
-                            Hard
-                        </DropdownMenuCheckboxItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-                {/* Hint */}
-                <Button>Hint</Button>
-            </span>
+            <div className="flex-col justify-center space-y-4">
+                <span className="flex items-center justify-center space-x-4">
+                    {/* Theme toggler */}
+                    <ThemeToggle />
+                    {/* Level picker */}
+                    <ChooseLevel />
+                    {/* Hint */}
+                    <Button className="font-playwrite">
+                        <div className="flex justify-center items-center space-x-2">
+                            <FaLightbulb size={30} />
+                            <div>Show hint</div>
+                        </div>
+                    </Button>
+                </span>
+                <Label className="font-victor-mono text-base">
+                    System prompt (My command to the LLM)
+                </Label>
+                <Textarea
+                    disabled
+                    className="font-victor-mono text-sm md:text-base lg:text-base border-primary resize-none w-full h-2"
+                ></Textarea>
+            </div>
         </>
     );
 }

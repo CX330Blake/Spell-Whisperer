@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { FaPaperPlane } from "react-icons/fa6";
 
 export default function Chat() {
     return (
@@ -12,12 +13,15 @@ export default function Chat() {
                 <Textarea
                     placeholder="The response from LLM will appear here"
                     className="font-victor-mono w-1/2 h-full text-sm md:text-base lg:text-base border-primary resize-none"
-                    readOnly
+                    disabled
                 />
             </div>
             <br />
             <Button className="font-playwrite w-1/3 hover:cursor-pointer">
-                Send message
+                <div className="flex justify-center space-x-2 items-center">
+                    <FaPaperPlane size={30} />
+                    <div>Send message</div>
+                </div>
             </Button>
         </div>
     );
