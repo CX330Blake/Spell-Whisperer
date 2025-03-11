@@ -1,8 +1,8 @@
 import path from "path";
 import fs from "fs";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET() {
     try {
         const filePath = path.join(
             process.cwd(),
@@ -20,7 +20,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
         return NextResponse.json(JSON.parse(data));
     } catch (error) {
         return NextResponse.json(
-            { error: "Server error", details: error.message },
+            { error: "Server error", details: (error as Error).message },
             { status: 500 },
         );
     }
