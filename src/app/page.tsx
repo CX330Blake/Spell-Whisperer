@@ -6,7 +6,7 @@ import SplashCursor from "@/components/reactbits/SplashCursor";
 
 function App() {
     return (
-        <div className="flex flex-col items-center justify-center h-screen">
+        <div className="flex flex-col items-center justify-center h-auto">
             <SplashCursor />
             <div className="mt-12 w-4/5">
                 {/* Main Content */}

@@ -55,7 +55,7 @@ export default function Options() {
                 <Alert className="flex border-primary">
                     <Terminal className="h-10 w-10" />
                     <AlertTitle />
-                    <AlertDescription className="font-victor-mono text-sm md:text-sm lg:text-sm border-primary resize-none w-full h-10 md:h-2">
+                    <AlertDescription className="font-victor-mono text-sm md:text-sm lg:text-sm border-primary resize-none w-full h-auto">
                         {systemPrompt || "Loading..."}
                     </AlertDescription>
                 </Alert>
