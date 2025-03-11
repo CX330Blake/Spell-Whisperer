@@ -31,7 +31,7 @@ export default function RootLayout({
             lang="en"
             // className={`${victorMono.variable} ${playwrite.variable}`}
         >
-            <body>
+            <body className="antialiased">
                 <ThemeProvider
                     defaultTheme="dark"
                     attribute="class"

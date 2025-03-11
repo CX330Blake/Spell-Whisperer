@@ -11,7 +11,9 @@ import { Terminal } from "lucide-react";
 import { Label } from "./ui/label";
 import { IoHelpBuoy } from "react-icons/io5";
 import { useLevel } from "@/contexts/LevelContext";
+import HintButton from "./HintButton";
 import { Confetti } from "./Confetti";
+import TutorialButton from "./TutorialButton";
 
 export default function Options() {
     const { selectedLevel, setSelectedLevel } = useLevel();
@@ -41,28 +43,11 @@ export default function Options() {
                     {/* Theme toggler */}
                     <ThemeToggle />
                     {/* Tutorial */}
-                    <Button
-                        className="font-playwrite border-primary hover:cursor-pointer"
-                        variant={"outline"}
-                    >
-                        <div className="flex justify-center items-center space-x-1">
-                            <FaLightbulb size={30} />
-                            <div>Tutorial</div>
-                        </div>
-                    </Button>
+                    <TutorialButton />
                     {/* Level picker */}
                     <ChooseLevel />
                     {/* Hint */}
-                    <Button
-                        className="font-playwrite border-primary hover:cursor-pointer"
-                        variant={"outline"}
-                        onclick={Confetti}
-                    >
-                        <div className="flex justify-center items-center space-x-1">
-                            <IoHelpBuoy size={40} />
-                            <div>Show hint</div>
-                        </div>
-                    </Button>
+                    <HintButton />
                 </span>
                 <Label className="font-victor-mono text-base">
                     System prompt (My command to the LLM)

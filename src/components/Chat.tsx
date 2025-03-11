@@ -7,11 +7,14 @@ import { FaPaperPlane } from "react-icons/fa6";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useLevel } from "@/contexts/LevelContext";
+import { Confetti } from "./Confetti";
 
 export default function Chat() {
     const [userInput, setUserInput] = useState("");
     const [resFromGrok, setResFromGrok] = useState("");
     const { selectedLevel, setSelectedLevel } = useLevel();
+    const [flag, setFlag] = useState("");
+    const [flagBorderStyle, setFlagBorderStyle] = useState("border-primary");
 
     const getResponseFromGrok = async () => {
         const res = await fetch("/api/challenge/chat", {
@@ -20,6 +23,27 @@ export default function Chat() {
         }).then((res) => res.json());
         console.log(res);
         setResFromGrok(res.response);
+    };
+
+    const checkFlag = async () => {
+        const res = await fetch("/api/challenge/check-flag", {
+            method: "POST",
+            body: JSON.stringify({ flag: flag, level: selectedLevel }),
+        }).then((res) => res.json());
+
+        if (res.correct) {
+            Confetti();
+            setFlagBorderStyle("border-green-500 border-2");
+            setFlag("✅ Congrats!");
+        } else {
+            setFlagBorderStyle("border-red-500 border-2");
+            setFlag("❌ Wrong!");
+        }
+
+        setTimeout(() => {
+            setFlagBorderStyle("border-primary");
+            setFlag("");
+        }, 1000);
     };
 
     return (
@@ -41,28 +65,33 @@ export default function Chat() {
                 </Alert>
             </div>
             <br />
-            <Button
-                className="font-playwrite w-1/3 hover:cursor-pointer"
-                onClick={getResponseFromGrok}
-            >
-                <div className="flex justify-center space-x-2 items-center">
-                    <FaPaperPlane size={30} />
-                    <div>Send message</div>{" "}
-                </div>
-            </Button>
-            <br />
-            <div className="flex w-1/3 max-w-sm items-center space-x-2">
-                <Input
-                    type="text"
-                    placeholder="Submit the flag"
-                    className="border-primary font-victor-mono"
-                />
+            <div className="w-1/3 flex-col space-y-4">
                 <Button
-                    type="submit"
-                    className="font-playwrite hover:cursor-pointer"
+                    className="font-playwrite w-full hover:cursor-pointer"
+                    onClick={getResponseFromGrok}
                 >
-                    Submit
+                    <div className="flex justify-center space-x-2 items-center">
+                        <FaPaperPlane size={30} />
+                        <div>Send message</div>{" "}
+                    </div>
                 </Button>
+                <br />
+                <div className="flex w-full items-center justify-stretch space-x-2">
+                    <Input
+                        type="text"
+                        placeholder="Submit the flag"
+                        value={flag}
+                        className={`border-primary font-victor-mono w-3/4 ${flagBorderStyle}`}
+                        onChange={(e) => setFlag(e.target.value)}
+                    />
+                    <Button
+                        type="submit"
+                        className="font-playwrite hover:cursor-pointer w-1/4"
+                        onClick={checkFlag}
+                    >
+                        Submit
+                    </Button>
+                </div>
             </div>
         </div>
     );

@@ -33,8 +33,6 @@ export async function POST(req: NextRequest) {
             answer,
         );
 
-        console.log();
-
         const completion = await client.chat.completions.create({
             model: "grok-2-latest",
             messages: [
