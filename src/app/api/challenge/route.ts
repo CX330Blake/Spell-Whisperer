@@ -6,7 +6,7 @@ export async function GET() {
     try {
         const filePath = path.join(
             process.cwd(),
-            "/src/app/api/challenges/challenges.json",
+            "/src/app/api/challenge/challenges.json",
         );
 
         if (!fs.existsSync(filePath)) {
