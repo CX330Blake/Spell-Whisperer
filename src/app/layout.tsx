@@ -19,6 +19,7 @@ import { LevelProvider } from "@/contexts/LevelContext";
 export const metadata: Metadata = {
     title: "Spell Incantor",
     description: "Prompt injection challenges to test your hacking skills",
+    themeColor: "hsl(var(--color-primary))",
 };
 
 export default function RootLayout({
