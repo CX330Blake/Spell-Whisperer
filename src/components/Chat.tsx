@@ -61,7 +61,7 @@ export default function Chat() {
                 {/* User input */}
                 <Textarea
                     placeholder="Type your message here to chat with LLM"
-                    className="font-victor-mono w-1/2 h-full text-sm md:text-base lg:text-base border-primary resize-none"
+                    className="font-victor-mono w-1/2 h-full text-sm md:text-base lg:text-base border-primary resize-none bg-background"
                     value={userInput}
                     onChange={(e) => setUserInput(e.target.value)}
                 />

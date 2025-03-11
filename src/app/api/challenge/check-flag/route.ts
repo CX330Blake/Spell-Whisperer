@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
         const challengeInfo = JSON.parse(fs.readFileSync(filePath, "utf-8"));
         const answer = challengeInfo[selectedLevel][0]["answer"];
 
-        if (flag.trim() === answer) {
+        if (flag.trim().toLowerCase() === answer.toLowerCase()) {
             return NextResponse.json({ correct: true });
         } else {
             return NextResponse.json({ correct: false });
