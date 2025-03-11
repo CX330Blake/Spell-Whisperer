@@ -15,14 +15,22 @@ export default function Chat() {
     const { selectedLevel, setSelectedLevel } = useLevel();
     const [flag, setFlag] = useState("");
     const [flagBorderStyle, setFlagBorderStyle] = useState("border-primary");
+    const [waiting, setWaiting] = useState(false);
 
     const getResponseFromGrok = async () => {
-        const res = await fetch("/api/challenge/chat", {
-            method: "POST",
-            body: JSON.stringify({ input: userInput, level: selectedLevel }),
-        }).then((res) => res.json());
-        console.log(res);
-        setResFromGrok(res.response);
+        try {
+            setResFromGrok("Waiting for response...");
+            const res = await fetch("/api/challenge/chat", {
+                method: "POST",
+                body: JSON.stringify({
+                    input: userInput,
+                    level: selectedLevel,
+                }),
+            }).then((res) => res.json());
+            setResFromGrok(res.response);
+        } catch (error) {
+            setResFromGrok("Error occurred. Please try again.");
+        }
     };
 
     const checkFlag = async () => {
