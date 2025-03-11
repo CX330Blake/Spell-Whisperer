@@ -3,6 +3,10 @@
 import { useRef, useEffect, useState } from "react";
 import { useSprings, animated, SpringValue } from "@react-spring/web";
 
+const AnimatedSpan = animated.span as React.FC<
+    React.HTMLAttributes<HTMLSpanElement>
+>;
+
 interface BlurTextProps {
     text?: string;
     delay?: number;
@@ -111,7 +115,7 @@ const BlurText: React.FC<BlurTextProps> = ({
     return (
         <p ref={ref} className={`blur-text ${className} flex flex-wrap`}>
             {springs.map((props, index) => (
-                <animated.span
+                <AnimatedSpan
                     key={index}
                     style={props}
                     className="inline-block transition-transform will-change-[transform,filter,opacity]"
@@ -120,7 +124,7 @@ const BlurText: React.FC<BlurTextProps> = ({
                     {animateBy === "words" &&
                         index < elements.length - 1 &&
                         "\u00A0"}
-                </animated.span>
+                </AnimatedSpan>
             ))}
         </p>
     );
