@@ -57,7 +57,7 @@ export default function Chat() {
                     onChange={(e) => setUserInput(e.target.value)}
                 />
                 {/* Grok response */}
-                <Alert className="font-victor-mono w-1/2 h-full text-sm md:text-base lg:text-base border-primary resize-none">
+                <Alert className="font-victor-mono w-1/2 h-full text-sm md:text-base lg:text-base border-primary resize-none overflow-auto">
                     <AlertDescription className="text-primary">
                         {resFromGrok ||
                             "The response from the LLM will appear here"}
@@ -65,7 +65,7 @@ export default function Chat() {
                 </Alert>
             </div>
             <br />
-            <div className="w-1/3 flex-col space-y-4">
+            <div className="w-full flex-col space-y-4 md:w-1/3">
                 <Button
                     className="font-playwrite w-full hover:cursor-pointer"
                     onClick={getResponseFromGrok}

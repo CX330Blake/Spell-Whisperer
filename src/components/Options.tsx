@@ -39,7 +39,7 @@ export default function Options() {
     return (
         <>
             <div className="flex-col justify-center space-y-4">
-                <span className="flex items-center justify-center space-x-4">
+                <span className="grid grid-cols-2 gap-4 items-center justify-center md:flex">
                     {/* Theme toggler */}
                     <ThemeToggle />
                     {/* Tutorial */}
@@ -55,7 +55,7 @@ export default function Options() {
                 <Alert className="flex border-primary">
                     <Terminal className="h-10 w-10" />
                     <AlertTitle />
-                    <AlertDescription className="font-victor-mono text-sm md:text-sm lg:text-sm border-primary resize-none w-full h-2">
+                    <AlertDescription className="font-victor-mono text-sm md:text-sm lg:text-sm border-primary resize-none w-full h-10 md:h-2">
                         {systemPrompt || "Loading..."}
                     </AlertDescription>
                 </Alert>

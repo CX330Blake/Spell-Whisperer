@@ -7,7 +7,7 @@ export default function Title() {
                 <BlurText text="Spell Incantor" />
             </span>
             <span className="font-playwrite justify-center text-sm md:text-base lg:text-xl">
-                <BlurText text="- Prompt injection challenges to test your hacking skills -" />
+                <BlurText text="- Hello incantor, let's hack the LLM -" />
             </span>
         </span>
     );
