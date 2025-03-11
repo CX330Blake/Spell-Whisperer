@@ -8,6 +8,7 @@ const victorMono = Victor_Mono({
     variable: "--font-victor-mono",
     weight: ["100", "200", "300", "400", "500", "600", "700"],
     display: "swap",
+    subsets: ["latin"],
 });
 
 const playwrite = Playwrite_AU_VIC({
