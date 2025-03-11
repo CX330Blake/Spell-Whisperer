@@ -11,6 +11,7 @@ import { Terminal } from "lucide-react";
 import { Label } from "./ui/label";
 import { IoHelpBuoy } from "react-icons/io5";
 import { useLevel } from "@/contexts/LevelContext";
+import { Confetti } from "./Confetti";
 
 export default function Options() {
     const { selectedLevel, setSelectedLevel } = useLevel();
@@ -55,6 +56,7 @@ export default function Options() {
                     <Button
                         className="font-playwrite border-primary hover:cursor-pointer"
                         variant={"outline"}
+                        onclick={Confetti}
                     >
                         <div className="flex justify-center items-center space-x-1">
                             <IoHelpBuoy size={40} />
