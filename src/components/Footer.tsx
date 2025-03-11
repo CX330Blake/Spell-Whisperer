@@ -45,6 +45,8 @@ export default function Footer() {
                     <FaLinkedin size={30} className="hover:text-primary" />
                 </a>
             </div>
+            <br />
+            <br />
         </div>
     );
 }

@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 export default function Chat() {
     return (
         <div className="flex flex-col items-center space-y-4 w-auto">
-            <div className="flex w-full gap-4 h-60">
+            <div className="flex w-full gap-4 h-50">
                 <Textarea
                     placeholder="Type your message here to chat with LLM"
                     className="font-victor-mono w-1/2 h-full text-sm md:text-base lg:text-base border-primary resize-none"
