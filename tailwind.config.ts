@@ -9,6 +9,10 @@ const config: Config = {
             colors: {
                 border: "hsl(var(--border))",
             },
+            fontFamily: {
+                "victor-mono": ["'Victor Mono'", "monospace"],
+                playwrite: ["'Playwrite AU VIC'", "cursive"],
+            },
         },
     },
     // theme: {
