@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 import { FaLightbulb } from "react-icons/fa6";
 import ChooseLevel from "./ChooseLevel";
-import { Textarea } from "./ui/textarea";
 import { Terminal } from "lucide-react";
 import { Label } from "./ui/label";
 import { IoHelpBuoy } from "react-icons/io5";
@@ -20,7 +19,7 @@ export default function Options() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const res = await fetch("/api/challenges");
+                const res = await fetch("/api/challenge/get-info");
                 const data = await res.json();
 
                 if (selectedLevel && data[selectedLevel]) {

@@ -1,19 +1,20 @@
 import type { Metadata } from "next";
-import { Victor_Mono, Playwrite_AU_VIC } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { LevelProvider } from "@/contexts/LevelContext";
+// import { Victor_Mono, Playwrite_AU_VIC } from "next/font/google";
 
-const victorMono = Victor_Mono({
-    variable: "--font-victor-mono",
-    weight: ["100", "200", "300", "400", "500", "600", "700"],
-    display: "swap",
-    subsets: ["latin"],
-});
-
-const playwrite = Playwrite_AU_VIC({
-    variable: "--font-playwrite-au-vic",
-});
+// const victorMono = Victor_Mono({
+//     variable: "--font-victor-mono",
+//     weight: ["400"],
+//     display: "swap",
+// });
+//
+// const playwrite = Playwrite_AU_VIC({
+//     variable: "--font-playwrite",
+//     weight: ["400"],
+//     display: "swap",
+// });
 
 export const metadata: Metadata = {
     title: "Spell Incantor",
@@ -26,10 +27,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
-            <body
-                className={`${victorMono.variable} ${playwrite.variable} antialiased`}
-            >
+        <html
+            lang="en"
+            // className={`${victorMono.variable} ${playwrite.variable}`}
+        >
+            <body>
                 <ThemeProvider
                     defaultTheme="dark"
                     attribute="class"

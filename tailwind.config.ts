@@ -6,12 +6,12 @@ const config: Config = {
     darkMode: "class",
     theme: {
         extend: {
+            fontFamily: {
+                "victor-mono": ["var(--font-victor-mono)"],
+                playwrite: ["var(--font-playwrite-au-vic)"],
+            },
             colors: {
                 border: "hsl(var(--border))",
-            },
-            fontFamily: {
-                "victor-mono": ["var(--font-victor-mono)", "cursive"],
-                playwrite: ["var(--font-playwrite-au-vic)", "monospace"],
             },
         },
     },
