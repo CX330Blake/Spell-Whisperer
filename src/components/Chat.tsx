@@ -20,6 +20,7 @@ export default function Chat() {
     const getResponseFromGrok = async () => {
         try {
             setResFromGrok("Waiting for response...");
+            setUserInput("");
             const res = await fetch("/api/challenge/chat", {
                 method: "POST",
                 body: JSON.stringify({
