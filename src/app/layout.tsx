@@ -17,7 +17,7 @@ import { LevelProvider } from "@/contexts/LevelContext";
 // });
 
 export const metadata: Metadata = {
-    title: "Spell Incantor",
+    title: "Spell Whisperer",
     description: "Prompt injection challenges to test your hacking skills",
     themeColor: "hsl(var(--color-primary))",
 };
