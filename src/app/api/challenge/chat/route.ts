@@ -13,6 +13,14 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const selectedLevel = body.level;
 
+        console.log("Selected Level: ", selectedLevel);
+
+        if (selectedLevel === undefined || selectedLevel === "") {
+            return NextResponse.json({
+                response: "Please select a level to start.",
+            });
+        }
+
         const filePath = path.join(
             process.cwd(),
             "/src/app/api/challenge/challenges.json",
