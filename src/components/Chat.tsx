@@ -95,7 +95,7 @@ export default function Chat() {
                     <Input
                         type="text"
                         placeholder="Submit the flag"
-                        className={`border-primary font-victor-mono w-3/4 ${flagBorderStyle}`}
+                        className={`bg-background border-primary font-victor-mono w-3/4 ${flagBorderStyle}`}
                         value={flag}
                         onChange={(e) => setFlag(e.target.value)}
                     />
