@@ -1,6 +1,7 @@
 "use client";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AiOutlineLoading } from "react-icons/ai";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { FaPaperPlane } from "react-icons/fa6";
@@ -15,11 +16,13 @@ export default function Chat() {
     const { selectedLevel, setSelectedLevel } = useLevel();
     const [flag, setFlag] = useState("");
     const [flagBorderStyle, setFlagBorderStyle] = useState("border-primary");
+    const [waiting, setWaiting] = useState(false);
 
     const getResponseFromGrok = async () => {
         try {
             setResFromGrok("Waiting for response...");
             setUserInput("");
+            setWaiting(true);
             const res = await fetch("/api/challenge/chat", {
                 method: "POST",
                 body: JSON.stringify({
@@ -28,8 +31,10 @@ export default function Chat() {
                 }),
             }).then((res) => res.json());
             setResFromGrok(res.response);
+            setWaiting(false);
         } catch (error) {
             setResFromGrok("Error occurred. Please try again.");
+            setWaiting(false);
         }
     };
 
@@ -77,7 +82,7 @@ export default function Chat() {
                     onChange={(e) => setUserInput(e.target.value)}
                 />
                 {/* Grok response */}
-                <Alert className="font-victor-mono w-1/2 h-full text-sm md:text-base lg:text-base border-primary resize-none overflow-auto">
+                <Alert className="font-victor-mono w-1/2 h-full text-sm md:text-base lg:text-base border-primary resize-none overflow-y-auto">
                     <AlertDescription className="text-primary">
                         {resFromGrok ||
                             "The response from the LLM will appear here"}
@@ -91,7 +96,14 @@ export default function Chat() {
                     onClick={getResponseFromGrok}
                 >
                     <div className="flex justify-center space-x-2 items-center">
-                        <FaPaperPlane size={30} />
+                        {waiting ? (
+                            <AiOutlineLoading
+                                size={30}
+                                className="animate-spin"
+                            />
+                        ) : (
+                            <FaPaperPlane size={30} />
+                        )}
                         <div>Send message</div>{" "}
                     </div>
                 </Button>

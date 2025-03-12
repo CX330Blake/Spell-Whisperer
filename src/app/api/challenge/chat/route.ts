@@ -3,11 +3,6 @@ import OpenAI from "openai";
 import fs from "fs";
 import path from "path";
 
-const client = new OpenAI({
-    apiKey: process.env.XAI_API_KEY,
-    baseURL: "https://api.x.ai/v1",
-});
-
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
@@ -21,15 +16,21 @@ export async function POST(req: NextRequest) {
             });
         }
 
+        // Grok API endpoint here
+        const client = new OpenAI({
+            apiKey: process.env.XAI_API_KEY,
+            baseURL: "https://api.x.ai/v1",
+        });
+
         const filePath = path.join(
             process.cwd(),
-            "/src/app/api/challenge/challenges.json",
+            "/src/app/api/challenge/challenges.json"
         );
 
         if (!fs.existsSync(filePath)) {
             return NextResponse.json(
                 { error: "File not found" },
-                { status: 404 },
+                { status: 404 }
             );
         }
 
@@ -38,7 +39,7 @@ export async function POST(req: NextRequest) {
         const answer = challengeInfo[selectedLevel][0]["answer"];
         const systemPrompt = challengeInfo[selectedLevel][0]["system"].replace(
             "█████",
-            answer,
+            answer
         );
 
         const completion = await client.chat.completions.create({

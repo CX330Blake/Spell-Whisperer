@@ -22,7 +22,7 @@ export default function HintButton() {
         // Get hint for the selected level
         (async () => {
             const data = await fetch("/api/challenge/get-info").then((res) =>
-                res.json(),
+                res.json()
             );
             setHint(data[selectedLevel][0]["hint"]);
         })();
@@ -45,7 +45,7 @@ export default function HintButton() {
                 <AlertDialogHeader>
                     <AlertDialogTitle>Noob! You need a hint?</AlertDialogTitle>
                     <AlertDialogDescription className="text-base text-left">
-                        {hint}
+                        {hint || "Select a level to see the hint."}
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
