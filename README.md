@@ -1,5 +1,7 @@
 # Spell Whisperer
 
+<img width="1470" alt="opengraph-image" src="https://github.com/user-attachments/assets/349c20dd-fd3a-4b72-acc7-5788002a4268" />
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
