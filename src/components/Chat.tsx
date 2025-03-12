@@ -15,7 +15,6 @@ export default function Chat() {
     const { selectedLevel, setSelectedLevel } = useLevel();
     const [flag, setFlag] = useState("");
     const [flagBorderStyle, setFlagBorderStyle] = useState("border-primary");
-    const [waiting, setWaiting] = useState(false);
 
     const getResponseFromGrok = async () => {
         try {
@@ -35,6 +34,18 @@ export default function Chat() {
     };
 
     const checkFlag = async () => {
+        if (selectedLevel === undefined || selectedLevel === "") {
+            setFlagBorderStyle("border-red-500 border-2");
+            setFlag("❗ Please select a level!");
+
+            setTimeout(() => {
+                setFlagBorderStyle("border-primary");
+                setFlag("");
+            }, 1500);
+
+            return;
+        }
+
         const res = await fetch("/api/challenge/check-flag", {
             method: "POST",
             body: JSON.stringify({ flag: flag, level: selectedLevel }),
@@ -52,7 +63,7 @@ export default function Chat() {
         setTimeout(() => {
             setFlagBorderStyle("border-primary");
             setFlag("");
-        }, 1000);
+        }, 1500);
     };
 
     return (
@@ -90,7 +101,7 @@ export default function Chat() {
                         e.preventDefault();
                         checkFlag();
                     }}
-                    className="flex w-full max-w-sm items-center justify-stretch space-x-2"
+                    className="flex w-full items-center justify-stretch space-x-2"
                 >
                     <Input
                         type="text"
