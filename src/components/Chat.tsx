@@ -85,22 +85,27 @@ export default function Chat() {
                     </div>
                 </Button>
                 <br />
-                <div className="flex w-full items-center justify-stretch space-x-2">
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        checkFlag();
+                    }}
+                    className="flex w-full max-w-sm items-center justify-stretch space-x-2"
+                >
                     <Input
                         type="text"
                         placeholder="Submit the flag"
-                        value={flag}
                         className={`border-primary font-victor-mono w-3/4 ${flagBorderStyle}`}
+                        value={flag}
                         onChange={(e) => setFlag(e.target.value)}
                     />
                     <Button
                         type="submit"
                         className="font-playwrite hover:cursor-pointer w-1/4"
-                        onClick={checkFlag}
                     >
                         Submit
                     </Button>
-                </div>
+                </form>
             </div>
         </div>
     );

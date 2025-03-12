@@ -56,7 +56,7 @@ export default function Options() {
                     <Terminal className="h-10 w-10" />
                     <AlertTitle />
                     <AlertDescription className="font-victor-mono text-sm md:text-sm lg:text-sm border-primary resize-none w-full h-auto">
-                        {systemPrompt || "Loading..."}
+                        {systemPrompt || "Choose level to see system prompt"}
                     </AlertDescription>
                 </Alert>
             </div>

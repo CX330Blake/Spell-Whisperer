@@ -18,13 +18,15 @@ export default function HintButton() {
     const { selectedLevel } = useLevel();
     const [hint, setHint] = useState("");
 
-    // Get hint for the selected level
-    (async () => {
-        const data = await fetch("/api/challenge/get-info").then((res) =>
-            res.json()
-        );
-        setHint(data[selectedLevel][0]["hint"]);
-    })();
+    if (selectedLevel) {
+        // Get hint for the selected level
+        (async () => {
+            const data = await fetch("/api/challenge/get-info").then((res) =>
+                res.json(),
+            );
+            setHint(data[selectedLevel][0]["hint"]);
+        })();
+    }
 
     return (
         <AlertDialog>

@@ -10,7 +10,7 @@ interface LevelContextType {
 const LevelContext = createContext<LevelContextType | undefined>(undefined);
 
 export function LevelProvider({ children }: { children: React.ReactNode }) {
-    const [selectedLevel, setSelectedLevel] = useState<string>("simple");
+    const [selectedLevel, setSelectedLevel] = useState<string>("");
 
     return (
         <LevelContext.Provider value={{ selectedLevel, setSelectedLevel }}>
