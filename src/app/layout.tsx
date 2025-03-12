@@ -4,7 +4,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { LevelProvider } from "@/contexts/LevelContext";
 
 export const viewport: Viewport = {
-    themeColor: "var(--background)",
+    themeColor: "#1f1f1f",
 };
 
 export const metadata: Metadata = {

@@ -22,6 +22,19 @@ export function ThemeToggle() {
         }
     }
 
+    useEffect(() => {
+        let newColor;
+        if (theme === "dark") {
+            newColor = "#f8f8f2";
+        } else {
+            newColor = "#1f1f1f";
+        }
+        const metaThemeColor = document.querySelector("meta[name=theme-color]");
+        if (metaThemeColor) {
+            metaThemeColor.setAttribute("content", newColor);
+        }
+    }, [theme]);
+
     // If not loaded, avoid the UI error
     if (!mounted) {
         return <Button variant="outline" size="icon" disabled />;
