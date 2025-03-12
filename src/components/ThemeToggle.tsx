@@ -23,15 +23,15 @@ export function ThemeToggle() {
     }
 
     useEffect(() => {
-        let newColor;
+        let themeColor;
         if (theme === "dark") {
-            newColor = "#f8f8f2";
+            themeColor = "#1f1f1f";
         } else {
-            newColor = "#1f1f1f";
+            themeColor = "#f8f8f2";
         }
         const metaThemeColor = document.querySelector("meta[name=theme-color]");
         if (metaThemeColor) {
-            metaThemeColor.setAttribute("content", newColor);
+            metaThemeColor.setAttribute("content", themeColor);
         }
     }, [theme]);
 
