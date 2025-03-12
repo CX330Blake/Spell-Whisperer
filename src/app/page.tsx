@@ -7,12 +7,14 @@ import Footer from "@/components/Footer";
 import SplashCursor from "@/components/reactbits/SplashCursor";
 import Threads from "@/components/reactbits/Threads";
 import { useTheme } from "next-themes";
+import GitHubCorner from "@/components/GitHubCorner";
 
 function App() {
     const { resolvedTheme } = useTheme();
     return (
         <div className="flex flex-col items-center justify-center h-auto relative">
             <SplashCursor />
+            <GitHubCorner />
             <div className="mt-12 w-4/5 z-10">
                 {/* Main Content */}
                 <div className="h-auto">
