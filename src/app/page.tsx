@@ -9,7 +9,7 @@ import Threads from "@/components/reactbits/Threads";
 import { useTheme } from "next-themes";
 
 function App() {
-    const { theme, setTheme, resolvedTheme } = useTheme();
+    const { resolvedTheme } = useTheme();
     return (
         <div className="flex flex-col items-center justify-center h-auto relative">
             <SplashCursor />
@@ -28,9 +28,8 @@ function App() {
                 <div className="flex justify-center w-full">
                     <Footer />
                 </div>
-                {/* <div className="bg-primary">TEST</div> */}
             </div>
-            {theme === "dark" && (
+            {resolvedTheme === "dark" && (
                 <div className="absolute w-full h-screen -z-30">
                     <Threads
                         amplitude={2}

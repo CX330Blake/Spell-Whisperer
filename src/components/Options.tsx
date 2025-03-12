@@ -2,21 +2,17 @@
 
 import * as React from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
-import { FaLightbulb } from "react-icons/fa6";
 import ChooseLevel from "./ChooseLevel";
 import { Terminal } from "lucide-react";
 import { Label } from "./ui/label";
-import { IoHelpBuoy } from "react-icons/io5";
 import { useLevel } from "@/contexts/LevelContext";
 import HintButton from "./HintButton";
-import { Confetti } from "./Confetti";
 import TutorialButton from "./TutorialButton";
 
 export default function Options() {
-    const { selectedLevel, setSelectedLevel } = useLevel();
+    const { selectedLevel } = useLevel();
     const [systemPrompt, setSystemPrompt] = useState("");
 
     useEffect(() => {

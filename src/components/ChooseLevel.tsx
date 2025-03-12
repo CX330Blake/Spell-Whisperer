@@ -1,7 +1,5 @@
 "use client";
 
-import * as React from "react";
-
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -14,13 +12,34 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { GrHelp } from "react-icons/gr";
 import { useLevel } from "@/contexts/LevelContext";
+import { useState, useEffect } from "react";
 
 export default function ChooseLevel() {
     const { selectedLevel, setSelectedLevel } = useLevel();
+    const [levels, setLevels] = useState<string[]>([]);
+    const [challengeNames, setChallengeNames] = useState<string[]>([]);
 
-    const handleToggle = (level: string) => {
-        setSelectedLevel(level);
-    };
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const data = await fetch("/api/challenge/get-info").then(
+                    (res) => res.json(),
+                );
+                if (data) {
+                    const levels = Object.keys(data);
+                    setLevels(levels);
+                    const names: string[] = [];
+                    for (const level of levels) {
+                        names.push(data[level][0]["name"]);
+                    }
+                    setChallengeNames(names);
+                }
+            } catch (error) {
+                console.error("Error fetching challenges:", error);
+            }
+        }
+        fetchData();
+    }, [selectedLevel]);
 
     return (
         <DropdownMenu>
@@ -46,16 +65,13 @@ export default function ChooseLevel() {
                 <DropdownMenuRadioGroup
                     value={selectedLevel}
                     onValueChange={setSelectedLevel}
+                    className="overflow-auto"
                 >
-                    <DropdownMenuRadioItem value="simple">
-                        Simple - Traveler
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="medium">
-                        Medium - Twilight
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="hard">
-                        Hard - Tokyo night
-                    </DropdownMenuRadioItem>
+                    {levels.map((level, index) => (
+                        <DropdownMenuRadioItem value={level} key={level}>
+                            {`${level.charAt(0).toUpperCase() + level.slice(1)} - ${challengeNames[index]}`}
+                        </DropdownMenuRadioItem>
+                    ))}
                 </DropdownMenuRadioGroup>
             </DropdownMenuContent>
         </DropdownMenu>
