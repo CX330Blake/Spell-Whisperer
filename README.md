@@ -1,6 +1,5 @@
 # Spell Whisperer
 
-
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -12,7 +11,6 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-
 ## Disclaimer
 
 This repository shows the basic ideas of hacking LLMs, but it's for educational purposes only. I am not responsible for any misuse of this repository.
@@ -21,13 +19,15 @@ This repository shows the basic ideas of hacking LLMs, but it's for educational 
 
 Spell whisperer is a prompt injection challenge based on Grok API (of course, you can change it to any other API like OpenAI API). There's five challenges now, probably more in the future.
 
-## Deploy on Vercel
+## Deploy
+
+### Deploy on Vercel
 
 By clicking the following button, you will clone a repo from here and deploy your own app on Vercel.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/CX330Blake/Spell-Whisperer)
 
-## Deploy on your own
+### Deploy on your own
 
 1. Clone/Fork this repository
 2. Install all the dependencies
@@ -43,3 +43,7 @@ By clicking the following button, you will clone a repo from here and deploy you
     ```
 
 4. Run `npm build && npm start` to start the server
+
+## Customize the challenges
+
+You can simply customize them by modifying the `/src/app/api/challenge/challenges.json`. You'll see everything you need there.
