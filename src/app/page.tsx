@@ -1,11 +1,15 @@
+"use client";
+
 import Title from "@/components/Title";
 import Chat from "@/components/Chat";
 import Options from "@/components/Options";
 import Footer from "@/components/Footer";
 import SplashCursor from "@/components/reactbits/SplashCursor";
 import Threads from "@/components/reactbits/Threads";
+import { useTheme } from "next-themes";
 
 function App() {
+    const { theme, setTheme, resolvedTheme } = useTheme();
     return (
         <div className="flex flex-col items-center justify-center h-auto relative">
             <SplashCursor />
@@ -26,13 +30,15 @@ function App() {
                 </div>
                 {/* <div className="bg-primary">TEST</div> */}
             </div>
-            <div className="absolute w-full h-screen -z-30">
-                <Threads
-                    amplitude={2}
-                    distance={0}
-                    enableMouseInteraction={false}
-                />
-            </div>
+            {theme === "dark" && (
+                <div className="absolute w-full h-screen -z-30">
+                    <Threads
+                        amplitude={2}
+                        distance={0}
+                        enableMouseInteraction={false}
+                    />
+                </div>
+            )}
         </div>
     );
 }

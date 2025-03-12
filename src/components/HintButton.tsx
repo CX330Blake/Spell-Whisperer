@@ -39,7 +39,7 @@ export default function HintButton() {
                     </div>
                 </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent className="font-victor-mono">
+            <AlertDialogContent className="font-victor-mono text-left">
                 <AlertDialogHeader>
                     <AlertDialogTitle>Noob! You need a hint?</AlertDialogTitle>
                     <AlertDialogDescription>{hint}</AlertDialogDescription>
