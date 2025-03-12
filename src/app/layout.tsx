@@ -1,25 +1,15 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { LevelProvider } from "@/contexts/LevelContext";
-// import { Victor_Mono, Playwrite_AU_VIC } from "next/font/google";
 
-// const victorMono = Victor_Mono({
-//     variable: "--font-victor-mono",
-//     weight: ["400"],
-//     display: "swap",
-// });
-//
-// const playwrite = Playwrite_AU_VIC({
-//     variable: "--font-playwrite",
-//     weight: ["400"],
-//     display: "swap",
-// });
+export const viewport: Viewport = {
+    themeColor: "var(--background)",
+};
 
 export const metadata: Metadata = {
     title: "Spell Whisperer",
     description: "Prompt injection challenges to test your hacking skills",
-    themeColor: "hsl(var(--color-primary))",
 };
 
 export default function RootLayout({
@@ -28,10 +18,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html
-            lang="en"
-            // className={`${victorMono.variable} ${playwrite.variable}`}
-        >
+        <html lang="en">
             <body className="antialiased">
                 <ThemeProvider
                     defaultTheme="dark"
