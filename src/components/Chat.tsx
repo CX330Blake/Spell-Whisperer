@@ -36,7 +36,7 @@ export default function Chat() {
     const checkFlag = async () => {
         if (selectedLevel === undefined || selectedLevel === "") {
             setFlagBorderStyle("border-red-500 border-2");
-            setFlag("❗ Please select a level!");
+            setFlag("❗ Choose a level!");
 
             setTimeout(() => {
                 setFlagBorderStyle("border-primary");
@@ -106,7 +106,7 @@ export default function Chat() {
                     <Input
                         type="text"
                         placeholder="Submit the flag"
-                        className={`bg-background border-primary font-victor-mono w-3/4 ${flagBorderStyle}`}
+                        className={`bg-background border-primary font-victor-mono w-3/4 ${flagBorderStyle} text-sm md:text-base lg:text-base`}
                         value={flag}
                         onChange={(e) => setFlag(e.target.value)}
                     />
