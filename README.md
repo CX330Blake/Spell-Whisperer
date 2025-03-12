@@ -5,11 +5,12 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Spell Whisperer](#spell-whisperer)
-  - [Disclaimer](#disclaimer)
-  - [Introduction](#introduction)
+- [Disclaimer](#disclaimer)
+- [Introduction](#introduction)
+- [Deploy](#deploy)
   - [Deploy on Vercel](#deploy-on-vercel)
   - [Deploy on your own](#deploy-on-your-own)
+- [Customize the challenges](#customize-the-challenges)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
