@@ -50,3 +50,13 @@ By clicking the following button, you will clone a repo from here and deploy you
 ## Customize the challenges
 
 You can simply customize them by modifying the `/src/app/api/challenge/challenges.json`. You'll see everything you need there.
+
+## Star History
+
+<a href="https://www.star-history.com/#CX330Blake/Spell-Whisperer&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=CX330Blake/Spell-Whisperer&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=CX330Blake/Spell-Whisperer&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=CX330Blake/Spell-Whisperer&type=Date" />
+ </picture>
+</a>
