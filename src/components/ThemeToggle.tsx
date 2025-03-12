@@ -34,12 +34,12 @@ export function ThemeToggle() {
             className="hover:cursor-pointer"
         >
             {resolvedTheme === "light" ? (
-                <div className="font-playwrite flex justify-between items-center space-x-2">
+                <div className="font-playwrite flex justify-between items-center space-x-1">
                     <Moon className="h-[1.2rem] w-[1.2rem]" />
                     <div>Dark</div>
                 </div>
             ) : (
-                <div className="font-playwrite flex justify-between items-center space-x-2">
+                <div className="font-playwrite flex justify-between items-center space-x-1">
                     <Sun className="h-[1.2rem] w-[1.2rem]" />
                     <div>Light</div>
                 </div>
