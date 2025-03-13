@@ -15,11 +15,6 @@ interface Message {
     message: string;
 }
 
-interface Message {
-    role: "user" | "bot";
-    message: string;
-}
-
 export default function Chat() {
     const [conversation, setConversation] = useState<Message[]>([]);
     const [input, setInput] = useState("");
@@ -28,7 +23,6 @@ export default function Chat() {
     const [flagBorderStyle, setFlagBorderStyle] = useState("border-primary");
     const [waiting, setWaiting] = useState(false);
     const [levelName, setLevelName] = useState("System");
-    const [levelName, setLevelName] = useState("");
 
     const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -62,8 +56,6 @@ export default function Chat() {
             ...prev,
             { role: "user", message: userInput },
         ]);
-        // Add user input to conversation
-        setConversation((prev) => [...prev, { role: "user", message: input }]);
         setWaiting(true);
         try {
             const res = await fetch("/api/challenge/chat", {
@@ -87,7 +79,6 @@ export default function Chat() {
             ]);
         } finally {
             setWaiting(false);
-            setInput("");
         }
     };
 
