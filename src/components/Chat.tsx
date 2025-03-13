@@ -49,14 +49,22 @@ export default function Chat() {
 
     const sendMessage = async () => {
         if (!input) return;
+        const userInput = input;
+        setInput("");
         // Add user input to conversation
-        setConversation((prev) => [...prev, { role: "user", message: input }]);
+        setConversation((prev) => [
+            ...prev,
+            { role: "user", message: userInput },
+        ]);
         setWaiting(true);
         try {
             const res = await fetch("/api/challenge/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ input, level: selectedLevel }),
+                body: JSON.stringify({
+                    input: userInput,
+                    level: selectedLevel,
+                }),
             }).then((res) => res.json());
 
             // Add response to conversation
@@ -71,7 +79,6 @@ export default function Chat() {
             ]);
         } finally {
             setWaiting(false);
-            setInput("");
         }
     };
 
