@@ -34,7 +34,7 @@ export default function Options() {
 
     return (
         <>
-            <div className="flex-col justify-center space-y-4">
+            <div className="flex-col justify-center space-y-2">
                 <span className="grid grid-cols-2 gap-4 items-center justify-center md:flex">
                     {/* Theme toggler */}
                     <ThemeToggle />
