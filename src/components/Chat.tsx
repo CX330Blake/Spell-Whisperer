@@ -58,7 +58,7 @@ export default function Chat() {
                 ...prev,
                 {
                     role: "bot",
-                    message: "Hello, what can I help you today?",
+                    message: "Hello, how can I help you today?",
                 },
             ]);
     }, [levelName]);
