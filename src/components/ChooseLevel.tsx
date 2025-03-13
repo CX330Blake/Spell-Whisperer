@@ -13,28 +13,37 @@ import {
 import { GrHelp } from "react-icons/gr";
 import { useLevel } from "@/contexts/LevelContext";
 import { useState, useEffect } from "react";
-import { animate } from "framer-motion";
 
 export default function ChooseLevel() {
     const { selectedLevel, setSelectedLevel } = useLevel();
-    const [levels, setLevels] = useState<string[]>([]);
+    const [challengeLevels, setChallengeLevels] = useState<string[]>([]);
     const [challengeNames, setChallengeNames] = useState<string[]>([]);
 
     useEffect(() => {
         async function fetchData() {
             try {
-                const data = await fetch("/api/challenge/get-info").then(
-                    (res) => res.json(),
+                // fetch names
+                let data = await fetch("/api/challenge/get-names").then((res) =>
+                    res.json(),
                 );
-                if (data) {
-                    const levels = Object.keys(data);
-                    setLevels(levels);
-                    const names: string[] = [];
-                    for (const level of levels) {
-                        names.push(data[level][0]["name"]);
-                    }
-                    setChallengeNames(names);
+
+                const names: string[] = [];
+                for (const d of data) {
+                    names.push(d);
                 }
+
+                // fetch levels
+                data = await fetch("/api/challenge/get-levels").then((res) =>
+                    res.json(),
+                );
+
+                const levels: string[] = [];
+                for (const d of data) {
+                    levels.push(d);
+                }
+
+                setChallengeNames(names);
+                setChallengeLevels(levels);
             } catch (error) {
                 console.error("Error fetching challenges:", error);
             }
@@ -77,7 +86,7 @@ export default function ChooseLevel() {
                     onValueChange={setSelectedLevel}
                     className="overflow-auto"
                 >
-                    {levels.map((level, index) => (
+                    {challengeLevels.map((level, index) => (
                         <DropdownMenuRadioItem value={level} key={level}>
                             {`${level.charAt(0).toUpperCase() + level.slice(1)} - ${challengeNames[index]}`}
                         </DropdownMenuRadioItem>
