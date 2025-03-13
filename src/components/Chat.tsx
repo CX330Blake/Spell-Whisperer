@@ -92,15 +92,18 @@ export default function Chat() {
             }, 1500);
             return;
         }
+        const userFlag = flag;
+        setFlag("");
         const res = await fetch("/api/challenge/check-flag", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ flag, level: selectedLevel }),
+            body: JSON.stringify({ flag: userFlag, level: selectedLevel }),
         }).then((res) => res.json());
 
         if (res.correct) {
             Confetti();
             setFlagBorderStyle("border-green-500 border-2");
+            setFlag("✅ Correct!");
         } else {
             setFlagBorderStyle("border-red-500 border-2");
             setFlag("❌ Wrong!");
@@ -183,7 +186,7 @@ export default function Chat() {
                     >
                         <Input
                             type="text"
-                            placeholder="Submit the flag"
+                            placeholder="Submit the flag (ignore case)"
                             className={`flex-1 bg-background border-primary font-victor-mono ${flagBorderStyle} text-sm md:text-base lg:text-base`}
                             value={flag}
                             onChange={(e) => setFlag(e.target.value)}
