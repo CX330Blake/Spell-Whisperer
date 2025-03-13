@@ -3,10 +3,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { LevelProvider } from "@/contexts/LevelContext";
 import Footer from "@/components/Footer";
-import SplashCursor from "@/components/reactbits/SplashCursor";
-import Threads from "@/components/reactbits/Threads";
 import GitHubCorner from "@/components/GitHubCorner";
-import Title from "@/components/Title";
+import MyNavbar from "@/components/MyNavbar";
 
 export const viewport: Viewport = {
     themeColor: "#1f1f1f",
@@ -36,22 +34,13 @@ export default async function RootLayout({
                     disableTransitionOnChange
                 >
                     <LevelProvider>
-                        <div className="flex flex-col items-center justify-center h-auto relative">
-                            <SplashCursor />
-                            <GitHubCorner />
-                            <div className="mt-12 w-4/5 z-10">
-                                <Title />
+                        <MyNavbar />
+                        <div className="flex flex-col items-center justify-center h-auto relative z-0">
+                            <div className="w-4/5">
                                 <br />
                                 {/* Main Content */}
                                 {children}
                                 {/* Footer */}
-                            </div>
-                            <div className="absolute w-full h-screen -z-30">
-                                <Threads
-                                    amplitude={2}
-                                    distance={0}
-                                    enableMouseInteraction={false}
-                                />
                             </div>
                         </div>
                         <div className="flex justify-center w-full bottom-0">

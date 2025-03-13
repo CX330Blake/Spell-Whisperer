@@ -15,11 +15,6 @@ interface Message {
     message: string;
 }
 
-interface Message {
-    role: "user" | "bot";
-    message: string;
-}
-
 export default function Chat() {
     const [conversation, setConversation] = useState<Message[]>([]);
     const [input, setInput] = useState("");
