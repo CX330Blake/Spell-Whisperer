@@ -28,7 +28,6 @@ export default function Chat() {
     const [flagBorderStyle, setFlagBorderStyle] = useState("border-primary");
     const [waiting, setWaiting] = useState(false);
     const [levelName, setLevelName] = useState("System");
-    const [levelName, setLevelName] = useState("");
 
     const bottomRef = useRef<HTMLDivElement>(null);
 
