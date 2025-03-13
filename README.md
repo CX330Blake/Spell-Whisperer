@@ -60,3 +60,8 @@ You can simply customize them by modifying the `/src/app/api/challenge/challenge
    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=CX330Blake/Spell-Whisperer&type=Date" />
  </picture>
 </a>
+
+## TODO
+
+1. Add flag prefix
+2. Other challenges (not just flag stealer)

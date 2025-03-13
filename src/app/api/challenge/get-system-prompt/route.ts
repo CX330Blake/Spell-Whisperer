@@ -1,9 +1,11 @@
 import path from "path";
 import fs from "fs";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function POST(req: NextRequest) {
     try {
+        const { level } = await req.json();
+
         const filePath = path.join(
             process.cwd(),
             "/src/app/api/challenge/challenges.json",
@@ -17,7 +19,10 @@ export async function GET() {
         }
 
         const data = fs.readFileSync(filePath, "utf-8");
-        return NextResponse.json(JSON.parse(data));
+        const jsonData = JSON.parse(data);
+        const systemPrompt = jsonData[level][0].system;
+
+        return NextResponse.json(systemPrompt);
     } catch (error) {
         return NextResponse.json(
             { error: "Server error", details: (error as Error).message },

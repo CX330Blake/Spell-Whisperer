@@ -21,10 +21,14 @@ export default function HintButton() {
     if (selectedLevel) {
         // Get hint for the selected level
         (async () => {
-            const data = await fetch("/api/challenge/get-info").then((res) =>
-                res.json()
-            );
-            setHint(data[selectedLevel][0]["hint"]);
+            const hintData = await fetch("/api/challenge/get-hint", {
+                method: "POST",
+                body: JSON.stringify({ level: selectedLevel }),
+            }).then((res) => res.json());
+
+            if (selectedLevel && hintData) {
+                setHint(hintData);
+            }
         })();
     }
 

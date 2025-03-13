@@ -43,10 +43,14 @@ export default function Chat() {
     useEffect(() => {
         async function getLevelName() {
             if (selectedLevel) {
-                const data = await fetch("/api/challenge/get-info").then(
-                    (res) => res.json(),
-                );
-                setLevelName(data[selectedLevel][0]["name"]);
+                const nameData = await fetch("/api/challenge/get-name", {
+                    method: "POST",
+                    body: JSON.stringify({ level: selectedLevel }),
+                }).then((res) => res.json());
+
+                if (selectedLevel && nameData) {
+                    setLevelName(nameData);
+                }
             }
         }
         getLevelName();
@@ -63,7 +67,10 @@ export default function Chat() {
             { role: "user", message: userInput },
         ]);
         // Add user input to conversation
-        setConversation((prev) => [...prev, { role: "user", message: input }]);
+        setConversation((prev) => [
+            ...prev,
+            { role: "user", message: userInput },
+        ]);
         setWaiting(true);
         try {
             const res = await fetch("/api/challenge/chat", {
@@ -87,7 +94,6 @@ export default function Chat() {
             ]);
         } finally {
             setWaiting(false);
-            setInput("");
         }
     };
 

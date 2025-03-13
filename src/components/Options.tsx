@@ -18,11 +18,16 @@ export default function Options() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const res = await fetch("/api/challenge/get-info");
-                const data = await res.json();
+                const sysPromptData = await fetch(
+                    "/api/challenge/get-system-prompt",
+                    {
+                        method: "POST",
+                        body: JSON.stringify({ level: selectedLevel }),
+                    },
+                ).then((res) => res.json());
 
-                if (selectedLevel && data[selectedLevel]) {
-                    setSystemPrompt(data[selectedLevel][0]["system"]);
+                if (selectedLevel && sysPromptData) {
+                    setSystemPrompt(sysPromptData);
                 }
             } catch (error) {
                 console.error("Error fetching challenges:", error);

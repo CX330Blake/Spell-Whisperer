@@ -8,8 +8,6 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const selectedLevel = body.level;
 
-        console.log("Selected Level: ", selectedLevel);
-
         if (selectedLevel === undefined || selectedLevel === "") {
             return NextResponse.json({
                 response: "Please select a level to start.",
@@ -24,13 +22,13 @@ export async function POST(req: NextRequest) {
 
         const filePath = path.join(
             process.cwd(),
-            "/src/app/api/challenge/challenges.json"
+            "/src/app/api/challenge/challenges.json",
         );
 
         if (!fs.existsSync(filePath)) {
             return NextResponse.json(
                 { error: "File not found" },
-                { status: 404 }
+                { status: 404 },
             );
         }
 
@@ -39,7 +37,7 @@ export async function POST(req: NextRequest) {
         const answer = challengeInfo[selectedLevel][0]["answer"];
         const systemPrompt = challengeInfo[selectedLevel][0]["system"].replace(
             "█████",
-            answer
+            answer,
         );
 
         const completion = await client.chat.completions.create({
@@ -57,7 +55,6 @@ export async function POST(req: NextRequest) {
         });
 
         const response = completion.choices[0].message.content;
-        console.log(response);
         return NextResponse.json({ response: response });
     } catch (error) {
         return NextResponse.json({ response: (error as Error).message });
