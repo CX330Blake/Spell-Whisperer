@@ -8,6 +8,7 @@ import { FaPaperPlane } from "react-icons/fa6";
 import { FaFlag } from "react-icons/fa";
 import { useLevel } from "@/contexts/LevelContext";
 import { Confetti } from "./Confetti";
+import { Label } from "./ui/label";
 
 interface Message {
     role: "user" | "bot";
@@ -21,7 +22,7 @@ export default function Chat() {
     const [flag, setFlag] = useState("");
     const [flagBorderStyle, setFlagBorderStyle] = useState("border-primary");
     const [waiting, setWaiting] = useState(false);
-    const [levelName, setLevelName] = useState("");
+    const [levelName, setLevelName] = useState("System");
 
     const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -104,81 +105,92 @@ export default function Chat() {
     };
 
     return (
-        <div className="flex flex-col items-center space-y-4 w-auto">
-            {/* Chat box */}
-            <div className="w-full p-4 border border-primary rounded-md h-50 overflow-y-auto bg-background font-victor-mono text-sm md:text-sm lg:text-sm">
-                {conversation.length === 0 ? (
-                    <div className="text-gray-500">No messages yet.</div>
-                ) : (
-                    conversation.map((msg, index) => (
-                        <div
-                            key={index}
-                            className={`my-2 space-y-2 ${
-                                msg.role === "user" ? "text-right" : "text-left"
-                            }`}
-                        >
-                            <div>{msg.role === "user" ? "You" : levelName}</div>
-                            <span
-                                className={`inline-block p-2 rounded bg-background border-primary border max-w-2/3`}
-                            >
-                                {msg.message}
-                            </span>
-                        </div>
-                    ))
-                )}
-                <div ref={bottomRef} />
-            </div>
-
-            <form
-                onSubmit={(e) => {
-                    e.preventDefault();
-                }}
-                className="flex w-full max-w-2xl items-center space-x-2"
-            >
-                <Input
-                    type="text"
-                    placeholder="Type your message here"
-                    className={`w-3/4 bg-background border-primary font-victor-mono text-sm md:text-base lg:text-base`}
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                />
-                <Button
-                    type="submit"
-                    className="w-1/4 font-playwrite hover:cursor-pointer"
-                    onClick={sendMessage}
-                >
-                    {waiting ? (
-                        <AiOutlineLoading className="animate-spin" size={30} />
+        <div className="space-y-2">
+            <Label className="font-victor-mono text-base">Chat with LLM</Label>
+            <div className="flex flex-col items-center space-y-4 w-auto">
+                {/* Chat box */}
+                <div className="w-full p-4 border border-primary rounded-md h-80 md:h-50 overflow-y-auto bg-background font-victor-mono text-sm md:text-sm lg:text-sm">
+                    {conversation.length === 0 ? (
+                        <div className="text-gray-500">No messages yet.</div>
                     ) : (
-                        <FaPaperPlane size={30} />
+                        conversation.map((msg, index) => (
+                            <div
+                                key={index}
+                                className={`my-2 space-y-1 ${
+                                    msg.role === "user"
+                                        ? "text-right"
+                                        : "text-left"
+                                }`}
+                            >
+                                <div>
+                                    {msg.role === "user" ? "You" : levelName}
+                                </div>
+                                <span
+                                    className={`inline-block p-2 rounded bg-background border-primary border max-w-2/3`}
+                                >
+                                    {msg.message}
+                                </span>
+                            </div>
+                        ))
                     )}
-                    Send
-                </Button>
-            </form>
+                    <div ref={bottomRef} />
+                </div>
+                <div className="flex flex-col md:flex-row w-full items-cneter space-y-4 md:space-y-0 space-x-2">
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                        }}
+                        className="flex w-full items-center space-x-2"
+                    >
+                        <Input
+                            type="text"
+                            placeholder="Type your message here"
+                            className={`flex-1 bg-background border-primary font-victor-mono text-sm md:text-base lg:text-base`}
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                        />
+                        <Button
+                            type="submit"
+                            className="flex-none font-playwrite hover:cursor-pointer"
+                            onClick={sendMessage}
+                        >
+                            {waiting ? (
+                                <AiOutlineLoading
+                                    className="animate-spin"
+                                    size={30}
+                                />
+                            ) : (
+                                <FaPaperPlane size={30} />
+                            )}
+                            Send
+                        </Button>
+                    </form>
 
-            {/* Flag submit */}
-            <form
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    checkFlag();
-                }}
-                className="flex w-full max-w-2xl items-center space-x-2"
-            >
-                <Input
-                    type="text"
-                    placeholder="Submit the flag"
-                    className={`w-3/4 bg-background border-primary font-victor-mono ${flagBorderStyle} text-sm md:text-base lg:text-base`}
-                    value={flag}
-                    onChange={(e) => setFlag(e.target.value)}
-                />
-                <Button
-                    type="submit"
-                    className="w-1/4 font-playwrite hover:cursor-pointer"
-                >
-                    <FaFlag size={30} />
-                    Submit
-                </Button>
-            </form>
+                    {/* Flag submit */}
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            checkFlag();
+                        }}
+                        className="flex w-full items-center space-x-2"
+                    >
+                        <Input
+                            type="text"
+                            placeholder="Submit the flag"
+                            className={`flex-1 bg-background border-primary font-victor-mono ${flagBorderStyle} text-sm md:text-base lg:text-base`}
+                            value={flag}
+                            onChange={(e) => setFlag(e.target.value)}
+                        />
+                        <Button
+                            type="submit"
+                            className="flex-none font-playwrite hover:cursor-pointer"
+                        >
+                            <FaFlag size={30} />
+                            Submit
+                        </Button>
+                    </form>
+                </div>
+            </div>
         </div>
     );
 }
