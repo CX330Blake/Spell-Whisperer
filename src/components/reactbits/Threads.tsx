@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { Renderer, Program, Mesh, Triangle, Color } from "ogl";
+import { useTheme } from "next-themes";
 
 interface ThreadsProps {
     color?: [number, number, number];
@@ -134,6 +135,9 @@ const Threads: React.FC<ThreadsProps> = ({
     enableMouseInteraction = false,
     ...rest
 }) => {
+    const { resolvedTheme } = useTheme();
+    if (resolvedTheme === "light") return null;
+
     const containerRef = useRef<HTMLDivElement>(null);
     const animationFrameId = useRef<number>(0);
 

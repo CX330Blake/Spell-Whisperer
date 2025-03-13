@@ -23,6 +23,7 @@ export function ThemeToggle() {
     }
 
     useEffect(() => {
+        // Iphone header notch
         let themeColor;
         if (theme === "dark") {
             themeColor = "#1f1f1f";
