@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 
 export default function Page() {
     return (
-        <div>
+        <div className="w-4/5 mx-auto">
             <span className="flex flex-col space-y-4 items-center">
                 <span className="font-victor-mono text-2xl md:text-4xl lg:text-6xl">
                     <BlurText text="Challenges" />
