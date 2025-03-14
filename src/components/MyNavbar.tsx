@@ -34,9 +34,12 @@ export default function MyNavbar() {
     return (
         <Navbar
             position="sticky"
-            className="font-victor-mono font-bold border-primary h-20 backdrop-blur-sm z-50"
+            className="font-victor-mono font-bold border-primary h-20 backdrop-blur-sm z-50 border-dashed"
             isBlurred={true}
-            onMenuOpenChange={setIsMenuOpen}
+            isBordered
+            classNames={{
+                item: ["data-[active=true]:font-playwrite"],
+            }}
         >
             <NavbarContent justify="start">
                 <NavbarBrand>
@@ -108,7 +111,10 @@ export default function MyNavbar() {
                 />
             </NavbarContent>
 
-            <NavbarMenu className="font-victor-mono">
+            <NavbarMenu className="font-victor-mono top-20">
+                <br />
+                <br />
+                <br />
                 {menuItems.map((item, index) => (
                     <NavbarMenuItem key={`${item}-${index}`}>
                         <Link
@@ -121,7 +127,9 @@ export default function MyNavbar() {
                             //           : "foreground"
                             // }
                             href={item.href}
+                            isExternal={item.href.startsWith("http")}
                             size="lg"
+                            text-xl
                         >
                             {item.label}
                         </Link>
