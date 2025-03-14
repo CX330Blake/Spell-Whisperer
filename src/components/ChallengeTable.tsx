@@ -102,7 +102,7 @@ export function ChallengeTable() {
         async function fetchChallenges() {
             try {
                 const data = await fetch("/api/challenge/get-challenges").then(
-                    (res) => res.json()
+                    (res) => res.json(),
                 );
                 setTableData(data);
             } catch (error) {
@@ -201,7 +201,7 @@ export function ChallengeTable() {
                                                 : flexRender(
                                                       header.column.columnDef
                                                           .header,
-                                                      header.getContext()
+                                                      header.getContext(),
                                                   )}
                                         </TableHead>
                                     );
@@ -222,12 +222,14 @@ export function ChallengeTable() {
                                         <TableCell key={cell.id}>
                                             <a
                                                 href={`/challenges/${encodeURIComponent(
-                                                    String(cell.getValue())
+                                                    String(
+                                                        row.getValue("name"),
+                                                    ),
                                                 )}`}
                                             >
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
-                                                    cell.getContext()
+                                                    cell.getContext(),
                                                 )}
                                             </a>
                                         </TableCell>
