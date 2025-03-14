@@ -53,6 +53,18 @@ export default function Chat() {
             ]);
     }, [challengeName]);
 
+    useEffect(() => {
+        setConversation([]);
+        levelName.trim().toLowerCase() != "system" &&
+            setConversation((prev) => [
+                ...prev,
+                {
+                    role: "bot",
+                    message: "Hello, how can I help you today?",
+                },
+            ]);
+    }, [levelName]);
+
     const sendMessage = async () => {
         if (!input) return;
         const userInput = input;
@@ -150,7 +162,7 @@ export default function Chat() {
                                         : challengeName}
                                 </div>
                                 <span
-                                    className={`inline-block p-2 rounded bg-background border-primary border max-w-2/3`}
+                                    className={`inline-block p-2 rounded bg-background border-primary border max-w-2/3 text-left`}
                                 >
                                     {msg.message}
                                 </span>
