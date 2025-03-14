@@ -36,7 +36,9 @@ export default async function RootLayout({
                     <ChallengeNameProvider>
                         <MyNavbar />
                         <div className="flex flex-col items-center justify-center h-auto relative z-0">
-                            <div className="w-4/5">
+                            <div className="w-full">
+                                <br />
+                                <br />
                                 <br />
                                 {/* Main Content */}
                                 {children}

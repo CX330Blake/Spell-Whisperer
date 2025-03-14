@@ -69,6 +69,7 @@ function App() {
         }
     };
 
+<<<<<<< HEAD
     // Toast
     // useEffect(() => {
     //     const isMobile = window.innerWidth <= 768;
@@ -91,6 +92,35 @@ function App() {
     //         }, 2000);
     //     }
     // }, []);
+=======
+    useEffect(() => {
+        scrollToBottom();
+    }, [conversation]);
+
+    /* Toast
+    useEffect(() => {
+        const isMobile = window.innerWidth <= 768;
+
+        if (isMobile) {
+            setTimeout(() => {
+                toast.warning("Sorry!", {
+                    description: "Navbar on mobile phone is under maintenance.",
+                    action: {
+                        label: "Dismiss",
+                        onClick: () => toast.dismiss(),
+                    },
+                    style: {
+                        backgroundColor: "red",
+                    },
+                    classNames: {
+                        toast: "bg-yellow-500 font-victor-mono",
+                    },
+                });
+            }, 2000);
+        }
+    }, []);
+    */
+>>>>>>> origin/main
 
     const messages = [
         { role: "user", message: "What is Spell Whisperer?" },

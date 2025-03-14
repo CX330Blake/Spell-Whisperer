@@ -9,44 +9,47 @@ import {
     NavbarMenu,
     NavbarMenuItem,
 } from "@heroui/navbar";
-
+import Hamburger from "hamburger-react";
 import { Link } from "@heroui/link";
 import { ThemeToggle } from "./ThemeToggle";
 import { useState } from "react";
+import { RxMagicWand } from "react-icons/rx";
 
 export default function MyNavbar() {
     const menuItems = [
-        "Profile",
-        "Dashboard",
-        "Activity",
-        "Analytics",
-        "System",
-        "Deployments",
-        "My Settings",
-        "Team Settings",
-        "Help & Feedback",
-        "Log Out",
+        { label: "Home", href: "/" },
+        { label: "Challenges", href: "/challenges" },
+        {
+            label: "Source code",
+            href: "https://github.com/CX330Blake/Spell-Whisperer",
+        },
+        {
+            label: "About",
+            href: "#",
+            onClick: () => alert("I'm working on it...stay tuned!"),
+        },
     ];
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     return (
         <Navbar
             position="sticky"
-            className="font-victor-mono font-bold border-primary h-20 backdrop-blur-sm z-50"
+            className="font-victor-mono font-bold border-primary h-20 backdrop-blur-sm z-50 border-dashed"
             isBlurred={true}
-            onMenuOpenChange={setIsMenuOpen}
+            isBordered
         >
             <NavbarContent justify="start">
-                <NavbarMenuToggle
-                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                    className="sm:hidden"
-                    onClick={() => setIsMenuOpen((prev) => !prev)}
-                />
                 <NavbarBrand>
-                    <Link color="foreground" href="/">
+                    <Link
+                        color="foreground"
+                        href="/"
+                        className="space-x-4 items-center"
+                    >
                         <p className="font-bold text-inherit font-playwrite text-xl">
                             Spell Whisperer
                         </p>
+
+                        {/* <RxMagicWand size={30} /> */}
                     </Link>
                 </NavbarBrand>
             </NavbarContent>
@@ -96,23 +99,36 @@ export default function MyNavbar() {
                 <NavbarItem>
                     <ThemeToggle />
                 </NavbarItem>
+
+                <NavbarMenuToggle
+                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                    className="sm:hidden"
+                    onClick={() => setIsMenuOpen((prev) => !prev)}
+                    icon={<Hamburger />}
+                />
             </NavbarContent>
-            <NavbarMenu>
+
+            <NavbarMenu className="font-victor-mono top-20">
+                <br />
+                <br />
+                <br />
                 {menuItems.map((item, index) => (
                     <NavbarMenuItem key={`${item}-${index}`}>
                         <Link
                             className="w-full"
-                            color={
-                                index === 2
-                                    ? "primary"
-                                    : index === menuItems.length - 1
-                                    ? "danger"
-                                    : "foreground"
-                            }
-                            href="#"
+                            // color={
+                            //     index === 2
+                            //         ? "primary"
+                            //         : index === menuItems.length - 1
+                            //           ? "danger"
+                            //           : "foreground"
+                            // }
+                            href={item.href}
+                            isExternal={item.href.startsWith("http")}
                             size="lg"
+                            text-xl
                         >
-                            {item}
+                            {item.label}
                         </Link>
                     </NavbarMenuItem>
                 ))}

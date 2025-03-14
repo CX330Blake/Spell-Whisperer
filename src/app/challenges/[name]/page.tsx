@@ -14,7 +14,7 @@ export default function Page() {
 
     console.log(chalName);
     const [isValidChallenge, setIsValidChallenge] = useState<boolean | null>(
-        null
+        null,
     );
     const router = useRouter();
 
@@ -24,7 +24,7 @@ export default function Page() {
         const fetchNames = async () => {
             try {
                 const data = await fetch("/api/challenge/get-names").then(
-                    (res) => res.json()
+                    (res) => res.json(),
                 );
 
                 if (data.includes(chalName)) {
@@ -49,11 +49,11 @@ export default function Page() {
     }, [isValidChallenge, router]);
 
     if (isValidChallenge === null) {
-        return <p>Loading...</p>;
+        return <h1 className="mx-auto">Loading...</h1>;
     }
 
     return (
-        <span className="flex flex-col space-y-4 items-center">
+        <div className="flex flex-col space-y-4 items-center w-4/5 mx-auto">
             <span className="font-victor-mono text-2xl md:text-4xl lg:text-6xl">
                 <BlurText text={`${chalName}`} />
             </span>
@@ -66,6 +66,6 @@ export default function Page() {
             <br />
             <br />
             <br />
-        </span>
+        </div>
     );
 }

@@ -34,8 +34,8 @@ export async function POST(req: NextRequest) {
 
         const challengeInfo = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
-        const answer = challengeInfo[selectedLevel][0]["answer"];
-        const systemPrompt = challengeInfo[selectedLevel][0]["system"].replace(
+        const answer = challengeInfo[challengeName].answer;
+        const systemPrompt = challengeInfo[challengeName].system.replace(
             "█████",
             answer
         );

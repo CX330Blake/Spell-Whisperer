@@ -55,7 +55,7 @@ export default function Chat() {
 
     useEffect(() => {
         setConversation([]);
-        levelName.trim().toLowerCase() != "system" &&
+        challengeName.trim().toLowerCase() != "system" &&
             setConversation((prev) => [
                 ...prev,
                 {
@@ -63,7 +63,7 @@ export default function Chat() {
                     message: "Hello, how can I help you today?",
                 },
             ]);
-    }, [levelName]);
+    }, [challengeName]);
 
     const sendMessage = async () => {
         if (!input) return;
