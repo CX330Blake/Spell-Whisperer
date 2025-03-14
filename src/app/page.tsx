@@ -30,6 +30,7 @@ function App() {
         scrollToBottom();
     }, [conversation]);
 
+    /* Toast
     useEffect(() => {
         const isMobile = window.innerWidth <= 768;
 
@@ -51,6 +52,7 @@ function App() {
             }, 2000);
         }
     }, []);
+    */
 
     const messages = [
         { role: "user", message: "What is Spell Whisperer?" },
