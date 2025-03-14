@@ -11,22 +11,22 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { IoHelpBuoy } from "react-icons/io5";
-import { useLevel } from "@/contexts/LevelContext";
+import { useChallengeName } from "@/contexts/ChallengeNameContext";
 import { useEffect, useState } from "react";
 
 export default function HintButton() {
-    const { selectedLevel } = useLevel();
+    const { challengeName } = useChallengeName();
     const [hint, setHint] = useState("");
 
-    if (selectedLevel) {
+    if (challengeName) {
         // Get hint for the selected level
         (async () => {
             const hintData = await fetch("/api/challenge/get-hint", {
                 method: "POST",
-                body: JSON.stringify({ level: selectedLevel }),
+                body: JSON.stringify({ name: challengeName }),
             }).then((res) => res.json());
 
-            if (selectedLevel && hintData) {
+            if (challengeName && hintData) {
                 setHint(hintData);
             }
         })();
@@ -37,7 +37,7 @@ export default function HintButton() {
             <AlertDialogTrigger asChild>
                 <Button
                     variant={"outline"}
-                    className="font-playwrite border-primary hover:cursor-pointer"
+                    className="font-playwrite border-primary hover:cursor-pointer w-full lg:w-auto"
                 >
                     <div className="flex justify-center items-center space-x-1">
                         <IoHelpBuoy size={40} />

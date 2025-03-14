@@ -4,15 +4,14 @@ import * as React from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
-import ChooseLevel from "./ChooseLevel";
 import { Terminal } from "lucide-react";
 import { Label } from "./ui/label";
-import { useLevel } from "@/contexts/LevelContext";
 import HintButton from "./HintButton";
 import TutorialButton from "./TutorialButton";
+import { useChallengeName } from "@/contexts/ChallengeNameContext";
 
 export default function Options() {
-    const { selectedLevel } = useLevel();
+    const { challengeName } = useChallengeName();
     const [systemPrompt, setSystemPrompt] = useState("");
 
     useEffect(() => {
@@ -22,11 +21,11 @@ export default function Options() {
                     "/api/challenge/get-system-prompt",
                     {
                         method: "POST",
-                        body: JSON.stringify({ level: selectedLevel }),
-                    },
+                        body: JSON.stringify({ name: challengeName }),
+                    }
                 ).then((res) => res.json());
 
-                if (selectedLevel && sysPromptData) {
+                if (challengeName && sysPromptData) {
                     setSystemPrompt(sysPromptData);
                 }
             } catch (error) {
@@ -35,7 +34,7 @@ export default function Options() {
         }
 
         fetchData();
-    }, [selectedLevel]);
+    }, [challengeName]);
 
     return (
         <>
@@ -46,7 +45,6 @@ export default function Options() {
                     {/* Tutorial */}
                     <TutorialButton />
                     {/* Level picker */}
-                    <ChooseLevel />
                     {/* Hint */}
                     <HintButton />
                 </span>

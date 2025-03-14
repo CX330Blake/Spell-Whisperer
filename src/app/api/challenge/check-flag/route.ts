@@ -5,8 +5,8 @@ import path from "path";
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const selectedLevel = body.level;
         const flag = body.flag;
+        const challengeName = body.name;
 
         const filePath = path.join(
             process.cwd(),
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
         );
 
         const challengeInfo = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-        const answer = challengeInfo[selectedLevel][0]["answer"];
+        const answer = challengeInfo[challengeName].answer;
 
         if (flag.trim().toLowerCase() === answer.toLowerCase()) {
             return NextResponse.json({ correct: true });

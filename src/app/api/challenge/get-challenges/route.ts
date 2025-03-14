@@ -1,32 +1,35 @@
 import path from "path";
 import fs from "fs";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function GET() {
     try {
-        const { level } = await req.json();
-
         const filePath = path.join(
             process.cwd(),
-            "/src/app/api/challenge/challenges.json",
+            "/src/app/api/challenge/challenges.json"
         );
 
         if (!fs.existsSync(filePath)) {
             return NextResponse.json(
                 { error: "File not found" },
-                { status: 404 },
+                { status: 404 }
             );
         }
 
         const data = fs.readFileSync(filePath, "utf-8");
         const jsonData = JSON.parse(data);
-        const name = jsonData[level][0].name;
 
-        return NextResponse.json(name);
+        const challenges = Object.entries(jsonData).map(([name, details]) => ({
+            name: name,
+            level: (details as any).level,
+            levelID: (details as any).levelID,
+        }));
+
+        return NextResponse.json(challenges);
     } catch (error) {
         return NextResponse.json(
             { error: "Server error", details: (error as Error).message },
-            { status: 500 },
+            { status: 500 }
         );
     }
 }
