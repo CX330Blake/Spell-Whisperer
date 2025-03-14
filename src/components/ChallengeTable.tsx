@@ -35,150 +35,87 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { useChallengeName } from "@/contexts/ChallengeNameContext";
+import { StringDecoder } from "string_decoder";
 
-const data: Payment[] = [
-    {
-        id: "m5gr84i9",
-        amount: 316,
-        status: "success",
-        email: "ken99@example.com",
-    },
-    {
-        id: "3u1reuv4",
-        amount: 242,
-        status: "success",
-        email: "Abe45@example.com",
-    },
-    {
-        id: "derv1ws0",
-        amount: 837,
-        status: "processing",
-        email: "Monserrat44@example.com",
-    },
-    {
-        id: "5kma53ae",
-        amount: 874,
-        status: "success",
-        email: "Silas22@example.com",
-    },
-    {
-        id: "bhqecj4p",
-        amount: 721,
-        status: "failed",
-        email: "carmella@example.com",
-    },
-];
-
-export type Payment = {
-    id: string;
-    amount: number;
-    status: "pending" | "processing" | "success" | "failed";
-    email: string;
+export type Challenge = {
+    level: string;
+    name: string;
+    levelID: number;
+    // status: -1 | 0 | 1; // -1: unreleased, 0: not done, 1: completed
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Challenge>[] = [
     {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
+        accessorKey: "level",
+        header: ({ column }) => (
+            <Button
+                variant="ghost"
+                onClick={() =>
+                    column.toggleSorting(column.getIsSorted() === "asc")
                 }
-                onCheckedChange={(value) =>
-                    table.toggleAllPageRowsSelected(!!value)
-                }
-                aria-label="Select all"
-            />
+                className="hover:cursor-pointer rounded-none inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground p-0 has-[>svg]:px-0"
+            >
+                Level/Difficulty
+                <ArrowUpDown />
+            </Button>
         ),
         cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
+            <div className="capitalize">{row.getValue("level")}</div>
         ),
-        enableSorting: false,
-        enableHiding: false,
-    },
-    {
-        accessorKey: "status",
-        header: "Status",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status")}</div>
-        ),
-    },
-    {
-        accessorKey: "email",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Email
-                    <ArrowUpDown />
-                </Button>
-            );
-        },
-        cell: ({ row }) => (
-            <div className="lowercase">{row.getValue("email")}</div>
-        ),
-    },
-    {
-        accessorKey: "amount",
-        header: () => <div className="text-right">Amount</div>,
-        cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("amount"));
-
-            // Format the amount as a dollar amount
-            const formatted = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-            }).format(amount);
-
-            return <div className="text-right font-medium">{formatted}</div>;
+        sortingFn: (rowA, rowB) => {
+            return rowA.original.levelID - rowB.original.levelID;
         },
     },
     {
-        id: "actions",
-        enableHiding: false,
-        cell: ({ row }) => {
-            const payment = row.original;
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() =>
-                                navigator.clipboard.writeText(payment.id)
-                            }
-                        >
-                            Copy payment ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>
-                            View payment details
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
-        },
+        accessorKey: "name",
+        header: "Challenge Name",
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue("name")}</div>
+        ),
     },
 ];
 
 export function ChallengeTable() {
-    const [sorting, setSorting] = React.useState<SortingState>([]);
+    // Get challenge data
+    const [challengeNames, setChallengeNames] = React.useState<string[]>();
+    const [challengeLevels, setChallengeLevels] = React.useState<string[]>([]);
+    const [tableData, setTableData] = React.useState<Challenge[]>([]);
+
+    const fetchNames = async () => {
+        const data = await fetch("/api/challenge/get-names", {
+            cache: "default",
+        }).then((res) => res.json());
+        console.log(data);
+        setChallengeNames(data);
+    };
+
+    const fetchLevels = async () => {
+        const data = await fetch("/api/challenge/get-levels", {
+            cache: "default",
+        }).then((res) => res.json());
+        console.log(data);
+        setChallengeLevels(data);
+    };
+
+    React.useEffect(() => {
+        async function fetchChallenges() {
+            try {
+                const data = await fetch("/api/challenge/get-challenges").then(
+                    (res) => res.json()
+                );
+                setTableData(data);
+            } catch (error) {
+                console.error("Error fetching challenges:", error);
+            }
+        }
+        fetchChallenges();
+    }, []);
+
+    // React table settings
+    const [sorting, setSorting] = React.useState<SortingState>([
+        { id: "level", desc: false },
+    ]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] =
@@ -186,7 +123,7 @@ export function ChallengeTable() {
     const [rowSelection, setRowSelection] = React.useState({});
 
     const table = useReactTable({
-        data,
+        data: tableData,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -205,18 +142,18 @@ export function ChallengeTable() {
     });
 
     return (
-        <div className="w-full">
+        <div className="w-full font-victor-mono">
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Filter difficulty..."
+                    placeholder="Filter level..."
                     value={
                         (table
-                            .getColumn("email")
+                            .getColumn("level")
                             ?.getFilterValue() as string) ?? ""
                     }
                     onChange={(event) =>
                         table
-                            .getColumn("email")
+                            .getColumn("level")
                             ?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm border border-gray-500"
@@ -225,7 +162,7 @@ export function ChallengeTable() {
                     <DropdownMenuTrigger asChild>
                         <Button
                             variant="outline"
-                            className="ml-auto border border-gray-500"
+                            className="ml-auto border border-gray-500 hover:cursor-pointer"
                         >
                             Columns <ChevronDown />
                         </Button>
@@ -264,7 +201,7 @@ export function ChallengeTable() {
                                                 : flexRender(
                                                       header.column.columnDef
                                                           .header,
-                                                      header.getContext(),
+                                                      header.getContext()
                                                   )}
                                         </TableHead>
                                     );
@@ -283,10 +220,14 @@ export function ChallengeTable() {
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>
-                                            <a href="/">
+                                            <a
+                                                href={`/challenges/${encodeURIComponent(
+                                                    String(cell.getValue())
+                                                )}`}
+                                            >
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
-                                                    cell.getContext(),
+                                                    cell.getContext()
                                                 )}
                                             </a>
                                         </TableCell>
@@ -307,15 +248,16 @@ export function ChallengeTable() {
                 </Table>
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="flex-1 text-sm text-muted-foreground">
+                {/* TODO: count solved challenges */}
+                {/* <div className="flex-1 text-sm text-muted-foreground">
                     {table.getFilteredSelectedRowModel().rows.length} of{" "}
                     {table.getFilteredRowModel().rows.length} row(s) selected.
-                </div>
+                </div> */}
                 <div className="space-x-2">
                     <Button
                         variant="outline"
                         size="sm"
-                        className="border-gray-500"
+                        className="border-gray-500 hover:cursor-pointer"
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
@@ -324,7 +266,7 @@ export function ChallengeTable() {
                     <Button
                         variant="outline"
                         size="sm"
-                        className="border-gray-500"
+                        className="border-gray-500 hover:cursor-pointer"
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
                     >

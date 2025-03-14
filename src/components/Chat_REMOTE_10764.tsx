@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { AiOutlineLoading } from "react-icons/ai";
 import { FaPaperPlane } from "react-icons/fa6";
 import { FaFlag } from "react-icons/fa";
-import { useLevel } from "@/contexts/LevelContext";
+import { useLevel } from "@/contexts/ChallengeNameContext";
 import { Confetti } from "./Confetti";
 
 interface Message {
@@ -37,7 +37,7 @@ export default function Chat() {
         async function getLevelName() {
             if (selectedLevel) {
                 const data = await fetch("/api/challenge/get-info").then(
-                    (res) => res.json(),
+                    (res) => res.json()
                 );
                 setLevelName(data[selectedLevel][0]["name"]);
             }

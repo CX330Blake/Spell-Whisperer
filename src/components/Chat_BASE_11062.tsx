@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { FaPaperPlane } from "react-icons/fa6";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { useLevel } from "@/contexts/LevelContext";
+import { useLevel } from "@/contexts/ChallengeNameContext";
 import { Confetti } from "./Confetti";
 
 export default function Chat() {

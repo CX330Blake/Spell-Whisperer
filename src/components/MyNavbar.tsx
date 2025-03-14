@@ -40,11 +40,11 @@ export default function MyNavbar() {
                 <NavbarMenuToggle
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                     className="sm:hidden"
-                    icon
+                    onClick={() => setIsMenuOpen((prev) => !prev)}
                 />
                 <NavbarBrand>
                     <Link color="foreground" href="/">
-                        <p className="font-bold text-inherit">
+                        <p className="font-bold text-inherit font-playwrite text-xl">
                             Spell Whisperer
                         </p>
                     </Link>
@@ -54,7 +54,7 @@ export default function MyNavbar() {
             <NavbarContent className="hidden sm:flex gap-8" justify="center">
                 <NavbarItem>
                     <Link color="foreground" href="/">
-                        About
+                        Home
                     </Link>
                 </NavbarItem>
                 <NavbarItem isActive>
@@ -71,10 +71,27 @@ export default function MyNavbar() {
                         Source code
                     </Link>
                 </NavbarItem>
+                <NavbarItem>
+                    {/* <Link color="foreground" href="/">
+                        About
+                    </Link> */}
+                    <a
+                        href="#"
+                        onClick={() => alert("I'm working on it...stay tuned!")}
+                    >
+                        About
+                    </a>
+                </NavbarItem>
             </NavbarContent>
             <NavbarContent justify="end">
                 <NavbarItem className="hidden lg:flex">
-                    <Link href="#">Login</Link>
+                    {/* <Link href="#">Login</Link> */}
+                    <a
+                        href="#"
+                        onClick={() => alert("I'm working on it...stay tuned!")}
+                    >
+                        Login
+                    </a>
                 </NavbarItem>
                 <NavbarItem>
                     <ThemeToggle />
@@ -89,8 +106,8 @@ export default function MyNavbar() {
                                 index === 2
                                     ? "primary"
                                     : index === menuItems.length - 1
-                                      ? "danger"
-                                      : "foreground"
+                                    ? "danger"
+                                    : "foreground"
                             }
                             href="#"
                             size="lg"

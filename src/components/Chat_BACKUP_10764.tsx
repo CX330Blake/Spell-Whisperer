@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { AiOutlineLoading } from "react-icons/ai";
 import { FaPaperPlane } from "react-icons/fa6";
 import { FaFlag } from "react-icons/fa";
-import { useLevel } from "@/contexts/LevelContext";
+import { useLevel } from "@/contexts/ChallengeNameContext";
 import { Confetti } from "./Confetti";
 import { Label } from "./ui/label";
 

@@ -11,15 +11,27 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { FaLightbulb } from "react-icons/fa6";
+import { useState } from "react";
 
 export default function TutorialButton() {
+    const [isSeen, setIsSeen] = useState(false);
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <Button
                     variant={"outline"}
-                    className="font-playwrite border-primary hover:cursor-pointer"
+                    className="font-playwrite border-primary hover:cursor-pointer relative" // relative for the dot
+                    onClick={() => setIsSeen(true)}
                 >
+                    {/* Right top corner dot */}
+                    {!isSeen && (
+                        <div className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
+                            <span className="relative flex">
+                                <span className="absolute inline-flex h-3 w-3 animate-ping rounded-full bg-primary opacity-75"></span>
+                                <span className="relative inline-flex h-3 w-3 rounded-full bg-primary"></span>
+                            </span>
+                        </div>
+                    )}
                     <div className="flex justify-center items-center space-x-1">
                         <FaLightbulb size={30} />
                         <div>Tutorial</div>

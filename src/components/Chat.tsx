@@ -1,14 +1,17 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AiOutlineLoading } from "react-icons/ai";
 import { FaPaperPlane } from "react-icons/fa6";
 import { FaFlag } from "react-icons/fa";
-import { useLevel } from "@/contexts/LevelContext";
+import { useChallengeName } from "@/contexts/ChallengeNameContext";
 import { Confetti } from "./Confetti";
 import { Label } from "./ui/label";
+import HintButton from "./HintButton";
+import TutorialButton from "./TutorialButton";
 
 interface Message {
     role: "user" | "bot";
@@ -18,16 +21,20 @@ interface Message {
 export default function Chat() {
     const [conversation, setConversation] = useState<Message[]>([]);
     const [input, setInput] = useState("");
-    const { selectedLevel } = useLevel();
+    const { challengeName } = useChallengeName();
     const [flag, setFlag] = useState("");
     const [flagBorderStyle, setFlagBorderStyle] = useState("border-primary");
     const [waiting, setWaiting] = useState(false);
-    const [levelName, setLevelName] = useState("System");
 
-    const bottomRef = useRef<HTMLDivElement>(null);
+    const chatboxRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
-        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+        if (chatboxRef.current) {
+            chatboxRef.current.scrollTo({
+                top: chatboxRef.current.scrollHeight,
+                behavior: "smooth",
+            });
+        }
     };
 
     useEffect(() => {
@@ -35,31 +42,21 @@ export default function Chat() {
     }, [conversation]);
 
     useEffect(() => {
-        async function getLevelName() {
-            if (selectedLevel) {
-                const nameData = await fetch("/api/challenge/get-name", {
-                    method: "POST",
-                    body: JSON.stringify({ level: selectedLevel }),
-                }).then((res) => res.json());
-
-                if (selectedLevel && nameData) {
-                    setLevelName(nameData);
-                }
-            }
-        }
-        getLevelName();
         setConversation([]);
-    }, [selectedLevel]);
+        challengeName.trim().toLowerCase() != "system" &&
+            setConversation((prev) => [
+                ...prev,
+                {
+                    role: "bot",
+                    message: "Hello, how can I help you today?",
+                },
+            ]);
+    }, [challengeName]);
 
     const sendMessage = async () => {
         if (!input) return;
         const userInput = input;
         setInput("");
-        // Add user input to conversation
-        setConversation((prev) => [
-            ...prev,
-            { role: "user", message: userInput },
-        ]);
         // Add user input to conversation
         setConversation((prev) => [
             ...prev,
@@ -72,7 +69,7 @@ export default function Chat() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     input: userInput,
-                    level: selectedLevel,
+                    name: challengeName,
                 }),
             }).then((res) => res.json());
 
@@ -92,9 +89,9 @@ export default function Chat() {
     };
 
     const checkFlag = async () => {
-        if (!selectedLevel) {
+        if (!challengeName) {
             setFlagBorderStyle("border-red-500 border-2");
-            setFlag("❗ Choose a level!");
+            setFlag("❗ Pick a challenge!");
             setTimeout(() => {
                 setFlagBorderStyle("border-primary");
                 setFlag("");
@@ -106,7 +103,7 @@ export default function Chat() {
         const res = await fetch("/api/challenge/check-flag", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ flag: userFlag, level: selectedLevel }),
+            body: JSON.stringify({ flag: userFlag, name: challengeName }),
         }).then((res) => res.json());
 
         if (res.correct) {
@@ -124,17 +121,23 @@ export default function Chat() {
     };
 
     return (
-        <div className="space-y-2">
+        <div className="space-y-2 w-full">
             <Label className="font-victor-mono text-base">Chat with LLM</Label>
             <div className="flex flex-col items-center space-y-4 w-auto">
                 {/* Chat box */}
-                <div className="w-full p-4 border border-primary rounded-md h-80 md:h-50 overflow-y-auto bg-background font-victor-mono text-sm md:text-sm lg:text-sm">
+                <div
+                    ref={chatboxRef}
+                    className="w-full p-4 border border-primary rounded-md h-150 md:h-[50vh] overflow-y-auto bg-background font-victor-mono text-sm md:text-sm lg:text-sm"
+                >
                     {conversation.length === 0 ? (
                         <div className="text-gray-500">No messages yet.</div>
                     ) : (
                         conversation.map((msg, index) => (
-                            <div
+                            <motion.div
                                 key={index}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
                                 className={`my-2 space-y-1 ${
                                     msg.role === "user"
                                         ? "text-right"
@@ -142,19 +145,20 @@ export default function Chat() {
                                 }`}
                             >
                                 <div>
-                                    {msg.role === "user" ? "You" : levelName}
+                                    {msg.role === "user"
+                                        ? "You"
+                                        : challengeName}
                                 </div>
                                 <span
                                     className={`inline-block p-2 rounded bg-background border-primary border max-w-2/3`}
                                 >
                                     {msg.message}
                                 </span>
-                            </div>
+                            </motion.div>
                         ))
                     )}
-                    <div ref={bottomRef} />
                 </div>
-                <div className="flex flex-col md:flex-row w-full items-cneter space-y-4 md:space-y-0 space-x-2">
+                <div className="flex flex-col lg:flex-row w-full items-cneter space-y-4 lg:space-y-0 space-x-4">
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
@@ -208,6 +212,8 @@ export default function Chat() {
                             Submit
                         </Button>
                     </form>
+                    <HintButton />
+                    <TutorialButton />
                 </div>
             </div>
         </div>
