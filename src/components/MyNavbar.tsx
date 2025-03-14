@@ -37,9 +37,6 @@ export default function MyNavbar() {
             className="font-victor-mono font-bold border-primary h-20 backdrop-blur-sm z-50 border-dashed"
             isBlurred={true}
             isBordered
-            classNames={{
-                item: ["data-[active=true]:font-playwrite"],
-            }}
         >
             <NavbarContent justify="start">
                 <NavbarBrand>
