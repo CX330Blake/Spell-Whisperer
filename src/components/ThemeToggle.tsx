@@ -45,17 +45,17 @@ export function ThemeToggle() {
         <Button
             variant="default"
             onClick={toggleTheme}
-            className="hover:cursor-pointer"
+            className="hover:cursor-pointer w-10 h-10 md:w-auto md:h-auto"
         >
             {resolvedTheme === "light" ? (
-                <div className="font-playwrite flex justify-between items-center space-x-1">
+                <div className="font-playwrite flex justify-between items-center md:space-x-1">
                     <Moon className="h-[1.2rem] w-[1.2rem]" />
-                    <div>Dark</div>
+                    <div className="hidden md:inline-block">Dark</div>
                 </div>
             ) : (
-                <div className="font-playwrite flex justify-between items-center space-x-1">
+                <div className="font-playwrite flex justify-between items-center md:space-x-1">
                     <Sun className="h-[1.2rem] w-[1.2rem]" />
-                    <div>Light</div>
+                    <div className="hidden md:inline-block">Light</div>
                 </div>
             )}
             <span className="sr-only">Toggle theme</span>
