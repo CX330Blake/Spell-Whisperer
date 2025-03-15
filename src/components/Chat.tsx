@@ -162,7 +162,7 @@ export default function Chat() {
                                         : challengeName}
                                 </div>
                                 <span
-                                    className={`inline-block p-2 rounded bg-background border-primary border max-w-2/3 text-left`}
+                                    className={`inline-block p-2 rounded bg-background border-primary border max-w-2/3 text-left break-words`}
                                 >
                                     {msg.message}
                                 </span>

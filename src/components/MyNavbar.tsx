@@ -13,7 +13,6 @@ import Hamburger from "hamburger-react";
 import { Link } from "@heroui/link";
 import { ThemeToggle } from "./ThemeToggle";
 import { useState } from "react";
-import { RxMagicWand } from "react-icons/rx";
 
 export default function MyNavbar() {
     const menuItems = [
@@ -48,8 +47,6 @@ export default function MyNavbar() {
                         <p className="font-bold text-inherit font-playwrite text-xl">
                             Spell Whisperer
                         </p>
-
-                        <RxMagicWand size={30} />
                     </Link>
                 </NavbarBrand>
             </NavbarContent>
