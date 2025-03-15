@@ -65,3 +65,4 @@ You can simply customize them by modifying the `/src/app/api/challenge/challenge
 
 1. Add flag prefix
 2. Other challenges (not just flag stealer)
+3. Show others solutions 
