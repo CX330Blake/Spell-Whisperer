@@ -143,7 +143,7 @@ export function ChallengeTable() {
 
     return (
         <div className="w-full font-victor-mono">
-            <div className="flex items-center py-4">
+            <div className="flex items-center py-4 space-x-2">
                 <Input
                     placeholder="Filter level..."
                     value={

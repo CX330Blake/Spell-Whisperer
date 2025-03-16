@@ -23,11 +23,6 @@ export default function MyNavbar() {
             label: "Source code",
             href: "https://github.com/CX330Blake/Spell-Whisperer",
         },
-        {
-            label: "About",
-            href: "#",
-            onClick: () => alert("I'm working on it...stay tuned!"),
-        },
     ];
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -73,17 +68,6 @@ export default function MyNavbar() {
                     >
                         Source code
                     </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    {/* <Link color="foreground" href="/">
-                        About
-                    </Link> */}
-                    <a
-                        href="#"
-                        onClick={() => alert("I'm working on it...stay tuned!")}
-                    >
-                        About
-                    </a>
                 </NavbarItem>
             </NavbarContent>
             <NavbarContent justify="end">

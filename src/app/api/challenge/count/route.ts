@@ -18,14 +18,9 @@ export async function GET() {
 
         const data = fs.readFileSync(filePath, "utf-8");
         const jsonData = JSON.parse(data);
+        const keysCount = Object.keys(jsonData).length;
 
-        const challenges = Object.entries(jsonData).map(([name, details]) => ({
-            name: name,
-            level: (details as any).level,
-            levelID: (details as any).levelID,
-        }));
-
-        return NextResponse.json(challenges);
+        return NextResponse.json({ count: keysCount });
     } catch (error) {
         return NextResponse.json(
             { error: "Server error", details: (error as Error).message },
