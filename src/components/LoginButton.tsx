@@ -20,7 +20,10 @@ export default function LoginButton() {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button variant="ghost" className="w-auto h-auto">
+                <Button
+                    variant="ghost"
+                    className="w-auto h-auto hover:cursor-pointer"
+                >
                     Login
                 </Button>
             </AlertDialogTrigger>
