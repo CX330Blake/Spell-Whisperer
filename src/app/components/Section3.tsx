@@ -1,8 +1,6 @@
-import PixelCard from "@/components/reactbits/PixelCard";
 import SpotlightCard from "@/components/reactbits/SpotlightCard";
 import { BsStars } from "react-icons/bs";
 import SplitText from "@/components/reactbits/SplitText";
-import ScrollVelocity from "@/components/reactbits/ScrollVelocity";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 

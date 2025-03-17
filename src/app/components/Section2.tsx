@@ -2,7 +2,6 @@ import { LevelChart } from "@/components/LevelChart";
 import CountUp from "@/components/reactbits/CountUp";
 import GlitchText from "@/components/reactbits/GlitchText";
 import RotatingText from "@/components/reactbits/RotatingText";
-import ScrollVelocity from "@/components/reactbits/ScrollVelocity";
 import { useState, useEffect } from "react";
 
 export default function Section2() {

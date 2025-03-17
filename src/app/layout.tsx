@@ -5,6 +5,8 @@ import { ChallengeNameProvider } from "@/contexts/ChallengeNameContext";
 import Footer from "@/components/Footer";
 import MyNavbar from "@/components/MyNavbar";
 import { Toaster } from "@/components/ui/sonner";
+import { SessionProvider } from "next-auth/react";
+import SessionProviderWrapper from "@/components/SessionProviderWrapper";
 
 export const viewport: Viewport = {
     themeColor: "#1f1f1f",
@@ -26,28 +28,30 @@ export default async function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className="antialiased">
-                <ThemeProvider
-                    defaultTheme={defaultTheme}
-                    attribute="class"
-                    enableSystem={false}
-                    storageKey="theme"
-                    disableTransitionOnChange
-                >
-                    <ChallengeNameProvider>
-                        <MyNavbar />
-                        <div className="flex flex-col items-center justify-center h-auto relative z-0">
-                            <div className="w-full">
-                                {/* Main Content */}
-                                {children}
-                                <Toaster />
-                                {/* Footer */}
+                <SessionProviderWrapper>
+                    <ThemeProvider
+                        defaultTheme={defaultTheme}
+                        attribute="class"
+                        enableSystem={false}
+                        storageKey="theme"
+                        disableTransitionOnChange
+                    >
+                        <ChallengeNameProvider>
+                            <MyNavbar />
+                            <div className="flex flex-col items-center justify-center h-auto relative z-0">
+                                <div className="w-full">
+                                    {/* Main Content */}
+                                    {children}
+                                    <Toaster />
+                                    {/* Footer */}
+                                </div>
                             </div>
-                        </div>
-                        <div className="flex justify-center w-full bottom-0">
-                            <Footer />
-                        </div>
-                    </ChallengeNameProvider>
-                </ThemeProvider>
+                            <div className="flex justify-center w-full bottom-0">
+                                <Footer />
+                            </div>
+                        </ChallengeNameProvider>
+                    </ThemeProvider>
+                </SessionProviderWrapper>
             </body>
         </html>
     );
