@@ -5,7 +5,7 @@ import { ChallengeTable } from "@/components/ChallengeTable";
 
 export default function Page() {
     return (
-        <div className="w-4/5 mx-auto mt-10">
+        <div className="w-4/5 mx-auto mt-[15vh]">
             <span className="flex flex-col space-y-4 items-center">
                 <span className="font-victor-mono text-2xl md:text-4xl lg:text-6xl">
                     <BlurText text="Challenges" />

@@ -13,7 +13,16 @@ import Hamburger from "hamburger-react";
 import { Link } from "@heroui/link";
 import { ThemeToggle } from "./ThemeToggle";
 import { useState } from "react";
+import { signIn } from "@/auth";
 import { RxMagicWand } from "react-icons/rx";
+import LoginButton from "./LoginButton";
+
+const login = async () => {
+    {
+        ("use server");
+        await signIn("google");
+    }
+};
 
 export default function MyNavbar() {
     const menuItems = [
@@ -29,7 +38,7 @@ export default function MyNavbar() {
     return (
         <Navbar
             position="sticky"
-            className="font-victor-mono font-bold border-primary h-20 backdrop-blur-sm z-50 border-dashed"
+            className="absolute font-victor-mono font-bold border-primary h-20 backdrop-blur-sm z-50 border-dashed"
             isBlurred={true}
             isBordered
         >
@@ -73,12 +82,7 @@ export default function MyNavbar() {
             <NavbarContent justify="end">
                 <NavbarItem className="hidden lg:flex">
                     {/* <Link href="#">Login</Link> */}
-                    <a
-                        href="#"
-                        onClick={() => alert("I'm working on it...stay tuned!")}
-                    >
-                        Login
-                    </a>
+                    <LoginButton />
                 </NavbarItem>
                 <NavbarItem>
                     <ThemeToggle />

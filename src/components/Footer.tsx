@@ -1,8 +1,13 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { FaFacebook, FaGithub, FaLinkedin, FaXTwitter } from "react-icons/fa6";
 
 export default function Footer() {
+    const pathname = usePathname();
+    if (pathname === "/") {
+        return null;
+    }
     return (
         <div className="flex-col w-full">
             <div className="flex justify-center items-center">

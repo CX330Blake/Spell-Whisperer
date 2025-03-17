@@ -84,8 +84,7 @@ export default function Section1() {
 
     return (
         <div className="h-full w-full flex flex-col items-center gap-4">
-            <br />
-            <div className="mt-10">
+            <div className="mt-[15vh]">
                 <Title />
             </div>
             <br />
