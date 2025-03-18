@@ -43,13 +43,13 @@ export default function Page() {
                             <FcGoogle />
                             Login with Google
                         </Button>
-                        <Button
+                        {/* <Button
                             className="font-victor-mono items-center w-auto text-base hover:cursor-pointer border-background border"
                             onClick={() => signIn("github")}
                         >
                             <FaGithub />
                             Login with GitHub
-                        </Button>
+                        </Button> */}
                     </CardContent>
                 </Card>
             </div>
