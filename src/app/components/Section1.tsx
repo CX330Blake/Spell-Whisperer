@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Threads from "@/components/reactbits/Threads";
 import { ScrollDownHint } from "@/components/ScrollDownHint";
+import SplashCursor from "@/components/reactbits/SplashCursor";
 
 const messages = [
     { role: "user", message: "What is Spell Whisperer?" },
@@ -85,6 +86,7 @@ export default function Section1() {
 
     return (
         <div className="h-full w-full flex flex-col items-center gap-4">
+            <SplashCursor />
             <div className="mt-[15vh]">
                 <Title />
             </div>
