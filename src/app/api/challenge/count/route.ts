@@ -1,21 +1,18 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
-        const name = req.nextUrl.searchParams.get("name");
-
         const { data, error } = await supabase
             .from("challenges")
-            .select("system_prompt")
-            .eq("name", name);
+            .select("name");
 
         if (error) {
             throw new Error(error.message);
         }
-        const hint = data[0]?.system_prompt;
+        const count = data.length;
 
-        return NextResponse.json(hint);
+        return NextResponse.json({ count: count });
     } catch (error) {
         return NextResponse.json(
             { error: "Server error", details: (error as Error).message },

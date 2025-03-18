@@ -9,31 +9,60 @@ import {
     NavbarMenu,
     NavbarMenuItem,
 } from "@heroui/navbar";
+import {
+    DropdownItem,
+    DropdownTrigger,
+    Dropdown,
+    DropdownMenu,
+} from "@heroui/dropdown";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Hamburger from "hamburger-react";
 import { Link } from "@heroui/link";
 import { ThemeToggle } from "./ThemeToggle";
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
+import LoginButton from "./LoginButton";
+import { signOut, useSession } from "next-auth/react";
+
+interface User {
+    username: string;
+    imageURL: string;
+}
+
 
 export default function MyNavbar() {
+    const { data: session, status } = useSession();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+        const initUser = async () => {
+            setUser({
+                username: session?.user?.name || "User",
+                imageURL: session?.user?.image || "https://i.pravatar.cc/150",
+            });
+        };
+        initUser();
+    }, [session]);
+
     const menuItems = [
         { label: "Home", href: "/" },
         { label: "Challenges", href: "/challenges" },
         {
-            label: "Source code",
+            label: "GitHub",
             href: "https://github.com/CX330Blake/Spell-Whisperer",
         },
-        {
-            label: "About",
-            href: "#",
-            onClick: () => alert("I'm working on it...stay tuned!"),
-        },
+        // {
+        //     label: "Leaderboard",
+        //     href: "/leaderboard",
+        // },
+        // ...(!session ? [{ label: "Login", href: "/login" }] : []),
     ];
 
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
     return (
         <Navbar
             position="sticky"
-            className="font-victor-mono font-bold border-primary h-20 backdrop-blur-sm z-50 border-dashed"
+            className="absolute font-victor-mono font-bold border-primary h-20 backdrop-blur-sm z-50 border-dashed"
             isBlurred={true}
             isBordered
         >
@@ -47,52 +76,31 @@ export default function MyNavbar() {
                         <p className="font-bold text-inherit font-playwrite text-xl">
                             Spell Whisperer
                         </p>
+
                     </Link>
                 </NavbarBrand>
             </NavbarContent>
 
             <NavbarContent className="hidden sm:flex gap-8" justify="center">
-                <NavbarItem>
-                    <Link color="foreground" href="/">
-                        Home
-                    </Link>
-                </NavbarItem>
-                <NavbarItem isActive>
-                    <Link aria-current="page" href="/challenges">
-                        Challenges
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link
-                        color="foreground"
-                        href="https://github.com/CX330Blake/Spell-Whisperer"
-                        isExternal
-                    >
-                        Source code
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    {/* <Link color="foreground" href="/">
-                        About
-                    </Link> */}
-                    <a
-                        href="#"
-                        onClick={() => alert("I'm working on it...stay tuned!")}
-                    >
-                        About
-                    </a>
-                </NavbarItem>
+                {menuItems.map((item, index) => (
+                    <NavbarMenuItem key={`${item}-${index}`}>
+                        <Link
+                            className="w-full"
+                            href={item.href}
+                            isExternal={item.href.startsWith("http")}
+                        >
+                            {item.label}
+                        </Link>
+                    </NavbarMenuItem>
+                ))}
             </NavbarContent>
             <NavbarContent justify="end">
-                <NavbarItem className="hidden lg:flex">
-                    {/* <Link href="#">Login</Link> */}
-                    <a
-                        href="#"
-                        onClick={() => alert("I'm working on it...stay tuned!")}
-                    >
-                        Login
-                    </a>
-                </NavbarItem>
+                {session ? null : (
+                    <NavbarItem className="hidden lg:flex">
+                        {/* <Link href="#">Login</Link> */}
+                        <LoginButton />
+                    </NavbarItem>
+                )}
                 <NavbarItem>
                     <ThemeToggle />
                 </NavbarItem>
@@ -103,14 +111,39 @@ export default function MyNavbar() {
                     onClick={() => setIsMenuOpen((prev) => !prev)}
                     icon={<Hamburger />}
                 />
+                {session ? (
+                    <Dropdown
+                        placement="bottom-end"
+                        className="font-victor-mono"
+                    >
+                        <DropdownTrigger>
+                            <Avatar className="border-primary border-2 hover:cursor-pointer">
+                                <AvatarImage src={user?.imageURL} />
+                                <AvatarFallback>CN</AvatarFallback>
+                            </Avatar>
+                        </DropdownTrigger>
+                        <DropdownMenu
+                            aria-label="Profile Actions"
+                            variant="flat"
+                            className="border border-primary rounded-xl bg-background"
+                        >
+                            <DropdownItem
+                                key="logout"
+                                color="danger"
+                                className="text-red-500 font-bold"
+                                onPress={() => signOut({ callbackUrl: "/" })}
+                            >
+                                Log Out
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                ) : null}
             </NavbarContent>
 
             <NavbarMenu className="font-victor-mono top-20">
                 <br />
-                <br />
-                <br />
-                {menuItems.map((item, index) => (
-                    <NavbarMenuItem key={`${item}-${index}`}>
+                <NavbarMenuItem>
+                    {menuItems.map((item, index) => (
                         <Link
                             className="w-full"
                             // color={
@@ -122,13 +155,14 @@ export default function MyNavbar() {
                             // }
                             href={item.href}
                             isExternal={item.href.startsWith("http")}
-                            size="lg"
-                            text-xl
                         >
                             {item.label}
                         </Link>
-                    </NavbarMenuItem>
-                ))}
+                    ))}
+                    <Link className="w-full" href="/login">
+                        Login
+                    </Link>
+                </NavbarMenuItem>
             </NavbarMenu>
         </Navbar>
     );

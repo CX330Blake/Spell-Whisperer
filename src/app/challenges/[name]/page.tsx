@@ -5,6 +5,7 @@ import BlurText from "@/components/reactbits/BlurText";
 import { useEffect, useState, useRef } from "react";
 import Chat from "@/components/Chat";
 import { useChallengeName } from "@/contexts/ChallengeNameContext";
+import Loading from "@/components/Loading";
 
 export default function Page() {
     const hasFetched = useRef(false);
@@ -12,7 +13,6 @@ export default function Page() {
     const chalName = decodeURIComponent(String(name));
     const { setChallengeName } = useChallengeName();
 
-    console.log(chalName);
     const [isValidChallenge, setIsValidChallenge] = useState<boolean | null>(
         null
     );
@@ -49,11 +49,11 @@ export default function Page() {
     }, [isValidChallenge, router]);
 
     if (isValidChallenge === null) {
-        return <p>Loading...</p>;
+        return <Loading />;
     }
 
     return (
-        <span className="flex flex-col space-y-4 items-center">
+        <div className="flex flex-col space-y-4 items-center w-4/5 mx-auto mt-[15vh]">
             <span className="font-victor-mono text-2xl md:text-4xl lg:text-6xl">
                 <BlurText text={`${chalName}`} />
             </span>
@@ -66,6 +66,6 @@ export default function Page() {
             <br />
             <br />
             <br />
-        </span>
+        </div>
     );
 }

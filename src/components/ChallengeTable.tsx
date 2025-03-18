@@ -16,14 +16,10 @@ import {
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -35,14 +31,14 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { useChallengeName } from "@/contexts/ChallengeNameContext";
-import { StringDecoder } from "string_decoder";
+import { useSession } from "next-auth/react";
+import { userInfo } from "os";
 
 export type Challenge = {
     level: string;
     name: string;
     levelID: number;
-    // status: -1 | 0 | 1; // -1: unreleased, 0: not done, 1: completed
+    solved: boolean;
 };
 
 export const columns: ColumnDef<Challenge>[] = [
@@ -74,43 +70,39 @@ export const columns: ColumnDef<Challenge>[] = [
             <div className="capitalize">{row.getValue("name")}</div>
         ),
     },
+    {
+        accessorKey: "solved",
+        header: "Solved",
+        cell: ({ row }) => (
+            <div className="capitalize">
+                {row.getValue("solved") ? "✅" : "❌"}
+            </div>
+        ),
+    },
 ];
 
 export function ChallengeTable() {
     // Get challenge data
-    const [challengeNames, setChallengeNames] = React.useState<string[]>();
-    const [challengeLevels, setChallengeLevels] = React.useState<string[]>([]);
     const [tableData, setTableData] = React.useState<Challenge[]>([]);
+    const { data: session, status } = useSession();
+    const userId = session?.user?.id;
 
-    const fetchNames = async () => {
-        const data = await fetch("/api/challenge/get-names", {
-            cache: "default",
-        }).then((res) => res.json());
-        console.log(data);
-        setChallengeNames(data);
-    };
-
-    const fetchLevels = async () => {
-        const data = await fetch("/api/challenge/get-levels", {
-            cache: "default",
-        }).then((res) => res.json());
-        console.log(data);
-        setChallengeLevels(data);
-    };
+    console.log("userId", userId);
 
     React.useEffect(() => {
         async function fetchChallenges() {
             try {
-                const data = await fetch("/api/challenge/get-challenges").then(
-                    (res) => res.json(),
-                );
+                const data = await fetch(
+                    `/api/challenge/get-challenges?userId=${userId}`
+                ).then((res) => res.json());
+                console.log(data);
                 setTableData(data);
             } catch (error) {
                 console.error("Error fetching challenges:", error);
             }
         }
         fetchChallenges();
-    }, []);
+    }, [userId]);
 
     // React table settings
     const [sorting, setSorting] = React.useState<SortingState>([
@@ -143,7 +135,7 @@ export function ChallengeTable() {
 
     return (
         <div className="w-full font-victor-mono">
-            <div className="flex items-center py-4">
+            <div className="flex items-center py-4 space-x-2">
                 <Input
                     placeholder="Filter level..."
                     value={
@@ -201,7 +193,7 @@ export function ChallengeTable() {
                                                 : flexRender(
                                                       header.column.columnDef
                                                           .header,
-                                                      header.getContext(),
+                                                      header.getContext()
                                                   )}
                                         </TableHead>
                                     );
@@ -222,14 +214,12 @@ export function ChallengeTable() {
                                         <TableCell key={cell.id}>
                                             <a
                                                 href={`/challenges/${encodeURIComponent(
-                                                    String(
-                                                        row.getValue("name"),
-                                                    ),
+                                                    String(row.getValue("name"))
                                                 )}`}
                                             >
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
-                                                    cell.getContext(),
+                                                    cell.getContext()
                                                 )}
                                             </a>
                                         </TableCell>
@@ -242,7 +232,7 @@ export function ChallengeTable() {
                                     colSpan={columns.length}
                                     className="h-24 text-center"
                                 >
-                                    No results.
+                                    Loading...
                                 </TableCell>
                             </TableRow>
                         )}
