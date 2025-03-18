@@ -1,27 +1,21 @@
-import path from "path";
-import fs from "fs";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
+import { supabase } from "@/lib/supabase";
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
     try {
-        const { name } = await req.json();
+        const name = req.nextUrl.searchParams.get("name");
 
-        const filePath = path.join(
-            process.cwd(),
-            "/src/app/api/challenge/challenges.json"
-        );
+        const { data, error } = await supabase
+            .from("challenges")
+            .select("hint")
+            .eq("name", name);
 
-        if (!fs.existsSync(filePath)) {
-            return NextResponse.json(
-                { error: "File not found" },
-                { status: 404 }
-            );
+        if (error) {
+            throw new Error(error.message);
         }
+        const hint = data[0]?.hint;
 
-        const data = fs.readFileSync(filePath, "utf-8");
-        const jsonData = JSON.parse(data);
-
-        return NextResponse.json(jsonData[name].hint);
+        return NextResponse.json(hint);
     } catch (error) {
         return NextResponse.json(
             { error: "Server error", details: (error as Error).message },

@@ -5,6 +5,7 @@ import Section1 from "./components/Section1";
 import Section2 from "./components/Section2";
 import Section3 from "./components/Section3";
 import SplashCursor from "@/components/reactbits/SplashCursor";
+import { ScrollDownHint } from "@/components/ScrollDownHint";
 
 export default function App() {
     const pageRef = useRef<HTMLDivElement>(null);
@@ -78,6 +79,11 @@ export default function App() {
                     <Section3 />
                 </section>
             </div>
+            {current < count - 1 ? (
+                <div className="absolute bottom-4 right-1/2 left-1/2">
+                    <ScrollDownHint />
+                </div>
+            ) : null}
         </div>
     );
 }

@@ -22,8 +22,6 @@ import { ThemeToggle } from "./ThemeToggle";
 import { useState, useEffect } from "react";
 import LoginButton from "./LoginButton";
 import { signOut, useSession } from "next-auth/react";
-import { supabase } from "@/lib/supabase";
-import Image from "next/image";
 
 interface User {
     username: string;
@@ -31,7 +29,7 @@ interface User {
 }
 
 export default function MyNavbar() {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [user, setUser] = useState<User | null>(null);
 
@@ -52,6 +50,11 @@ export default function MyNavbar() {
             label: "GitHub",
             href: "https://github.com/CX330Blake/Spell-Whisperer",
         },
+        // {
+        //     label: "Leaderboard",
+        //     href: "/leaderboard",
+        // },
+        // ...(!session ? [{ label: "Login", href: "/login" }] : []),
     ];
 
     return (
@@ -84,7 +87,6 @@ export default function MyNavbar() {
                             className="w-full"
                             href={item.href}
                             isExternal={item.href.startsWith("http")}
-                            text-xl
                         >
                             {item.label}
                         </Link>
@@ -139,10 +141,8 @@ export default function MyNavbar() {
 
             <NavbarMenu className="font-victor-mono top-20">
                 <br />
-                <br />
-                <br />
-                {menuItems.map((item, index) => (
-                    <NavbarMenuItem key={`${item}-${index}`}>
+                <NavbarMenuItem>
+                    {menuItems.map((item, index) => (
                         <Link
                             className="w-full"
                             // color={
@@ -154,13 +154,14 @@ export default function MyNavbar() {
                             // }
                             href={item.href}
                             isExternal={item.href.startsWith("http")}
-                            size="lg"
-                            text-xl
                         >
                             {item.label}
                         </Link>
-                    </NavbarMenuItem>
-                ))}
+                    ))}
+                    <Link className="w-full" href="/login">
+                        Login
+                    </Link>
+                </NavbarMenuItem>
             </NavbarMenu>
         </Navbar>
     );

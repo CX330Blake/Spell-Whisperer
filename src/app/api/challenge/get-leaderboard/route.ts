@@ -1,18 +1,15 @@
-import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
         const { data, error } = await supabase
-            .from("challenges")
-            .select("name");
+            .from("leaderboard")
+            .select("*")
+            .order("solved_count", { ascending: false });
+        console.log(data);
 
-        if (error) {
-            throw new Error(error.message);
-        }
-        const count = data.length;
-
-        return NextResponse.json({ count: count });
+        return NextResponse.json(data);
     } catch (error) {
         return NextResponse.json(
             { error: "Server error", details: (error as Error).message },

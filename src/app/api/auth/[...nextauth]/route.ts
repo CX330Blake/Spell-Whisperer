@@ -19,6 +19,23 @@ const handler = NextAuth({
         url: process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
         secret: process.env.SUPABASE_SERVICE_ROLE_KEY ?? "",
     }) as Adapter,
+    callbacks: {
+        session: async ({ session, token }) => {
+            if (session?.user) {
+                session.user.id = token.sub as string;
+            }
+            return session;
+        },
+        jwt: async ({ user, token }) => {
+            if (user) {
+                token.uid = user.id;
+            }
+            return token;
+        },
+    },
+    session: {
+        strategy: "jwt",
+    },
 });
 
 export { handler as GET, handler as POST };

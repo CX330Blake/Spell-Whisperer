@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useDebugValue } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AiOutlineLoading } from "react-icons/ai";
@@ -12,6 +12,9 @@ import { Confetti } from "./Confetti";
 import { Label } from "./ui/label";
 import HintButton from "./HintButton";
 import TutorialButton from "./TutorialButton";
+import { useSession } from "next-auth/react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Terminal } from "lucide-react";
 
 interface Message {
     role: "user" | "bot";
@@ -25,6 +28,13 @@ export default function Chat() {
     const [flag, setFlag] = useState("");
     const [flagBorderStyle, setFlagBorderStyle] = useState("border-primary");
     const [waiting, setWaiting] = useState(false);
+    const [systemPrompt, setSystemPrompt] = useState("");
+
+    const { data: session, status } = useSession();
+    const username = session?.user?.name;
+    const userId = session?.user?.id;
+
+    console.log("userId", userId);
 
     const chatboxRef = useRef<HTMLDivElement>(null);
 
@@ -36,6 +46,24 @@ export default function Chat() {
             });
         }
     };
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const sysPromptData = await fetch(
+                    `/api/challenge/get-system-prompt?name=${challengeName}`
+                ).then((res) => res.json());
+
+                if (challengeName && sysPromptData) {
+                    setSystemPrompt(sysPromptData);
+                }
+            } catch (error) {
+                console.error("Error fetching challenges:", error);
+            }
+        }
+
+        fetchData();
+    }, [challengeName]);
 
     useEffect(() => {
         scrollToBottom();
@@ -115,7 +143,11 @@ export default function Chat() {
         const res = await fetch("/api/challenge/check-flag", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ flag: userFlag, name: challengeName }),
+            body: JSON.stringify({
+                flag: userFlag,
+                name: challengeName,
+                userId: userId,
+            }),
         }).then((res) => res.json());
 
         if (res.correct) {
@@ -134,7 +166,16 @@ export default function Chat() {
 
     return (
         <div className="space-y-2 w-full">
-            <Label className="font-victor-mono text-base">Chat with LLM</Label>
+            <Label className="font-victor-mono text-base">
+                System prompt (My command to the LLM)
+            </Label>
+            <Alert className="flex border-gray-500">
+                <Terminal className="h-10 w-10" />
+                <AlertTitle />
+                <AlertDescription className="font-victor-mono text-sm md:text-sm lg:text-sm border-primary resize-none w-full h-auto">
+                    {systemPrompt || "Loading..."}
+                </AlertDescription>
+            </Alert>
             <div className="flex flex-col items-center space-y-4 w-auto">
                 {/* Chat box */}
                 <div
@@ -158,7 +199,7 @@ export default function Chat() {
                             >
                                 <div>
                                     {msg.role === "user"
-                                        ? "You"
+                                        ? username
                                         : challengeName}
                                 </div>
                                 <span

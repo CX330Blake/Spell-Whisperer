@@ -3,13 +3,34 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
     /* config options here */
     images: {
-        domains: [
-            "i.pravatar.cc",
-            "lh3.googleusercontent.com", // Google avatar
-            "lh4.googleusercontent.com",
-            "lh5.googleusercontent.com",
-            "lh6.googleusercontent.com",
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "i.pravatar.cc",
+            },
+            {
+                protocol: "https",
+                hostname: "lh3.googleusercontent.com",
+            },
+            {
+                protocol: "https",
+                hostname: "lh4.googleusercontent.com",
+            },
+            {
+                protocol: "https",
+                hostname: "lh5.googleusercontent.com",
+            },
+            {
+                protocol: "https",
+                hostname: "lh6.googleusercontent.com",
+            },
+            {
+                protocol: "https",
+                hostname: "api.star-history.com",
+                pathname: "/svg/**",
+            },
         ],
+        dangerouslyAllowSVG: true,
     },
 };
 

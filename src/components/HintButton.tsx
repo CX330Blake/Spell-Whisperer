@@ -18,19 +18,17 @@ export default function HintButton() {
     const { challengeName } = useChallengeName();
     const [hint, setHint] = useState("");
 
-    if (challengeName) {
-        // Get hint for the selected level
+    useEffect(() => {
         (async () => {
-            const hintData = await fetch("/api/challenge/get-hint", {
-                method: "POST",
-                body: JSON.stringify({ name: challengeName }),
-            }).then((res) => res.json());
+            const hintData = await fetch(
+                `/api/challenge/get-hint?name=${challengeName}`
+            ).then((res) => res.json());
 
             if (challengeName && hintData) {
                 setHint(hintData);
             }
         })();
-    }
+    }, []);
 
     return (
         <AlertDialog>
@@ -53,7 +51,9 @@ export default function HintButton() {
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogAction>Got it</AlertDialogAction>
+                    <AlertDialogAction className="hover:cursor-pointer">
+                        Got it
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

@@ -23,7 +23,7 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     // // Set theme
-    const defaultTheme = "light";
+    const defaultTheme = "dark";
 
     return (
         <html lang="en" suppressHydrationWarning>

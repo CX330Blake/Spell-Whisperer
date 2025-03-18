@@ -2,6 +2,7 @@ import Title from "@/components/Title";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Threads from "@/components/reactbits/Threads";
+import { ScrollDownHint } from "@/components/ScrollDownHint";
 
 const messages = [
     { role: "user", message: "What is Spell Whisperer?" },
@@ -98,7 +99,7 @@ export default function Section1() {
 
             {/* Let the chatbox scroll zone independent */}
             <div className="w-4/5 mx-auto flex-1 flex flex-col">
-                <div className="w-full p-4 border border-primary rounded-md h-[65vh] md:h-[60vh] overflow-y-auto backdrop-blur-xl font-victor-mono text-sm md:text-base lg:text-lg">
+                <div className="w-full p-4 border border-primary rounded-md h-[60vh] md:h-[60vh] overflow-y-auto backdrop-blur-xl font-victor-mono text-sm md:text-base lg:text-lg">
                     {conversation.length === 0 ? (
                         <div className="text-gray-500">No messages yet.</div>
                     ) : (
