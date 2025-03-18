@@ -19,6 +19,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Hamburger from "hamburger-react";
 import { Link } from "@heroui/link";
 import { ThemeToggle } from "./ThemeToggle";
+
 import { useState, useEffect } from "react";
 import LoginButton from "./LoginButton";
 import { signOut, useSession } from "next-auth/react";
@@ -27,6 +28,7 @@ interface User {
     username: string;
     imageURL: string;
 }
+
 
 export default function MyNavbar() {
     const { data: session, status } = useSession();
@@ -75,7 +77,6 @@ export default function MyNavbar() {
                             Spell Whisperer
                         </p>
 
-                        {/* <RxMagicWand size={30} /> */}
                     </Link>
                 </NavbarBrand>
             </NavbarContent>
