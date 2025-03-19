@@ -80,10 +80,20 @@ export default function App() {
                 </section>
             </div>
             {current < count - 1 ? (
-                <div className="absolute bottom-4 right-1/2 left-1/2">
+                <div
+                    className="absolute bottom-4 right-1/2 left-1/2 hover:cursor-pointer"
+                    onClick={gotoNext}
+                >
                     <ScrollDownHint />
                 </div>
-            ) : null}
+            ) : (
+                <div
+                    className="absolute bottom-4 right-1/2 left-1/2 hover:cursor-pointer rotate-180"
+                    onClick={() => gotoNum(0)}
+                >
+                    <ScrollDownHint />
+                </div>
+            )}
         </div>
     );
 }
