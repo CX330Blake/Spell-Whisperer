@@ -39,7 +39,7 @@ export default function Section2() {
                 const res = await fetch("api/challenge/get-levels");
                 const data = await res.json();
                 if (Array.isArray(data)) {
-                    setChalNames(data);
+                    setLevelNames(data);
                 } else {
                     console.error("Invalid data format:", data);
                 }
