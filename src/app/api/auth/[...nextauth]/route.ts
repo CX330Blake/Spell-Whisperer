@@ -5,6 +5,7 @@ import { SupabaseAdapter } from "@auth/supabase-adapter";
 import { Adapter } from "next-auth/adapters";
 
 const handler = NextAuth({
+    secret: process.env.NEXTAUTH_SECRET ?? "",
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID ?? "",
