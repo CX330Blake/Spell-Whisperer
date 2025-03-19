@@ -157,11 +157,11 @@ export default function MyNavbar() {
                             {item.label}
                         </Link>
                     ))}
-                    {session ? (
+                    {session ? null : (
                         <Link className="w-full" href="/login">
                             Login
                         </Link>
-                    ) : null}
+                    )}
                 </NavbarMenuItem>
             </NavbarMenu>
         </Navbar>
