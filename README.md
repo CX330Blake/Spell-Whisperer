@@ -63,6 +63,8 @@ You can simply customize them by modifying the `/src/app/api/challenge/challenge
 
 ## TODO
 
-1. Add flag prefix
-2. Other challenges (not just flag stealer)
-3. Show others solutions 
+1. Leaderboard
+2. Challenges page refactor & add scoring system
+3. Add flag prefix
+4. Other challenges (not just flag stealer)
+5. Show others solutions 
