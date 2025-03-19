@@ -4,7 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa6";
 import BlurText from "@/components/reactbits/BlurText";
 import { Button } from "@/components/ui/button";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import {
     Card,
     CardContent,
@@ -13,8 +13,13 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { redirect } from "next/navigation";
 
 export default function Page() {
+    const { data: session, status } = useSession();
+    if (session) {
+        redirect("/challenges");
+    }
     return (
         <div className="w-4/5 mx-auto mt-[15vh]">
             <span className="flex flex-col space-y-4 items-center">
