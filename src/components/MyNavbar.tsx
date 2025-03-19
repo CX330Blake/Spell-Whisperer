@@ -29,7 +29,6 @@ interface User {
     imageURL: string;
 }
 
-
 export default function MyNavbar() {
     const { data: session, status } = useSession();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -76,7 +75,6 @@ export default function MyNavbar() {
                         <p className="font-bold text-inherit font-playwrite text-xl">
                             Spell Whisperer
                         </p>
-
                     </Link>
                 </NavbarBrand>
             </NavbarContent>
@@ -159,9 +157,11 @@ export default function MyNavbar() {
                             {item.label}
                         </Link>
                     ))}
-                    <Link className="w-full" href="/login">
-                        Login
-                    </Link>
+                    {session ? null : (
+                        <Link className="w-full" href="/login">
+                            Login
+                        </Link>
+                    )}
                 </NavbarMenuItem>
             </NavbarMenu>
         </Navbar>
