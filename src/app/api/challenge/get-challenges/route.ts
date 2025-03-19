@@ -54,7 +54,9 @@ export async function GET(req: NextRequest) {
             ({ id, name, level_id, levels }) => ({
                 name,
                 // level: levels?.level_name ?? "Unknown",
-                level: levels?.[0]?.level_name ?? "Unknown",
+                level:
+                    (levels as unknown as { level_name: string }).level_name ??
+                    "Unknown",
                 levelID: level_id,
                 solved: solvedIds.includes(id),
             })
