@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
 
 export default function Section2() {
     const [chalCnt, setChalCnt] = useState(0);
-    const [chalNames, setChalNames] = useState<string[]>([]);
-    const [levelNames, setLevelNames] = useState<string[]>([]);
+    const [chalNames, setChalNames] = useState<string[]>(["Loading..."]);
+    const [levelNames, setLevelNames] = useState<string[]>(["Loading..."]);
 
     useEffect(() => {
         const fetchChalCnt = async () => {
