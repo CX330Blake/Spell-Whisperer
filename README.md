@@ -66,5 +66,6 @@ You can simply customize them by modifying the `/src/app/api/challenge/challenge
 1. Leaderboard
 2. Challenges page refactor & add scoring system
 3. Add flag prefix
-4. Other challenges (not just flag stealer)
-5. Show others solutions 
+4. Markdown response support
+5. Other challenges (not just flag stealer)
+6. Show others solutions 
