@@ -14,7 +14,7 @@ export default function Page() {
     const { setChallengeName } = useChallengeName();
 
     const [isValidChallenge, setIsValidChallenge] = useState<boolean | null>(
-        null
+        null,
     );
     const router = useRouter();
 
@@ -24,7 +24,7 @@ export default function Page() {
         const fetchNames = async () => {
             try {
                 const data = await fetch("/api/challenge/get-names").then(
-                    (res) => res.json()
+                    (res) => res.json(),
                 );
 
                 if (data.includes(chalName)) {
