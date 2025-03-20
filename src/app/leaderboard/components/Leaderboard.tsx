@@ -23,7 +23,8 @@ export default async function Leaderboard() {
     const { data: leaderboardData, error } = await supabaseServer
         .from("leaderboard")
         .select("user_id, score, solved_count, last_solved_at")
-        .order("score", { ascending: false });
+        .order("score", { ascending: false })
+        .order("last_solved_at", { ascending: true });
 
     if (error || !leaderboardData) {
         console.error("Error fetching leaderboard:", error?.message);
