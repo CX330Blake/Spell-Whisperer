@@ -87,15 +87,12 @@ export function ChallengeTable() {
     const { data: session, status } = useSession();
     const userId = session?.user?.id;
 
-    console.log("userId", userId);
-
     React.useEffect(() => {
         async function fetchChallenges() {
             try {
                 const data = await fetch(
-                    `/api/challenge/get-challenges?userId=${userId}`
+                    `/api/challenge/get-challenges?userId=${userId}`,
                 ).then((res) => res.json());
-                console.log(data);
                 setTableData(data);
             } catch (error) {
                 console.error("Error fetching challenges:", error);
@@ -193,7 +190,7 @@ export function ChallengeTable() {
                                                 : flexRender(
                                                       header.column.columnDef
                                                           .header,
-                                                      header.getContext()
+                                                      header.getContext(),
                                                   )}
                                         </TableHead>
                                     );
@@ -214,12 +211,14 @@ export function ChallengeTable() {
                                         <TableCell key={cell.id}>
                                             <a
                                                 href={`/challenges/${encodeURIComponent(
-                                                    String(row.getValue("name"))
+                                                    String(
+                                                        row.getValue("name"),
+                                                    ),
                                                 )}`}
                                             >
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
-                                                    cell.getContext()
+                                                    cell.getContext(),
                                                 )}
                                             </a>
                                         </TableCell>

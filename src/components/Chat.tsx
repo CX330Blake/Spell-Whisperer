@@ -35,8 +35,6 @@ export default function Chat() {
     const username = session?.user?.name;
     const userId = session?.user?.id;
 
-    console.log("userId", userId);
-
     const chatboxRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
@@ -255,7 +253,7 @@ export default function Chat() {
                     >
                         <Input
                             type="text"
-                            placeholder="Submit the flag (ignore case)"
+                            placeholder="SpellWhisperer{printable+}"
                             className={`flex-1 bg-background border-primary font-victor-mono ${flagBorderStyle} text-sm md:text-base lg:text-base`}
                             value={flag}
                             onChange={(e) => setFlag(e.target.value)}

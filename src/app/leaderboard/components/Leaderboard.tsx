@@ -50,30 +50,34 @@ export default async function Leaderboard() {
 
     return (
         <div className="flex flex-col w-full font-playwrite text-2xl mt-[5vh] mb-[5vh]">
-            {/* Header row */}
-            <div className="grid grid-cols-5 border-b border-primary py-3 text-center font-bold items-center">
-                <div>Rank</div>
-                <div>Username</div>
-                <div>Score</div>
-                <div>Solved Count</div>
-                <div className="leading-relaxed">
-                    Last Solved
-                    <br />({userTimeZone})
+            <div className="overflow-x-auto">
+                <div className="min-w-[600px]">
+                    {/* Header row */}
+                    <div className="grid grid-cols-5 border-b border-primary py-3 text-center font-bold items-center">
+                        <div>Rank</div>
+                        <div>Username</div>
+                        <div>Score</div>
+                        <div>Solved Count</div>
+                        <div className="leading-relaxed">
+                            Last Solved
+                            <br />({userTimeZone})
+                        </div>
+                    </div>
+                    {/* Content */}
+                    {leaderboardData.map((row, index) => (
+                        <div
+                            key={row.user_id}
+                            className="grid grid-cols-5 p-3 text-base font-victor-mono text-center border-b border-gray-500 items-center"
+                        >
+                            <div>{index + 1}</div>
+                            <div>{userMap[row.user_id] || "Anonymous"}</div>
+                            <div>{row.score}</div>
+                            <div>{row.solved_count}</div>
+                            <div>{formatDateTime(row.last_solved_at)}</div>
+                        </div>
+                    ))}
                 </div>
             </div>
-            {/* Content */}
-            {leaderboardData.map((row, index) => (
-                <div
-                    key={row.user_id}
-                    className="grid grid-cols-5 p-3 text-base font-victor-mono text-center border-b border-gray-500 items-center"
-                >
-                    <div>{index + 1}</div>
-                    <div>{userMap[row.user_id] || "Anonymous"}</div>
-                    <div>{row.score}</div>
-                    <div>{row.solved_count}</div>
-                    <div>{formatDateTime(row.last_solved_at)}</div>
-                </div>
-            ))}
         </div>
     );
 }

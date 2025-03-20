@@ -22,8 +22,6 @@ export async function GET(req: NextRequest) {
             throw new Error(solvedError.message);
         }
 
-        console.log(userChallenges);
-
         // If the user has not solved any challenges, return 0
         if (!userChallenges || userChallenges.length === 0) {
             return NextResponse.json({ totalScore: 0 });

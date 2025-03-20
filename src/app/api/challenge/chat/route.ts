@@ -36,7 +36,6 @@ export async function POST(req: NextRequest) {
         const { system_prompt, answer } = challenge;
 
         const systemPrompt = system_prompt.replaceAll("█████", answer);
-        console.log(systemPrompt);
 
         if (error || !challenge) {
             return NextResponse.json(
