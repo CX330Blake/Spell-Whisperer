@@ -27,7 +27,8 @@ export default function Chat() {
     const { challengeName } = useChallengeName();
     const [flag, setFlag] = useState("");
     const [flagBorderStyle, setFlagBorderStyle] = useState("border-primary");
-    const [waiting, setWaiting] = useState(false);
+    const [waitingRes, setWaitingRes] = useState(false);
+    const [checkingFlag, setCheckingFlag] = useState(false);
     const [systemPrompt, setSystemPrompt] = useState("");
 
     const { data: session, status } = useSession();
@@ -51,7 +52,7 @@ export default function Chat() {
         async function fetchData() {
             try {
                 const sysPromptData = await fetch(
-                    `/api/challenge/get-system-prompt?name=${challengeName}`
+                    `/api/challenge/get-system-prompt?name=${challengeName}`,
                 ).then((res) => res.json());
 
                 if (challengeName && sysPromptData) {
@@ -102,7 +103,7 @@ export default function Chat() {
             ...prev,
             { role: "user", message: userInput },
         ]);
-        setWaiting(true);
+        setWaitingRes(true);
         try {
             const res = await fetch("/api/challenge/chat", {
                 method: "POST",
@@ -124,11 +125,12 @@ export default function Chat() {
                 { role: "bot", message: "Error occurred. Please try again." },
             ]);
         } finally {
-            setWaiting(false);
+            setWaitingRes(false);
         }
     };
 
     const checkFlag = async () => {
+        setCheckingFlag(true);
         if (!challengeName) {
             setFlagBorderStyle("border-red-500 border-2");
             setFlag("❗ Pick a challenge!");
@@ -149,6 +151,7 @@ export default function Chat() {
                 userId: userId,
             }),
         }).then((res) => res.json());
+        setCheckingFlag(false);
 
         if (res.correct) {
             Confetti();
@@ -230,7 +233,7 @@ export default function Chat() {
                             className="flex-none font-playwrite hover:cursor-pointer"
                             onClick={sendMessage}
                         >
-                            {waiting ? (
+                            {waitingRes ? (
                                 <AiOutlineLoading
                                     className="animate-spin"
                                     size={30}
@@ -261,7 +264,14 @@ export default function Chat() {
                             type="submit"
                             className="flex-none font-playwrite hover:cursor-pointer"
                         >
-                            <FaFlag size={30} />
+                            {checkingFlag ? (
+                                <AiOutlineLoading
+                                    className="animate-spin"
+                                    size={30}
+                                />
+                            ) : (
+                                <FaFlag size={30} />
+                            )}
                             Submit
                         </Button>
                     </form>

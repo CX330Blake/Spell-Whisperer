@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
-import fs from "fs";
-import path from "path";
 import { supabase } from "@/lib/supabase";
 
 export async function POST(req: NextRequest) {
@@ -37,7 +35,8 @@ export async function POST(req: NextRequest) {
 
         const { system_prompt, answer } = challenge;
 
-        const systemPrompt = system_prompt.replace("█████", answer);
+        const systemPrompt = system_prompt.replaceAll("█████", answer);
+        console.log(systemPrompt);
 
         if (error || !challenge) {
             return NextResponse.json(
