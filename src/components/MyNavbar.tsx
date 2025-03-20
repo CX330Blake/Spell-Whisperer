@@ -45,8 +45,6 @@ export default function MyNavbar() {
     }, [session]);
 
     const menuItems = [
-        { label: "Home", href: "/" },
-
         { label: "Challenges", href: "/challenges" },
 
         {
@@ -54,10 +52,14 @@ export default function MyNavbar() {
             href: "/leaderboard",
         },
 
+        { label: "Tutorial", href: "/tutorial" },
+
         {
             label: "GitHub",
             href: "https://github.com/CX330Blake/Spell-Whisperer",
         },
+
+        { label: "About", href: "/about" },
         // ...(!session ? [{ label: "Login", href: "/login" }] : []),
     ];
 
