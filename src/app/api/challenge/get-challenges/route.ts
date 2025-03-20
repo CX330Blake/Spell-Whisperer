@@ -8,10 +8,8 @@ export async function GET(req: NextRequest) {
         if (!userId) {
             return NextResponse.json(
                 { error: "Missing userId" },
-                { status: 400 }
+                { status: 400 },
             );
-        } else {
-            console.log("userId", userId);
         }
 
         // 1. Query all challenges (including related levels data)
@@ -24,7 +22,7 @@ export async function GET(req: NextRequest) {
         if (challengesError) {
             return NextResponse.json(
                 { error: "Database error", details: challengesError.message },
-                { status: 500 }
+                { status: 500 },
             );
         }
 
@@ -41,7 +39,7 @@ export async function GET(req: NextRequest) {
                     error: "Database error",
                     details: solvedChallengesError.message,
                 },
-                { status: 500 }
+                { status: 500 },
             );
         }
 
@@ -59,15 +57,14 @@ export async function GET(req: NextRequest) {
                     "Unknown",
                 levelID: level_id,
                 solved: solvedIds.includes(id),
-            })
+            }),
         );
 
-        console.log(formattedData);
         return NextResponse.json(formattedData);
     } catch (error) {
         return NextResponse.json(
             { error: "Server error", details: (error as Error).message },
-            { status: 500 }
+            { status: 500 },
         );
     }
 }

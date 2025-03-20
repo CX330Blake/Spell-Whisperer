@@ -35,8 +35,6 @@ export default function Chat() {
     const username = session?.user?.name;
     const userId = session?.user?.id;
 
-    console.log("userId", userId);
-
     const chatboxRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {

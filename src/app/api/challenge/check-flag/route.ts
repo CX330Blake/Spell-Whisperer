@@ -6,16 +6,12 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const { flag, name: challengeName, userId } = body;
 
-        console.log("User ID:", userId);
-
         if (!flag || !challengeName) {
             return NextResponse.json(
                 { error: "Missing flag or challenge name" },
-                { status: 400 }
+                { status: 400 },
             );
         }
-
-        console.log(challengeName);
 
         // Select the challenge by name
         const { data: challenge, error: challengeError } = await supabaseServer
@@ -27,7 +23,7 @@ export async function POST(req: NextRequest) {
         if (challengeError || !challenge) {
             return NextResponse.json(
                 { error: "Challenge not found" },
-                { status: 404 }
+                { status: 404 },
             );
         }
 
@@ -63,7 +59,7 @@ export async function POST(req: NextRequest) {
 
                 if (insertError) {
                     throw new Error(
-                        `Failed to insert user challenge: ${insertError.message}`
+                        `Failed to insert user challenge: ${insertError.message}`,
                     );
                 }
             }
@@ -73,7 +69,7 @@ export async function POST(req: NextRequest) {
         console.error("Error:", error);
         return NextResponse.json(
             { error: "Server error", details: (error as Error).message },
-            { status: 500 }
+            { status: 500 },
         );
     }
 }
