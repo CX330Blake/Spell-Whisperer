@@ -253,7 +253,7 @@ export default function Chat() {
                     >
                         <Input
                             type="text"
-                            placeholder="Submit the flag (ignore case)"
+                            placeholder="SpellWhisperer{printable+}"
                             className={`flex-1 bg-background border-primary font-victor-mono ${flagBorderStyle} text-sm md:text-base lg:text-base`}
                             value={flag}
                             onChange={(e) => setFlag(e.target.value)}
