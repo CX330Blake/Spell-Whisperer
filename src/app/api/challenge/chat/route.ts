@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import fs from "fs";
 import path from "path";
+import { supabase } from "@/lib/supabase";
 
 export async function POST(req: NextRequest) {
     try {
@@ -20,25 +21,30 @@ export async function POST(req: NextRequest) {
             baseURL: "https://api.x.ai/v1",
         });
 
-        const filePath = path.join(
-            process.cwd(),
-            "/src/app/api/challenge/challenges.json"
-        );
+        const { data: challenge, error } = await supabase
+            .from("challenges")
+            .select("system_prompt, answer")
+            .eq("name", challengeName)
+            .single();
 
-        if (!fs.existsSync(filePath)) {
+        // No challenge found
+        if (!challenge) {
             return NextResponse.json(
-                { error: "File not found" },
-                { status: 404 }
+                { error: "Challenge not found" },
+                { status: 404 },
             );
         }
 
-        const challengeInfo = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+        const { system_prompt, answer } = challenge;
 
-        const answer = challengeInfo[challengeName].answer;
-        const systemPrompt = challengeInfo[challengeName].system.replace(
-            "█████",
-            answer
-        );
+        const systemPrompt = system_prompt.replace("█████", answer);
+
+        if (error || !challenge) {
+            return NextResponse.json(
+                { error: "Challenge not found" },
+                { status: 404 },
+            );
+        }
 
         const completion = await client.chat.completions.create({
             model: "grok-2-latest",
