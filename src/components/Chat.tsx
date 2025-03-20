@@ -15,6 +15,7 @@ import TutorialButton from "./TutorialButton";
 import { useSession } from "next-auth/react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
+import MarkdownRenderer from "./MarkdownRenderer";
 
 interface Message {
     role: "user" | "bot";
@@ -206,7 +207,7 @@ export default function Chat() {
                                 <span
                                     className={`inline-block p-2 rounded bg-background border-primary border max-w-2/3 text-left break-words`}
                                 >
-                                    {msg.message}
+                                    <MarkdownRenderer content={msg.message} />
                                 </span>
                             </motion.div>
                         ))
