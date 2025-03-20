@@ -46,15 +46,18 @@ export default function MyNavbar() {
 
     const menuItems = [
         { label: "Home", href: "/" },
+
         { label: "Challenges", href: "/challenges" },
+
+        {
+            label: "Leaderboard",
+            href: "/leaderboard",
+        },
+
         {
             label: "GitHub",
             href: "https://github.com/CX330Blake/Spell-Whisperer",
         },
-        // {
-        //     label: "Leaderboard",
-        //     href: "/leaderboard",
-        // },
         // ...(!session ? [{ label: "Login", href: "/login" }] : []),
     ];
 
