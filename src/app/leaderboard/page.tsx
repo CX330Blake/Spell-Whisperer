@@ -3,9 +3,11 @@
 import BlurText from "@/components/reactbits/BlurText";
 import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface LeaderboardEntry {
     user_id: string;
+    user_avatar: string;
     username: string;
     score: number;
     solved_count: number;
@@ -89,7 +91,13 @@ export default function Page() {
                                 className="grid grid-cols-5 p-3 text-base font-victor-mono text-center border-b border-gray-500 items-center"
                             >
                                 <div>{index + 1}</div>
-                                <div>{row.username}</div>
+                                <div className="flex items-center gap-2 justify-center">
+                                    <Avatar className="border-primary border-2">
+                                        <AvatarImage src={row.user_avatar} />
+                                        <AvatarFallback>?</AvatarFallback>
+                                    </Avatar>
+                                    {row.username}
+                                </div>
                                 <div>{row.score}</div>
                                 <div>{row.solved_count}</div>
                                 <div>{formatDateTime(row.last_solved_at)}</div>

@@ -42,7 +42,27 @@ export default async function RootLayout({
                                 <div className="w-full">
                                     {/* Main Content */}
                                     {children}
-                                    <Toaster />
+                                    <Toaster
+                                        toastOptions={{
+                                            duration: 60000,
+                                            classNames: {
+                                                error: "bg-red-400",
+                                                info: "bg-blue-400",
+                                                success: "bg-green-400",
+                                                warning: "bg-orange-400",
+                                                title: "text-red-400 text-base",
+                                                closeButton: "bg-lime-400",
+                                                toast: "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
+                                                description:
+                                                    "group-[.toast]:text-muted-foreground text-base",
+                                                actionButton:
+                                                    "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground",
+                                                cancelButton:
+                                                    "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
+                                                icon: "group-data-[type=error]:text-red-500 group-data-[type=success]:text-green-500 group-data-[type=warning]:text-amber-500 group-data-[type=info]:text-blue-500",
+                                            },
+                                        }}
+                                    />
                                     {/* Footer */}
                                 </div>
                             </div>
