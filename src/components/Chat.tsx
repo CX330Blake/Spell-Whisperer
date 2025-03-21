@@ -97,32 +97,91 @@ export default function Chat() {
         if (!input) return;
         const userInput = input;
         setInput("");
+
         // Add user input to conversation
         setConversation((prev) => [
             ...prev,
             { role: "user", message: userInput },
         ]);
+
+        // Add an empty bot message that will be updated with streaming content
+        setConversation((prev) => [...prev, { role: "bot", message: "" }]);
+
         setWaitingRes(true);
+
         try {
-            const res = await fetch("/api/challenge/chat", {
+            const response = await fetch("/api/challenge/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     input: userInput,
                     name: challengeName,
                 }),
-            }).then((res) => res.json());
+            });
 
-            // Add response to conversation
-            setConversation((prev) => [
-                ...prev,
-                { role: "bot", message: res.response },
-            ]);
+            if (!response.ok) throw new Error("Network response was not ok");
+
+            const reader = response.body?.getReader();
+            if (!reader) throw new Error("Could not get reader from response");
+
+            let accumulatedMessage = "";
+
+            // Function to process streaming data
+            const processStream = async () => {
+                while (true) {
+                    const { done, value } = await reader.read();
+
+                    if (done) {
+                        break;
+                    }
+
+                    // Convert the Uint8Array to string
+                    const chunk = new TextDecoder().decode(value);
+                    const lines = chunk.split("\n\n");
+
+                    for (const line of lines) {
+                        if (line.startsWith("data: ")) {
+                            const data = line.slice(6);
+
+                            if (data === "[DONE]") {
+                                break;
+                            }
+
+                            try {
+                                const parsedData = JSON.parse(data);
+                                if (parsedData.content) {
+                                    accumulatedMessage += parsedData.content;
+
+                                    // Update the last message in conversation with new content
+                                    setConversation((prev) => {
+                                        const newConversation = [...prev];
+                                        newConversation[
+                                            newConversation.length - 1
+                                        ] = {
+                                            role: "bot",
+                                            message: accumulatedMessage,
+                                        };
+                                        return newConversation;
+                                    });
+                                }
+                            } catch (e) {
+                                console.error("Error parsing stream data:", e);
+                            }
+                        }
+                    }
+                }
+            };
+
+            await processStream();
         } catch (error) {
-            setConversation((prev) => [
-                ...prev,
-                { role: "bot", message: "Error occurred. Please try again." },
-            ]);
+            setConversation((prev) => {
+                const newConversation = [...prev];
+                newConversation[newConversation.length - 1] = {
+                    role: "bot",
+                    message: "Error occurred. Please try again.",
+                };
+                return newConversation;
+            });
         } finally {
             setWaitingRes(false);
         }
