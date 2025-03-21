@@ -17,7 +17,7 @@ export async function GET() {
     const { data: userData, error: userError } = await supabaseServer
         .schema("next_auth")
         .from("users")
-        .select("id, name")
+        .select("id, name, image")
         .in("id", userIds);
 
     if (userError) {
@@ -26,12 +26,13 @@ export async function GET() {
 
     // Create a map of `userId → username`
     const userMap = Object.fromEntries(
-        userData?.map((u) => [u.id, u.name]) || [],
+        userData?.map((u) => [u.id, { name: u.name, image: u.image }]) || [],
     );
 
     const enrichedLeaderboard = leaderboardData.map((row) => ({
         ...row,
-        username: userMap[row.user_id] || "Anonymous",
+        username: userMap[row.user_id]?.name || "Anonymous",
+        user_avatar: userMap[row.user_id]?.image || null,
     }));
 
     return NextResponse.json(enrichedLeaderboard);

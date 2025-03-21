@@ -120,9 +120,12 @@ export default function MyNavbar() {
                         className="font-victor-mono"
                     >
                         <DropdownTrigger>
-                            <Avatar className="border-primary border-2 hover:cursor-pointer">
+                            <Avatar
+                                key={user?.imageURL}
+                                className="border-primary border-2 hover:cursor-pointer"
+                            >
                                 <AvatarImage src={user?.imageURL} />
-                                <AvatarFallback>CN</AvatarFallback>
+                                <AvatarFallback>?</AvatarFallback>
                             </Avatar>
                         </DropdownTrigger>
                         <DropdownMenu
@@ -130,6 +133,14 @@ export default function MyNavbar() {
                             variant="flat"
                             className="border border-primary rounded-xl bg-background"
                         >
+                            <DropdownItem
+                                key="logout"
+                                color="primary"
+                                className="text-primary font-bold"
+                                href="/settings"
+                            >
+                                Settings
+                            </DropdownItem>
                             <DropdownItem
                                 key="logout"
                                 color="danger"

@@ -1,10 +1,10 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import { SupabaseAdapter } from "@auth/supabase-adapter";
 import { Adapter } from "next-auth/adapters";
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET ?? "",
     providers: [
         GoogleProvider({
@@ -21,13 +21,13 @@ const handler = NextAuth({
         secret: process.env.SUPABASE_SERVICE_ROLE_KEY ?? "",
     }) as Adapter,
     callbacks: {
-        session: async ({ session, token }) => {
+        async session({ session, token }) {
             if (session?.user) {
                 session.user.id = token.sub as string;
             }
             return session;
         },
-        jwt: async ({ user, token }) => {
+        async jwt({ user, token }) {
             if (user) {
                 token.uid = user.id;
             }
@@ -37,6 +37,8 @@ const handler = NextAuth({
     session: {
         strategy: "jwt",
     },
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
