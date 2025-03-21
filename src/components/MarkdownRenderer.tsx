@@ -8,7 +8,7 @@ interface MarkdownRendererProps {
 
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
     return (
-        <div className="prose max-w-none">
+        <div className="prose max-w-none markdown">
             <ReactMarkdown remarkPlugins={[gfm]}>{content}</ReactMarkdown>
         </div>
     );

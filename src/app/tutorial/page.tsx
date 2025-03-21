@@ -12,6 +12,8 @@ import { useChallengeName } from "@/contexts/ChallengeNameContext";
 import { Confetti } from "@/components/Confetti";
 import { useSession } from "next-auth/react";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
+import { useTheme } from "next-themes";
+import SplitText from "@/components/reactbits/SplitText";
 
 interface Message {
     role: "user" | "bot";
@@ -26,6 +28,9 @@ export default function Tutorial() {
     const [flagBorderStyle, setFlagBorderStyle] = useState("border-primary");
     const [waitingRes, setWaitingRes] = useState(false);
     const [checkingFlag, setCheckingFlag] = useState(false);
+    const [isAtBottom, setIsAtBottom] = useState(true);
+
+    const { theme } = useTheme();
 
     const { data: session, status } = useSession();
     const username = session?.user?.name;
@@ -41,9 +46,31 @@ export default function Tutorial() {
         }
     };
 
+    const handleScroll = () => {
+        if (chatboxRef.current) {
+            const { scrollTop, scrollHeight, clientHeight } =
+                chatboxRef.current;
+            // Calculate the threshold for being at the bottom (e.g., within 20px of the bottom)
+            const isBottom = scrollHeight - scrollTop - clientHeight < 20;
+            setIsAtBottom(isBottom);
+        }
+    };
+
+    // Add scroll event listener when component mounts
     useEffect(() => {
-        scrollToBottom();
-    }, [conversation]);
+        const chatbox = chatboxRef.current;
+        if (chatbox) {
+            chatbox.addEventListener("scroll", handleScroll);
+            return () => chatbox.removeEventListener("scroll", handleScroll);
+        }
+    }, []);
+
+    // Scroll to bottom when conversation changes and user is at the bottom
+    useEffect(() => {
+        if (conversation.length > 0 && isAtBottom) {
+            scrollToBottom();
+        }
+    }, [conversation, isAtBottom]);
 
     useEffect(() => {
         setConversation([]);
@@ -89,9 +116,6 @@ export default function Tutorial() {
             { role: "user", message: userInput },
         ]);
 
-        // Add an empty bot message that will be updated with streaming content
-        setConversation((prev) => [...prev, { role: "bot", message: "" }]);
-
         setWaitingRes(true);
 
         try {
@@ -109,6 +133,7 @@ export default function Tutorial() {
             if (!reader) throw new Error("Could not get reader from response");
 
             let accumulatedMessage = "";
+            let isFirstChunk = true;
 
             // Function to process streaming data
             const processStream = async () => {
@@ -134,19 +159,32 @@ export default function Tutorial() {
                             try {
                                 const parsedData = JSON.parse(data);
                                 if (parsedData.content) {
-                                    accumulatedMessage += parsedData.content;
-
-                                    // Update the last message in conversation with new content
-                                    setConversation((prev) => {
-                                        const newConversation = [...prev];
-                                        newConversation[
-                                            newConversation.length - 1
-                                        ] = {
-                                            role: "bot",
-                                            message: accumulatedMessage,
-                                        };
-                                        return newConversation;
-                                    });
+                                    // For the first content chunk, add a new message
+                                    if (isFirstChunk) {
+                                        accumulatedMessage = parsedData.content;
+                                        setConversation((prev) => [
+                                            ...prev,
+                                            {
+                                                role: "bot",
+                                                message: accumulatedMessage,
+                                            },
+                                        ]);
+                                        isFirstChunk = false;
+                                    } else {
+                                        // For subsequent chunks, update the existing message
+                                        accumulatedMessage +=
+                                            parsedData.content;
+                                        setConversation((prev) => {
+                                            const newConversation = [...prev];
+                                            newConversation[
+                                                newConversation.length - 1
+                                            ] = {
+                                                role: "bot",
+                                                message: accumulatedMessage,
+                                            };
+                                            return newConversation;
+                                        });
+                                    }
                                 }
                             } catch (e) {
                                 console.error("Error parsing stream data:", e);
@@ -158,14 +196,11 @@ export default function Tutorial() {
 
             await processStream();
         } catch (error) {
-            setConversation((prev) => {
-                const newConversation = [...prev];
-                newConversation[newConversation.length - 1] = {
-                    role: "bot",
-                    message: "Error occurred. Please try again.",
-                };
-                return newConversation;
-            });
+            // Only add an error message if we haven't added any bot message yet
+            setConversation((prev) => [
+                ...prev,
+                { role: "bot", message: "Error occurred. Please try again." },
+            ]);
         } finally {
             setWaitingRes(false);
         }
@@ -174,10 +209,10 @@ export default function Tutorial() {
     return (
         <div className="flex flex-col space-y-4 items-center w-4/5 mx-auto mt-[15vh]">
             <span className="font-victor-mono text-4xl md:text-6xl">
-                <BlurText text="Tutorial" />
+                <SplitText text="Tutorial" />
             </span>
             <span className="font-playwrite justify-center text-base md:text-xl">
-                <BlurText text="- Don't know how to start? AI will help -" />
+                <SplitText text="- Don't know how to start? AI will help -" />
             </span>
             <br />
             <div className="space-y-2 w-full">
@@ -185,7 +220,8 @@ export default function Tutorial() {
                     {/* Chat box */}
                     <div
                         ref={chatboxRef}
-                        className="w-full p-4 border border-primary rounded-md h-150 md:h-[50vh] overflow-y-auto bg-background font-victor-mono text-sm md:text-sm lg:text-sm"
+                        className="w-full p-4 border border-primary rounded-md h-150 md:h-[60vh] overflow-y-auto bg-background font-victor-mono text-sm md:text-sm lg:text-sm"
+                        onScroll={handleScroll}
                     >
                         {conversation.length === 0 ? (
                             <div className="text-gray-500">
@@ -213,7 +249,11 @@ export default function Tutorial() {
                                             : challengeName}
                                     </div>
                                     <span
-                                        className={`inline-block p-2 rounded bg-background border-primary border max-w-2/3 text-left break-words`}
+                                        className={
+                                            theme === "dark"
+                                                ? "bg-[#303030] inline-block px-5 rounded max-w-2/3 text-left break-words"
+                                                : "bg-[#d0d0d0] inline-block px-5 rounded max-w-2/3 text-left break-words"
+                                        }
                                     >
                                         <MarkdownRenderer
                                             content={msg.message}

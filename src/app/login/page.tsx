@@ -14,6 +14,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { redirect } from "next/navigation";
+import SplitText from "@/components/reactbits/SplitText";
 
 export default function Page() {
     const { data: session, status } = useSession();
@@ -24,10 +25,10 @@ export default function Page() {
         <div className="w-4/5 mx-auto mt-[15vh]">
             <span className="flex flex-col space-y-4 items-center">
                 <span className="font-victor-mono text-4xl md:text-6xl">
-                    <BlurText text="Join now" />
+                    <SplitText text="Join now" />
                 </span>
                 <span className="font-playwrite justify-center text-base md:text-xl">
-                    <BlurText text="- Tomorrow, AI will only be stronger than today -" />
+                    <SplitText text="- Tomorrow, AI will only be stronger than today -" />
                 </span>
             </span>
             <br />

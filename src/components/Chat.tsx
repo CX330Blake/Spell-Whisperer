@@ -16,6 +16,7 @@ import { useSession } from "next-auth/react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 import MarkdownRenderer from "./MarkdownRenderer";
+import { useTheme } from "next-themes";
 
 interface Message {
     role: "user" | "bot";
@@ -31,6 +32,9 @@ export default function Chat() {
     const [waitingRes, setWaitingRes] = useState(false);
     const [checkingFlag, setCheckingFlag] = useState(false);
     const [systemPrompt, setSystemPrompt] = useState("");
+    const [isAtBottom, setIsAtBottom] = useState(true);
+
+    const { theme } = useTheme();
 
     const { data: session, status } = useSession();
     const username = session?.user?.name;
@@ -46,6 +50,32 @@ export default function Chat() {
             });
         }
     };
+
+    const handleScroll = () => {
+        if (chatboxRef.current) {
+            const { scrollTop, scrollHeight, clientHeight } =
+                chatboxRef.current;
+            // Calculate the threshold for being at the bottom (e.g., within 20px of the bottom)
+            const isBottom = scrollHeight - scrollTop - clientHeight < 20;
+            setIsAtBottom(isBottom);
+        }
+    };
+
+    // Add scroll event listener when component mounts
+    useEffect(() => {
+        const chatbox = chatboxRef.current;
+        if (chatbox) {
+            chatbox.addEventListener("scroll", handleScroll);
+            return () => chatbox.removeEventListener("scroll", handleScroll);
+        }
+    }, []);
+
+    // Scroll to bottom when conversation changes and user is at the bottom
+    useEffect(() => {
+        if (conversation.length > 0 && isAtBottom) {
+            scrollToBottom();
+        }
+    }, [conversation, isAtBottom]);
 
     useEffect(() => {
         async function fetchData() {
@@ -66,10 +96,6 @@ export default function Chat() {
     }, [challengeName]);
 
     useEffect(() => {
-        scrollToBottom();
-    }, [conversation]);
-
-    useEffect(() => {
         setConversation([]);
         challengeName.trim().toLowerCase() != "system" &&
             setConversation((prev) => [
@@ -83,15 +109,20 @@ export default function Chat() {
 
     useEffect(() => {
         setConversation([]);
+        if (!systemPrompt) {
+            return;
+        }
         challengeName.trim().toLowerCase() != "system" &&
             setConversation((prev) => [
                 ...prev,
                 {
                     role: "bot",
-                    message: "Hello, how can I help you today?",
+                    message: systemPrompt.startsWith("[HIDDEN]")
+                        ? "The system prompt is hidden in this challenge! Good luck!"
+                        : "This is my system prompt:\n\n" + systemPrompt,
                 },
             ]);
-    }, [challengeName]);
+    }, [systemPrompt]);
 
     const sendMessage = async () => {
         if (!input) return;
@@ -103,9 +134,6 @@ export default function Chat() {
             ...prev,
             { role: "user", message: userInput },
         ]);
-
-        // Add an empty bot message that will be updated with streaming content
-        setConversation((prev) => [...prev, { role: "bot", message: "" }]);
 
         setWaitingRes(true);
 
@@ -125,6 +153,7 @@ export default function Chat() {
             if (!reader) throw new Error("Could not get reader from response");
 
             let accumulatedMessage = "";
+            let isFirstChunk = true;
 
             // Function to process streaming data
             const processStream = async () => {
@@ -150,19 +179,33 @@ export default function Chat() {
                             try {
                                 const parsedData = JSON.parse(data);
                                 if (parsedData.content) {
-                                    accumulatedMessage += parsedData.content;
-
-                                    // Update the last message in conversation with new content
-                                    setConversation((prev) => {
-                                        const newConversation = [...prev];
-                                        newConversation[
-                                            newConversation.length - 1
-                                        ] = {
-                                            role: "bot",
-                                            message: accumulatedMessage,
-                                        };
-                                        return newConversation;
-                                    });
+                                    // For the first content chunk, add a new message
+                                    if (isFirstChunk) {
+                                        accumulatedMessage = parsedData.content;
+                                        setConversation((prev) => [
+                                            ...prev,
+                                            {
+                                                role: "bot",
+                                                message: accumulatedMessage,
+                                            },
+                                        ]);
+                                        setTimeout(scrollToBottom, 100);
+                                        isFirstChunk = false;
+                                    } else {
+                                        // For subsequent chunks, update the existing message
+                                        accumulatedMessage +=
+                                            parsedData.content;
+                                        setConversation((prev) => {
+                                            const newConversation = [...prev];
+                                            newConversation[
+                                                newConversation.length - 1
+                                            ] = {
+                                                role: "bot",
+                                                message: accumulatedMessage,
+                                            };
+                                            return newConversation;
+                                        });
+                                    }
                                 }
                             } catch (e) {
                                 console.error("Error parsing stream data:", e);
@@ -174,14 +217,11 @@ export default function Chat() {
 
             await processStream();
         } catch (error) {
-            setConversation((prev) => {
-                const newConversation = [...prev];
-                newConversation[newConversation.length - 1] = {
-                    role: "bot",
-                    message: "Error occurred. Please try again.",
-                };
-                return newConversation;
-            });
+            // Only add an error message if we haven't added any bot message yet
+            setConversation((prev) => [
+                ...prev,
+                { role: "bot", message: "Error occurred. Please try again." },
+            ]);
         } finally {
             setWaitingRes(false);
         }
@@ -227,21 +267,22 @@ export default function Chat() {
 
     return (
         <div className="space-y-2 w-full">
-            <Label className="font-victor-mono text-base">
-                System prompt (My command to the LLM)
-            </Label>
-            <Alert className="flex border-gray-500">
-                <Terminal className="h-10 w-10" />
-                <AlertTitle />
-                <AlertDescription className="font-victor-mono text-sm md:text-sm lg:text-sm border-primary resize-none w-full h-auto">
-                    {systemPrompt || "Loading..."}
-                </AlertDescription>
-            </Alert>
+            {/* <Label className="font-victor-mono text-base"> */}
+            {/*     System prompt (My command to the LLM) */}
+            {/* </Label> */}
+            {/* <Alert className="flex border-gray-500"> */}
+            {/*     <Terminal className="h-10 w-10" /> */}
+            {/*     <AlertTitle /> */}
+            {/*     <AlertDescription className="font-victor-mono text-sm md:text-sm lg:text-sm border-primary resize-none w-full h-auto"> */}
+            {/*         {systemPrompt || "Loading..."} */}
+            {/*     </AlertDescription> */}
+            {/* </Alert> */}
             <div className="flex flex-col items-center space-y-4 w-auto">
                 {/* Chat box */}
                 <div
                     ref={chatboxRef}
-                    className="w-full p-4 border border-primary rounded-md h-150 md:h-[50vh] overflow-y-auto bg-background font-victor-mono text-sm md:text-sm lg:text-sm"
+                    className="w-full p-4 border border-primary rounded-md h-150 md:h-[60vh] overflow-y-auto bg-background font-victor-mono text-sm md:text-sm lg:text-sm"
+                    onScroll={handleScroll}
                 >
                     {conversation.length === 0 ? (
                         <div className="text-gray-500">No messages yet.</div>
@@ -264,7 +305,11 @@ export default function Chat() {
                                         : challengeName}
                                 </div>
                                 <span
-                                    className={`inline-block p-2 rounded bg-background border-primary border max-w-2/3 text-left break-words`}
+                                    className={
+                                        theme === "dark"
+                                            ? "bg-[#303030] inline-block px-5 rounded max-w-2/3 text-left break-words"
+                                            : "bg-[#d0d0d0] inline-block px-5 rounded max-w-2/3 text-left break-words"
+                                    }
                                 >
                                     <MarkdownRenderer content={msg.message} />
                                 </span>

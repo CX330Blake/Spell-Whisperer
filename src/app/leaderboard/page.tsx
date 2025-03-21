@@ -4,6 +4,7 @@ import BlurText from "@/components/reactbits/BlurText";
 import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import SplitText from "@/components/reactbits/SplitText";
 
 interface LeaderboardEntry {
     user_id: string;
@@ -64,10 +65,10 @@ export default function Page() {
         <div className="w-4/5 mx-auto mt-[15vh]">
             <span className="flex flex-col space-y-4 items-center">
                 <span className="font-victor-mono text-4xl md:text-6xl">
-                    <BlurText text="Leaderboard" />
+                    <SplitText text="Leaderboard" />
                 </span>
                 <span className="font-playwrite justify-center text-base md:text-xl">
-                    <BlurText text="- Be the best Spell Whisperer in the world -" />
+                    <SplitText text="- Be the best Spell Whisperer in the world -" />
                 </span>
             </span>
             <div className="flex flex-col w-full font-playwrite text-2xl mt-[5vh] mb-[5vh]">

@@ -62,7 +62,7 @@ export default function App() {
         return () => {
             window.removeEventListener("wheel", handleWheel);
         };
-    }, [current]); // 依賴 `current`，確保滾動狀態更新
+    }, [current]);
 
     return (
         <div className="relative h-screen overflow-hidden">

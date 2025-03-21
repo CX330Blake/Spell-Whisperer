@@ -1,11 +1,11 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import BlurText from "@/components/reactbits/BlurText";
 import { useEffect, useState, useRef } from "react";
 import Chat from "@/components/Chat";
 import { useChallengeName } from "@/contexts/ChallengeNameContext";
 import Loading from "@/components/Loading";
+import SplitText from "@/components/reactbits/SplitText";
 
 export default function Page() {
     const hasFetched = useRef(false);
@@ -55,10 +55,10 @@ export default function Page() {
     return (
         <div className="flex flex-col space-y-4 items-center w-4/5 mx-auto mt-[15vh]">
             <span className="font-victor-mono text-4xl md:text-6xl">
-                <BlurText text={`${chalName}`} />
+                <SplitText text={`${chalName}`} />
             </span>
             <span className="font-playwrite justify-center text-base md:text-xl">
-                <BlurText text="- Hello wizards, let's hack the LLM -" />
+                <SplitText text="- Hello wizards, let's hack the LLM -" />
             </span>
             <br />
             <Chat />

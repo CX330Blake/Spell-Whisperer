@@ -176,3 +176,12 @@
 .read-the-docs {
     color: #888;
 }
+
+.markdown > * {
+    all: revert;
+}
+
+.prose code {
+    word-break: break-all;
+    white-space: pre-wrap;
+}
