@@ -1,66 +1,108 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import OpenAI from "openai";
 import { supabase } from "@/lib/supabase";
 
 export async function POST(req: NextRequest) {
-    try {
-        const body = await req.json();
-        const challengeName = body.name;
+    // Create a TransformStream for streaming the response
+    const encoder = new TextEncoder();
+    const stream = new TransformStream();
+    const writer = stream.writable.getWriter();
 
-        if (challengeName === undefined || challengeName === "") {
-            return NextResponse.json({
-                response: "Please select a level to start.",
+    const streamResponse = async () => {
+        try {
+            const body = await req.json();
+            const challengeName = body.name;
+
+            if (challengeName === undefined || challengeName === "") {
+                await writer.write(
+                    encoder.encode(
+                        `data: ${JSON.stringify({ content: "Please select a level to start." })}\n\n`,
+                    ),
+                );
+                await writer.write(encoder.encode("data: [DONE]\n\n"));
+                await writer.close();
+                return;
+            }
+
+            // Fetch challenge from Supabase
+            const { data: challenge, error } = await supabase
+                .from("challenges")
+                .select("system_prompt, answer")
+                .eq("name", challengeName)
+                .single();
+
+            // Handle errors
+            if (error || !challenge) {
+                await writer.write(
+                    encoder.encode(
+                        `data: ${JSON.stringify({ content: "Challenge not found" })}\n\n`,
+                    ),
+                );
+                await writer.write(encoder.encode("data: [DONE]\n\n"));
+                await writer.close();
+                return;
+            }
+
+            const { system_prompt, answer } = challenge;
+            const systemPrompt = system_prompt.replaceAll("█████", answer);
+
+            // Initialize OpenAI client
+            const client = new OpenAI({
+                apiKey: process.env.XAI_API_KEY,
+                baseURL: "https://api.x.ai/v1",
             });
-        }
 
-        // Grok API endpoint here
-        const client = new OpenAI({
-            apiKey: process.env.XAI_API_KEY,
-            baseURL: "https://api.x.ai/v1",
-        });
+            // Create streaming completion
+            const completion = await client.chat.completions.create({
+                model: "grok-2-latest",
+                messages: [
+                    {
+                        role: "system",
+                        content: systemPrompt,
+                    },
+                    {
+                        role: "user",
+                        content: body.input,
+                    },
+                ],
+                stream: true, // Enable streaming
+            });
 
-        const { data: challenge, error } = await supabase
-            .from("challenges")
-            .select("system_prompt, answer")
-            .eq("name", challengeName)
-            .single();
+            // Process the streaming response
+            for await (const chunk of completion) {
+                const content = chunk.choices[0]?.delta?.content || "";
+                if (content) {
+                    await writer.write(
+                        encoder.encode(
+                            `data: ${JSON.stringify({ content })}\n\n`,
+                        ),
+                    );
+                }
+            }
 
-        // No challenge found
-        if (!challenge) {
-            return NextResponse.json(
-                { error: "Challenge not found" },
-                { status: 404 },
+            await writer.write(encoder.encode("data: [DONE]\n\n"));
+            await writer.close();
+        } catch (error) {
+            const errorMessage = (error as Error).message;
+            await writer.write(
+                encoder.encode(
+                    `data: ${JSON.stringify({ error: errorMessage })}\n\n`,
+                ),
             );
+            await writer.write(encoder.encode("data: [DONE]\n\n"));
+            await writer.close();
         }
+    };
 
-        const { system_prompt, answer } = challenge;
+    // Execute the streaming function
+    streamResponse();
 
-        const systemPrompt = system_prompt.replaceAll("█████", answer);
-
-        if (error || !challenge) {
-            return NextResponse.json(
-                { error: "Challenge not found" },
-                { status: 404 },
-            );
-        }
-
-        const completion = await client.chat.completions.create({
-            model: "grok-2-latest",
-            messages: [
-                {
-                    role: "system",
-                    content: `${systemPrompt}`,
-                },
-                {
-                    role: "user",
-                    content: `${body.input}`,
-                },
-            ],
-        });
-
-        const response = completion.choices[0].message.content;
-        return NextResponse.json({ response: response });
-    } catch (error) {
-        return NextResponse.json({ response: (error as Error).message });
-    }
+    // Return the readable stream as the response
+    return new Response(stream.readable, {
+        headers: {
+            "Content-Type": "text/event-stream",
+            "Cache-Control": "no-cache",
+            Connection: "keep-alive",
+        },
+    });
 }
