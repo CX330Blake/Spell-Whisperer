@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { AiOutlineLoading } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa6";
 import { toast } from "sonner";
+import SplitText from "@/components/reactbits/SplitText";
 
 const FormSchema = z.object({
     username: z.string().min(2, {
@@ -135,10 +136,10 @@ export default function Settings() {
     return (
         <div className="flex flex-col space-y-4 items-center w-4/5 mx-auto mt-[15vh]">
             <span className="font-victor-mono text-4xl md:text-6xl">
-                <BlurText text="Settings" />
+                <SplitText text="Settings" />
             </span>
             <span className="font-playwrite justify-center text-base md:text-xl">
-                <BlurText text="- Customize your infos in Spell Whisperer -" />
+                <SplitText text="- Customize your infos in Spell Whisperer -" />
             </span>
             <br />
             <Form {...form}>
