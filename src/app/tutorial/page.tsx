@@ -304,7 +304,7 @@ export default function Tutorial() {
                         >
                             <Input
                                 type="text"
-                                placeholder="SpellWhisperer{printable+}"
+                                placeholder="Submit the flag"
                                 className={`flex-1 bg-background border-primary font-victor-mono ${flagBorderStyle} text-sm md:text-base lg:text-base`}
                                 value={flag}
                                 onChange={(e) => setFlag(e.target.value)}
