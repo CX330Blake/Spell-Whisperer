@@ -23,6 +23,7 @@ import { ThemeToggle } from "./ThemeToggle";
 import { useState, useEffect } from "react";
 import LoginButton from "./LoginButton";
 import { signOut, useSession } from "next-auth/react";
+import { FaChevronDown } from "react-icons/fa6";
 
 interface User {
     username: string;
@@ -44,32 +45,36 @@ export default function MyNavbar() {
         initUser();
     }, [session]);
 
-    const menuItems = [
+    const challengesDropdown = [
+        { label: "Rules", href: "/rules" },
+        { label: "Tutorial", href: "/tutorial" },
         { label: "Challenges", href: "/challenges" },
+    ];
 
+    const menuItems = [
         {
             label: "Leaderboard",
             href: "/leaderboard",
         },
-
-        { label: "Tutorial", href: "/tutorial" },
 
         {
             label: "GitHub",
             href: "https://github.com/CX330Blake/Spell-Whisperer",
         },
 
-        { label: "About", href: "/about" },
+        // { label: "About", href: "/about" },
+        { label: "Sponsor", href: "https://buymeacoffee.com/cx330" },
         // ...(!session ? [{ label: "Login", href: "/login" }] : []),
     ];
 
     return (
         <Navbar
             position="sticky"
-            className="absolute font-victor-mono font-bold border-primary h-20 backdrop-blur-sm z-50 border-dashed"
+            className="fixed font-victor-mono font-bold border-primary h-20 backdrop-blur-sm z-50 border-dashed"
             isBlurred={true}
             isBordered
         >
+            {/* Start */}
             <NavbarContent justify="start">
                 <NavbarBrand>
                     <Link
@@ -84,11 +89,32 @@ export default function MyNavbar() {
                 </NavbarBrand>
             </NavbarContent>
 
+            {/* Center */}
             <NavbarContent className="hidden sm:flex gap-8" justify="center">
+                <Dropdown className="font-victor-mono">
+                    <DropdownTrigger>
+                        <div className="hover:cursor-pointer hover:font-playwrite flex gap-2 items-center">
+                            Training
+                            <FaChevronDown size={10} />
+                        </div>
+                    </DropdownTrigger>
+                    <DropdownMenu className="border border-primary rounded-xl bg-background">
+                        {challengesDropdown.map((item, index) => (
+                            <DropdownItem
+                                key={index}
+                                href={item.href}
+                                className="text-primary font-bold hover:underline"
+                            >
+                                {item.label}
+                            </DropdownItem>
+                        ))}
+                    </DropdownMenu>
+                </Dropdown>
+
                 {menuItems.map((item, index) => (
                     <NavbarMenuItem key={`${item}-${index}`}>
                         <Link
-                            className="w-full"
+                            className="w-full hover:font-playwrite"
                             href={item.href}
                             isExternal={item.href.startsWith("http")}
                         >
@@ -97,6 +123,8 @@ export default function MyNavbar() {
                     </NavbarMenuItem>
                 ))}
             </NavbarContent>
+
+            {/* End */}
             <NavbarContent justify="end">
                 {session ? null : (
                     <NavbarItem className="hidden lg:flex">
@@ -136,7 +164,7 @@ export default function MyNavbar() {
                             <DropdownItem
                                 key="logout"
                                 color="primary"
-                                className="text-primary font-bold"
+                                className="text-primary font-bold hover:underline"
                                 href="/settings"
                             >
                                 Settings
@@ -144,7 +172,7 @@ export default function MyNavbar() {
                             <DropdownItem
                                 key="logout"
                                 color="danger"
-                                className="text-red-500 font-bold"
+                                className="text-red-500 font-bold hover:underline"
                                 onPress={() => signOut({ callbackUrl: "/" })}
                             >
                                 Log Out
@@ -154,19 +182,26 @@ export default function MyNavbar() {
                 ) : null}
             </NavbarContent>
 
+            {/* Mobile phone */}
             <NavbarMenu className="font-victor-mono top-20">
                 <br />
-                <NavbarMenuItem>
+                <NavbarMenuItem className="flex flex-col gap-4 mt-4">
+                    {/* Challenges dropdown */}
+                    <Dropdown>
+                        <DropdownTrigger className="hover:cursor-pointer">
+                            <p>Training</p>
+                        </DropdownTrigger>
+                        <DropdownMenu className="border border-primary rounded-xl bg-background font-victor-mono">
+                            {challengesDropdown.map((item, index) => (
+                                <DropdownItem key={index}>
+                                    <Link href={item.href}>{item.label}</Link>
+                                </DropdownItem>
+                            ))}
+                        </DropdownMenu>
+                    </Dropdown>
                     {menuItems.map((item, index) => (
                         <Link
-                            className="w-full"
-                            // color={
-                            //     index === 2
-                            //         ? "primary"
-                            //         : index === menuItems.length - 1
-                            //           ? "danger"
-                            //           : "foreground"
-                            // }
+                            className="w-full text-base"
                             href={item.href}
                             isExternal={item.href.startsWith("http")}
                         >
