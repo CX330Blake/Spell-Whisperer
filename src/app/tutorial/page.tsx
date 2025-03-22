@@ -251,7 +251,7 @@ export default function Tutorial() {
                                     <span
                                         className={
                                             theme === "dark"
-                                                ? "bg-[#303030] inline-block px-5 rounded max-w-2/3 text-left break-words"
+                                                ? "bg-[#404040] inline-block px-5 rounded max-w-2/3 text-left break-words"
                                                 : "bg-[#d0d0d0] inline-block px-5 rounded max-w-2/3 text-left break-words"
                                         }
                                     >

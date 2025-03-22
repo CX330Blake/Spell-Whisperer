@@ -3,6 +3,8 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 import Threads from "@/components/reactbits/Threads";
 import SplashCursor from "@/components/reactbits/SplashCursor";
+import MarkdownRenderer from "@/components/MarkdownRenderer";
+import { useTheme } from "next-themes";
 
 const messages = [
     { role: "user", message: "What is Spell Whisperer?" },
@@ -50,6 +52,7 @@ interface Message {
 
 export default function Section1() {
     const [conversation, setConversation] = useState<Message[]>([]);
+    const { theme } = useTheme();
 
     const mySplashCursor = useMemo(() => <SplashCursor />, []);
 
@@ -66,20 +69,6 @@ export default function Section1() {
 
     const hasInitialized = useRef(false);
 
-    // useEffect(() => {
-    //     if (hasInitialized.current) return; // Only run once
-    //     hasInitialized.current = true;
-    //
-    //     const initMessages = async () => {
-    //         for (const m of messages) {
-    //             setConversation((prev) => [...prev, m as Message]);
-    //             await new Promise((resolve) => setTimeout(resolve, 0));
-    //         }
-    //     };
-    //
-    //     initMessages();
-    // }, []);
-
     useEffect(() => {
         if (hasInitialized.current) return; // Only run once
         hasInitialized.current = true;
@@ -88,7 +77,7 @@ export default function Section1() {
             for (const m of messages) {
                 setConversation((prev) => [...prev, m as Message]);
                 // const delay = Math.floor(Math.random() * 1000) + 1000; // 1-2 Seconds
-                const delay = 1000;
+                const delay = 0;
                 await new Promise((resolve) => setTimeout(resolve, delay));
             }
         };
@@ -143,9 +132,13 @@ export default function Section1() {
                                 </div>
                                 {/* Message */}
                                 <span
-                                    className={`inline-block p-2 rounded bg-background border-gray-500 border max-w-2/3 text-left break-words`}
+                                    className={
+                                        theme === "dark"
+                                            ? "bg-[#404040] inline-block px-5 rounded max-w-2/3 text-left break-words"
+                                            : "bg-[#d0d0d0] inline-block px-5 rounded max-w-2/3 text-left break-words"
+                                    }
                                 >
-                                    {msg.message}
+                                    <MarkdownRenderer content={msg.message} />
                                 </span>
                             </motion.div>
                         ))

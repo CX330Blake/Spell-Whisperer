@@ -10,45 +10,45 @@ import { ScrollDownHint } from "@/components/ScrollDownHint";
 export default function App() {
     const pageRef = useRef<HTMLDivElement>(null);
     const [current, setCurrent] = useState(0);
-    const count = 3; // 頁面數量
-    const isScrolling = useRef(false); // 防止滾動過快
+    const count = 3; // Pages count
+    const isScrolling = useRef(false); // Prevent scrolling too fast
 
-    // **滾動到指定頁面**
+    // Scroll to the specified page
     const gotoNum = (index: number) => {
         if (!pageRef.current || isScrolling.current) return;
 
-        isScrolling.current = true; // 防止短時間內連續滾動
+        isScrolling.current = true; // Prevent scrolling too fast
 
         pageRef.current.style.transform = `translateY(-${index * 100}vh)`;
         pageRef.current.style.transition = "transform 0.8s ease-in-out";
 
         setCurrent(index);
 
-        // 設定延遲，確保動畫完成後才能再次滾動
+        // Set delay to ensure that scrolling is allowed after the animation is completed
         setTimeout(() => {
             isScrolling.current = false;
-        }, 850); // 略大於 transition 的 800ms
+        }, 850); // A little longer than the transition duration
     };
 
-    // **下一頁**
+    // Next page
     const gotoNext = () => {
         if (current < count - 1) {
             gotoNum(current + 1);
         }
     };
 
-    // **上一頁**
+    // Previous page
     const gotoPrev = () => {
         if (current > 0) {
             gotoNum(current - 1);
         }
     };
 
-    // **處理滾輪事件**
+    // Handle wheel event
     useEffect(() => {
         const trigger = 20;
         const handleWheel = (e: WheelEvent) => {
-            e.preventDefault(); // 阻止預設滾動行為
+            e.preventDefault(); // Prevent default scroll behavior
 
             if (e.deltaY > trigger) {
                 gotoNext();
