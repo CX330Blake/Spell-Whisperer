@@ -42,7 +42,7 @@ export default function Settings() {
     const [loading, setLoading] = useState(false);
     const [updating, setUpdating] = useState(false);
     const [user, setUser] = useState<User | null>(null);
-    const { data: session, status } = useSession();
+    const { data: session, status, update } = useSession();
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -116,6 +116,16 @@ export default function Settings() {
             });
         } else {
             setUser(result);
+
+            try {
+                await update({
+                    name: data.username,
+                    email: data.email,
+                    image: result.avatar || session?.user?.image,
+                });
+            } catch (error) {
+                console.error("Failed to update session:", error);
+            }
 
             toast.success("Success", {
                 description: "User info is successfully updated.",
