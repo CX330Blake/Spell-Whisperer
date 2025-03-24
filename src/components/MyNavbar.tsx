@@ -103,7 +103,7 @@ export default function MyNavbar() {
                             <DropdownItem
                                 key={index}
                                 href={item.href}
-                                className="text-primary font-bold hover:underline"
+                                className="text-primary font-bold hover:font-playwrite"
                             >
                                 {item.label}
                             </DropdownItem>
@@ -164,7 +164,7 @@ export default function MyNavbar() {
                             <DropdownItem
                                 key="logout"
                                 color="primary"
-                                className="text-primary font-bold hover:underline"
+                                className="text-primary font-bold hover:font-playwrite"
                                 href="/settings"
                             >
                                 Settings
@@ -172,7 +172,7 @@ export default function MyNavbar() {
                             <DropdownItem
                                 key="logout"
                                 color="danger"
-                                className="text-red-500 font-bold hover:underline"
+                                className="text-red-500 font-bold hover:font-playwrite"
                                 onPress={() => signOut({ callbackUrl: "/" })}
                             >
                                 Log Out
