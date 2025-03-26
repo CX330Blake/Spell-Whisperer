@@ -10,7 +10,7 @@ const demoItems = [
         image: "https://picsum.photos/600/400?random=4",
     },
     {
-        link: "github.com/CX330Blake/Spell-Whisperer",
+        link: "https://github.com/CX330Blake/Spell-Whisperer",
         text: "Give a star",
         image: "https://picsum.photos/600/400?random=1",
     },
@@ -47,7 +47,7 @@ export default function Section3() {
                         <FlowingMenu items={demoItems} />
                     </div>
                 ),
-                [],
+                []
             )}
             <Footer />
         </div>
