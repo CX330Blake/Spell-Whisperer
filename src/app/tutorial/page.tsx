@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import { useTheme } from "next-themes";
 import SplitText from "@/components/reactbits/SplitText";
+import { Textarea } from "@/components/ui/textarea";
 
 interface Message {
     role: "user" | "bot";
@@ -92,9 +93,25 @@ export default function Tutorial() {
             Confetti();
             setFlagBorderStyle("border-green-500 border-2");
             setFlag("✅ Correct!");
+
+            setConversation((prev) => [
+                ...prev,
+                {
+                    role: "bot",
+                    message: "✅✅✅✅✅ Correct! Wow you're good at this!",
+                },
+            ]);
         } else {
             setFlagBorderStyle("border-red-500 border-2");
             setFlag("❌ Wrong!");
+
+            setConversation((prev) => [
+                ...prev,
+                {
+                    role: "bot",
+                    message: "❌❌❌❌❌ Incorrect flag. Please try again.",
+                },
+            ]);
         }
         setTimeout(() => {
             setFlagBorderStyle("border-primary");
@@ -220,66 +237,76 @@ export default function Tutorial() {
                     {/* Chat box */}
                     <div
                         ref={chatboxRef}
-                        className="w-full p-4 border border-primary rounded-md h-150 md:h-[60vh] overflow-y-auto bg-background font-victor-mono text-sm md:text-sm lg:text-sm"
+                        className="flex flex-col w-full p-4 border border-primary rounded-md h-150 md:h-[70vh] overflow-y-auto bg-background font-victor-mono text-sm md:text-sm lg:text-sm"
                         onScroll={handleScroll}
                     >
-                        {conversation.length === 0 ? (
-                            <div className="text-gray-500">
-                                No messages yet.
-                            </div>
-                        ) : (
-                            conversation.map((msg, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{
-                                        duration: 0.3,
-                                        ease: "easeOut",
-                                    }}
-                                    className={`my-2 space-y-1 ${
-                                        msg.role === "user"
-                                            ? "text-right"
-                                            : "text-left"
-                                    }`}
-                                >
-                                    <div>
-                                        {msg.role === "user"
-                                            ? username
-                                            : challengeName}
-                                    </div>
-                                    <span
-                                        className={
-                                            theme === "dark"
-                                                ? "bg-[#404040] inline-block px-5 rounded max-w-2/3 text-left break-words"
-                                                : "bg-[#d0d0d0] inline-block px-5 rounded max-w-2/3 text-left break-words"
-                                        }
+                        <div
+                            ref={chatboxRef}
+                            className="flex-1 p-4 overflow-y-auto font-victor-mono text-sm"
+                            onScroll={handleScroll}
+                        >
+                            {conversation.length === 0 ? (
+                                <div className="text-gray-500">
+                                    No messages yet.
+                                </div>
+                            ) : (
+                                conversation.map((msg, index) => (
+                                    <motion.div
+                                        key={index}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{
+                                            duration: 0.3,
+                                            ease: "easeOut",
+                                        }}
+                                        className={`my-2 space-y-1 ${
+                                            msg.role === "user"
+                                                ? "text-right"
+                                                : "text-left"
+                                        }`}
                                     >
-                                        <MarkdownRenderer
-                                            content={msg.message}
-                                        />
-                                    </span>
-                                </motion.div>
-                            ))
-                        )}
-                    </div>
-                    <div className="flex flex-col lg:flex-row w-full items-cneter space-y-4 lg:space-y-0 space-x-4">
+                                        <div>
+                                            {msg.role === "user"
+                                                ? username
+                                                : challengeName}
+                                        </div>
+                                        <span
+                                            className={
+                                                theme === "dark"
+                                                    ? "bg-[#404040] inline-block px-5 rounded max-w-2/3 text-left break-words"
+                                                    : "bg-[#d0d0d0] inline-block px-5 rounded max-w-2/3 text-left break-words"
+                                            }
+                                        >
+                                            <MarkdownRenderer
+                                                content={msg.message}
+                                            />
+                                        </span>
+                                    </motion.div>
+                                ))
+                            )}
+                        </div>
+
                         <form
                             onSubmit={(e) => {
                                 e.preventDefault();
                             }}
-                            className="flex w-full items-center space-x-2"
+                            className="flex w-full items-center space-x-2 h-20"
                         >
-                            <Input
-                                type="text"
-                                placeholder="Type your message here"
-                                className={`flex-1 bg-background border-primary font-victor-mono text-sm md:text-base lg:text-base`}
+                            <Textarea
+                                placeholder="Type your message here (shift + enter = new line; enter = send)"
+                                className={`resize-none flex-1 bg-background border-gray-500 font-victor-mono text-sm md:text-base lg:text-base h-full`}
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" && !e.shiftKey) {
+                                        e.preventDefault();
+                                        sendMessage();
+                                    }
+                                }}
                             />
                             <Button
                                 type="submit"
-                                className="flex-none font-playwrite hover:cursor-pointer"
+                                className="flex-col font-playwrite hover:cursor-pointer h-20"
                                 onClick={sendMessage}
                             >
                                 {waitingRes ? (
@@ -293,7 +320,8 @@ export default function Tutorial() {
                                 Send
                             </Button>
                         </form>
-
+                    </div>
+                    <div className="flex flex-col lg:flex-row w-full items-cneter space-y-4 lg:space-y-0 space-x-4">
                         {/* Flag submit */}
                         <form
                             onSubmit={(e) => {

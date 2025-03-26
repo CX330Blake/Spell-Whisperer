@@ -17,6 +17,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 import MarkdownRenderer from "./MarkdownRenderer";
 import { useTheme } from "next-themes";
+import { Textarea } from "./ui/textarea";
 
 interface Message {
     role: "user" | "bot";
@@ -255,9 +256,25 @@ export default function Chat() {
             Confetti();
             setFlagBorderStyle("border-green-500 border-2");
             setFlag("✅ Correct!");
+
+            setConversation((prev) => [
+                ...prev,
+                {
+                    role: "bot",
+                    message: "✅✅✅✅✅ Correct! Wow you're good at this!",
+                },
+            ]);
         } else {
             setFlagBorderStyle("border-red-500 border-2");
             setFlag("❌ Wrong!");
+
+            setConversation((prev) => [
+                ...prev,
+                {
+                    role: "bot",
+                    message: "❌❌❌❌❌ Incorrect flag. Please try again.",
+                },
+            ]);
         }
         setTimeout(() => {
             setFlagBorderStyle("border-primary");
@@ -267,94 +284,104 @@ export default function Chat() {
 
     return (
         <div className="space-y-2 w-full">
-            {/* <Label className="font-victor-mono text-base"> */}
-            {/*     System prompt (My command to the LLM) */}
-            {/* </Label> */}
-            {/* <Alert className="flex border-gray-500"> */}
-            {/*     <Terminal className="h-10 w-10" /> */}
-            {/*     <AlertTitle /> */}
-            {/*     <AlertDescription className="font-victor-mono text-sm md:text-sm lg:text-sm border-primary resize-none w-full h-auto"> */}
-            {/*         {systemPrompt || "Loading..."} */}
-            {/*     </AlertDescription> */}
-            {/* </Alert> */}
-            <div className="flex flex-col items-center space-y-4 w-auto">
+            <div className="flex flex-col items-center w-auto">
                 {/* Chat box */}
-                <div
-                    ref={chatboxRef}
-                    className="w-full p-4 border border-primary rounded-md h-150 md:h-[60vh] overflow-y-auto bg-background font-victor-mono text-sm md:text-sm lg:text-sm"
-                    onScroll={handleScroll}
-                >
-                    {conversation.length === 0 ? (
-                        <div className="text-gray-500">No messages yet.</div>
-                    ) : (
-                        conversation.map((msg, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.3, ease: "easeOut" }}
-                                className={`my-2 space-y-1 ${
-                                    msg.role === "user"
-                                        ? "text-right"
-                                        : "text-left"
-                                }`}
-                            >
-                                <div>
-                                    {msg.role === "user"
-                                        ? username
-                                        : challengeName}
-                                </div>
-                                <span
-                                    className={
-                                        theme === "dark"
-                                            ? "bg-[#404040] inline-block px-5 rounded max-w-2/3 text-left break-words"
-                                            : "bg-[#d0d0d0] inline-block px-5 rounded max-w-2/3 text-left break-words"
-                                    }
+                <div className="flex flex-col w-full p-4 border border-primary rounded-md h-150 md:h-[70vh] overflow-y-auto bg-background font-victor-mono text-sm md:text-sm lg:text-sm">
+                    {/* Messages */}
+                    <div
+                        ref={chatboxRef}
+                        className="flex-1 p-4 overflow-y-auto font-victor-mono text-sm"
+                        onScroll={handleScroll}
+                    >
+                        {conversation.length === 0 ? (
+                            <div className="text-gray-500">
+                                No messages yet.
+                            </div>
+                        ) : (
+                            conversation.map((msg, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{
+                                        duration: 0.3,
+                                        ease: "easeOut",
+                                    }}
+                                    className={`my-2 space-y-1 ${
+                                        msg.role === "user"
+                                            ? "text-right"
+                                            : "text-left"
+                                    }`}
                                 >
-                                    <MarkdownRenderer content={msg.message} />
-                                </span>
-                            </motion.div>
-                        ))
-                    )}
-                </div>
-                <div className="flex flex-col lg:flex-row w-full items-cneter space-y-4 lg:space-y-0 space-x-4">
+                                    <div>
+                                        {msg.role === "user"
+                                            ? username
+                                            : challengeName}
+                                    </div>
+                                    <span
+                                        className={
+                                            theme === "dark"
+                                                ? "bg-[#404040] inline-block px-5 rounded max-w-2/3 text-left break-words"
+                                                : "bg-[#d0d0d0] inline-block px-5 rounded max-w-2/3 text-left break-words"
+                                        }
+                                    >
+                                        <MarkdownRenderer
+                                            content={msg.message}
+                                        />
+                                    </span>
+                                </motion.div>
+                            ))
+                        )}
+                    </div>
+
+                    {/* Input area */}
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
                         }}
-                        className="flex w-full items-center space-x-2"
+                        className="h-20 flex w-full items-center space-x-2"
                     >
-                        <Input
-                            type="text"
-                            placeholder="Type your message here"
-                            className={`flex-1 bg-background border-primary font-victor-mono text-sm md:text-base lg:text-base`}
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                        />
-                        <Button
-                            type="submit"
-                            className="flex-none font-playwrite hover:cursor-pointer"
-                            onClick={sendMessage}
-                        >
-                            {waitingRes ? (
-                                <AiOutlineLoading
-                                    className="animate-spin"
-                                    size={30}
-                                />
-                            ) : (
-                                <FaPaperPlane size={30} />
-                            )}
-                            Send
-                        </Button>
+                        <div className="flex gap-2 w-full">
+                            <Textarea
+                                placeholder="Type your message here (shift + enter = new line; enter = send)"
+                                className={`resize-none flex-1 bg-background border-gray-500 font-victor-mono text-sm md:text-base lg:text-base`}
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" && !e.shiftKey) {
+                                        e.preventDefault();
+                                        sendMessage();
+                                    }
+                                }}
+                            />
+                            <Button
+                                type="submit"
+                                className="flex-col font-playwrite hover:cursor-pointer h-20"
+                                onClick={sendMessage}
+                            >
+                                {waitingRes ? (
+                                    <AiOutlineLoading
+                                        className="animate-spin"
+                                        size={30}
+                                    />
+                                ) : (
+                                    <FaPaperPlane size={30} />
+                                )}
+                                Send
+                            </Button>
+                        </div>
                     </form>
+                </div>
 
+                {/* Submit area */}
+                <div className="flex flex-col lg:flex-row w-full items-center lg:space-y-0 gap-4">
                     {/* Flag submit */}
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
                             checkFlag();
                         }}
-                        className="flex w-full items-center space-x-2"
+                        className="flex items-center space-x-2 h-20 w-full"
                     >
                         <Input
                             type="text"
@@ -378,8 +405,10 @@ export default function Chat() {
                             Submit
                         </Button>
                     </form>
-                    <HintButton />
-                    <TutorialButton />
+                    <div className="flex gap-2">
+                        <HintButton />
+                        <TutorialButton />
+                    </div>
                 </div>
             </div>
         </div>
