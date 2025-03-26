@@ -284,7 +284,7 @@ export default function Chat() {
 
     return (
         <div className="space-y-2 w-full">
-            <div className="flex flex-col items-center w-auto">
+            <div className="flex flex-col items-center w-auto gap-4">
                 {/* Chat box */}
                 <div className="flex flex-col w-full p-4 border border-primary rounded-md h-150 md:h-[70vh] overflow-y-auto bg-background font-victor-mono text-sm md:text-sm lg:text-sm">
                     {/* Messages */}
@@ -341,7 +341,7 @@ export default function Chat() {
                         }}
                         className="h-20 flex w-full items-center space-x-2"
                     >
-                        <div className="flex gap-2 w-full">
+                        <div className="flex gap-2 w-full h-full">
                             <Textarea
                                 placeholder="Type your message here (shift + enter = new line; enter = send)"
                                 className={`resize-none flex-1 bg-background border-gray-500 font-victor-mono text-sm md:text-base lg:text-base`}
@@ -360,7 +360,7 @@ export default function Chat() {
                             />
                             <Button
                                 type="submit"
-                                className="flex-col font-playwrite hover:cursor-pointer h-20"
+                                className="flex-col font-playwrite hover:cursor-pointer h-full"
                                 onClick={sendMessage}
                             >
                                 {waitingRes ? (
@@ -379,13 +379,13 @@ export default function Chat() {
 
                 {/* Submit area */}
                 <div className="flex flex-col lg:flex-row w-full items-center lg:space-y-0 gap-4">
-                    {/* Flag submit */}
+                    {/* Flag submit form - 2/3 width */}
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
                             checkFlag();
                         }}
-                        className="flex items-center space-x-2 h-20 w-full"
+                        className="flex items-center space-x-2 w-full md:basis-2/3"
                     >
                         <Input
                             type="text"
@@ -409,9 +409,14 @@ export default function Chat() {
                             Submit
                         </Button>
                     </form>
-                    <div className="flex gap-2">
-                        <HintButton />
-                        <TutorialButton />
+
+                    <div className="flex w-full md:basis-1/3 gap-2 justify-center">
+                        <div className="flex-1">
+                            <HintButton />
+                        </div>
+                        <div className="flex-1">
+                            <TutorialButton />
+                        </div>
                     </div>
                 </div>
             </div>

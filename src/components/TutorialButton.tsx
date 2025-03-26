@@ -20,7 +20,7 @@ export default function TutorialButton() {
             <AlertDialogTrigger asChild>
                 <Button
                     variant={"outline"}
-                    className="font-playwrite border-primary hover:cursor-pointer relative" // relative for the dot
+                    className="font-playwrite border-primary hover:cursor-pointer relative w-full" // relative for the dot
                     onClick={() => setIsSeen(true)}
                 >
                     {/* Right top corner dot */}

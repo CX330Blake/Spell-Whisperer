@@ -7,14 +7,19 @@ import MyNavbar from "@/components/MyNavbar";
 import { Toaster } from "@/components/ui/sonner";
 import { SessionProvider } from "next-auth/react";
 import SessionProviderWrapper from "@/components/SessionProviderWrapper";
+import { PostHogProvider } from "@/contexts/PostHogContext";
 
 export const viewport: Viewport = {
     themeColor: "#1f1f1f",
 };
 
 export const metadata: Metadata = {
-    title: "Spell Whisperer",
-    description: "Prompt injection challenges to test your hacking skills",
+    title: {
+        default: "Spell Whisperer", // a default is required when creating a template
+        template: "%s — Top 1 Prompt Injection Challenges",
+    },
+    description:
+        "The best prompt injection challenges to test your hacking skills",
 };
 
 export default async function RootLayout({
@@ -40,30 +45,32 @@ export default async function RootLayout({
                             <MyNavbar />
                             <div className="flex flex-col items-center justify-center h-auto relative z-0">
                                 <div className="w-full">
-                                    {/* Main Content */}
-                                    {children}
-                                    <Toaster
-                                        toastOptions={{
-                                            duration: 60000,
-                                            classNames: {
-                                                error: "bg-red-400",
-                                                info: "bg-blue-400",
-                                                success: "bg-green-400",
-                                                warning: "bg-orange-400",
-                                                title: "text-red-400 text-base",
-                                                closeButton: "bg-lime-400",
-                                                toast: "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
-                                                description:
-                                                    "group-[.toast]:text-muted-foreground text-base",
-                                                actionButton:
-                                                    "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground",
-                                                cancelButton:
-                                                    "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
-                                                icon: "group-data-[type=error]:text-red-500 group-data-[type=success]:text-green-500 group-data-[type=warning]:text-amber-500 group-data-[type=info]:text-blue-500",
-                                            },
-                                        }}
-                                    />
-                                    {/* Footer */}
+                                    <PostHogProvider>
+                                        {/* Main Content */}
+                                        {children}
+                                        <Toaster
+                                            toastOptions={{
+                                                duration: 60000,
+                                                classNames: {
+                                                    error: "bg-red-400",
+                                                    info: "bg-blue-400",
+                                                    success: "bg-green-400",
+                                                    warning: "bg-orange-400",
+                                                    title: "text-red-400 text-base",
+                                                    closeButton: "bg-lime-400",
+                                                    toast: "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
+                                                    description:
+                                                        "group-[.toast]:text-muted-foreground text-base",
+                                                    actionButton:
+                                                        "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground",
+                                                    cancelButton:
+                                                        "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
+                                                    icon: "group-data-[type=error]:text-red-500 group-data-[type=success]:text-green-500 group-data-[type=warning]:text-amber-500 group-data-[type=info]:text-blue-500",
+                                                },
+                                            }}
+                                        />
+                                        {/* Footer */}
+                                    </PostHogProvider>
                                 </div>
                             </div>
                             <div className="flex justify-center w-full bottom-0">

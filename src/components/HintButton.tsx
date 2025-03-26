@@ -35,7 +35,7 @@ export default function HintButton() {
             <AlertDialogTrigger asChild>
                 <Button
                     variant={"outline"}
-                    className="font-playwrite border-primary hover:cursor-pointer w-full lg:w-auto"
+                    className="font-playwrite border-primary hover:cursor-pointer w-full"
                 >
                     <div className="flex justify-center items-center space-x-1">
                         <IoHelpBuoy size={40} />
