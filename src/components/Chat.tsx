@@ -82,7 +82,7 @@ export default function Chat() {
         async function fetchData() {
             try {
                 const sysPromptData = await fetch(
-                    `/api/challenge/get-system-prompt?name=${challengeName}`,
+                    `/api/challenge/get-system-prompt?name=${challengeName}`
                 ).then((res) => res.json());
 
                 if (challengeName && sysPromptData) {
@@ -348,7 +348,11 @@ export default function Chat() {
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyDown={(e) => {
-                                    if (e.key === "Enter" && !e.shiftKey) {
+                                    if (
+                                        e.key === "Enter" &&
+                                        !e.shiftKey &&
+                                        !e.nativeEvent.isComposing
+                                    ) {
                                         e.preventDefault();
                                         sendMessage();
                                     }
