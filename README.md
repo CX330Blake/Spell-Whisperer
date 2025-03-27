@@ -63,7 +63,6 @@ You can simply customize them by modifying the `/src/app/api/challenge/challenge
 
 ## TODO
 
-1. Typing area support shift+enter to type in new line
-2. Challenges page refactor
-3. Other challenges (not just flag stealer)
-4. Show others solutions
+1. Challenges page refactor (use a layout like PicoCTF or CTFd)
+2. Other challenges (not just flag stealer)
+3. Show others solutions
