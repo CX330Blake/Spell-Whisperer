@@ -32,7 +32,6 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { useSession } from "next-auth/react";
-import { userInfo } from "os";
 
 export type Challenge = {
     level: string;
