@@ -94,7 +94,7 @@ export default function ChallengesList() {
                     />
                 </div>
                 <br />
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                     {/* Search box */}
                     <div className="relative w-full md:w-1/4">
                         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -104,7 +104,7 @@ export default function ChallengesList() {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search Challenges..."
-                            className="pl-8 pr-10 border border-gray-500 rounded-none w-full font-victor-mono"
+                            className="pl-8 pr-10 border border-gray-500 rounded-none w-full font-victor-mono text-ellipsis"
                         />
                         {search && (
                             <button
@@ -122,7 +122,7 @@ export default function ChallengesList() {
                         <DropdownMenuTrigger asChild>
                             <Button
                                 variant="outline"
-                                className="ml-auto border border-gray-500 hover:cursor-pointer rounded-none font-victor-mono"
+                                className="w-full md:w-auto md:ml-auto border border-gray-500 hover:cursor-pointer rounded-none font-victor-mono"
                             >
                                 Level / Difficulty <ChevronDown />
                             </Button>
@@ -154,7 +154,7 @@ export default function ChallengesList() {
                 </div>
                 <br />
                 <table className="min-w-full table-auto font-victor-mono text-sm md:text-base border border-primary">
-                    <thead className="bg-background border-b border-primary text-left">
+                    <thead className="bg-background border-b border-primary text-left hidden md:table-header-group">
                         <tr className="text-gray-500">
                             <th className="px-4 py-3">Challenge Name</th>
                             <th className="px-4 py-3">Level / Difficulty</th>
@@ -172,22 +172,41 @@ export default function ChallengesList() {
                                                 ? "bg-[#22322e]"
                                                 : "bg-green-200"
                                             : ""
-                                    } border-b ${idx === challengeData.length - 1 ? "border-primary" : "border-gray-700"} hover:bg-primary/10 transition-all hover:cursor-pointer`}
+                                    } border-b ${
+                                        idx === challengeData.length - 1
+                                            ? "border-primary"
+                                            : "border-gray-700"
+                                    } hover:bg-primary/10 transition-all hover:cursor-pointer`}
                                     onClick={() =>
                                         (window.location.href = `/challenges/${encodeURIComponent(c.name)}`)
                                     }
                                 >
-                                    <td className="px-4 py-3 font-bold">
+                                    <td className="px-4 py-3 font-bold md:table-cell flex flex-col gap-2">
+                                        <span className="md:hidden text-gray-500">
+                                            Challenge Name:{" "}
+                                        </span>
                                         {c.name}
                                     </td>
-                                    <td className="px-4 py-3 text-gray-500">
+                                    <td
+                                        className={`px-4 py-3 font-bold text-primary ${theme === "dark" ? "md:text-gray-400" : "md:text-gray-500"} md:table-cell flex flex-col gap-2`}
+                                    >
+                                        <span className="md:hidden text-gray-500">
+                                            Level / Difficulty:{" "}
+                                        </span>
                                         {`${c.level} - ${c.levelId}` || "-"}
                                     </td>
-                                    <td className="px-4 py-3 text-gray-500">
+                                    <td
+                                        className={`px-4 py-3 font-bold text-primary ${theme === "dark" ? "md:text-gray-400" : "md:text-gray-500"} md:table-cell flex flex-col gap-2`}
+                                    >
+                                        <span className="md:hidden text-gray-500">
+                                            First Blood:{" "}
+                                        </span>
                                         <div className="flex items-center gap-2 justify-start">
                                             <Avatar className="border-primary border-2">
                                                 <AvatarImage
-                                                    src={c.firstBloodAvatar}
+                                                    src={
+                                                        c.firstBloodAvatar || ""
+                                                    }
                                                 />
                                                 <AvatarFallback>
                                                     ?
@@ -199,12 +218,10 @@ export default function ChallengesList() {
                                 </tr>
                             ))
                         ) : (
-                            <tr
-                                className={`border-b border-primary hover:bg-primary/10 transition-all`}
-                            >
-                                <td className="px-4 py-3 font-bold">-</td>
-                                <td className="px-4 py-3 font-bold">-</td>
-                                <td className="px-4 py-3 font-bold">-</td>
+                            <tr className="border-b border-primary hover:bg-primary/10 transition-all">
+                                <td className="px-4 py-3 font-bold" colSpan={3}>
+                                    No challenge found.
+                                </td>
                             </tr>
                         )}
                     </tbody>
