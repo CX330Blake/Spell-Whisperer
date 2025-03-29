@@ -1,7 +1,5 @@
 "use client";
 
-import BlurText from "@/components/reactbits/BlurText";
-import { ChallengeTable } from "@/components/ChallengeTable";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
@@ -33,7 +31,6 @@ export default function Page() {
             </span>
             <br />
             <br />
-            {/* <ChallengeTable /> */}
             <ChallengesList />
             <br />
             <br />
