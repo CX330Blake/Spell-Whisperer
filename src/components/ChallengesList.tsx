@@ -188,7 +188,7 @@ export default function ChallengesList() {
                                         {c.name}
                                     </td>
                                     <td
-                                        className={`px-4 py-3 font-bold text-primary ${theme === "dark" ? "md:text-gray-400" : "md:text-gray-500"} md:table-cell flex flex-col gap-2`}
+                                        className={`px-4 py-3 font-bold text-primary ${theme === "dark" ? "md:text-gray-400" : "md:text-gray-500"} md:table-cell flex flex-col gap-2 capitalize`}
                                     >
                                         <span className="md:hidden text-gray-500">
                                             Level / Difficulty:{" "}
