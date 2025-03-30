@@ -18,7 +18,7 @@ export default function Page() {
             <div className="md:w-2/3 w-full mb-10">
                 <ul className="list-decimal list-outside font-victor-mono space-y-4">
                     <li>
-                        First of all, welcome to SpellWhisperer! Ready to enjoy
+                        First of all, welcome to Spell Whisperer! Ready to enjoy
                         your trip on hacking LLM? Let's get started!
                     </li>
                     <li>
