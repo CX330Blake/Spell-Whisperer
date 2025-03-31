@@ -79,7 +79,22 @@ export default function Tutorial() {
             ...prev,
             {
                 role: "bot",
-                message: `Hello, welcome to the Spell Whisperer training! In this course, you will embark on a journey to master the art of uncovering hidden knowledge. As a Seeker, your mission is to outsmart the Secret Guard and extract the hidden secrets. But don’t worry—this is a guided challenge, and I will be here every step of the way to teach you how to think, analyze, and uncover what is hidden. Follow the tutorial closely, complete each challenge, and refine your techniques. If you ever have questions, feel free to ask me in any language you prefer—I am here to assist you. Now, let’s begin your training. Your first challenge is simple: find the secret. Good luck! --- 你好，歡迎來到《咒語低語者》的訓練課程！在這堂課中，你將踏上一場探索隱藏知識的旅程。作為探求者，你的目標是運用你的智慧，挑戰秘密衛士，並成功獲取隱藏的秘密。但不用擔心！這是一場有指引的挑戰，我會在整個過程中引導你，幫助你學習如何思考、分析，並揭開隱藏的線索。請仔細閱讀教程，完成每個挑戰，並不斷提升你的技能。如果你有任何問題，隨時用任何你習慣的語言問我——我會幫助你解決。現在，讓我們開始你的訓練。你的第一個挑戰很簡單：找到秘密。 祝你好運！`,
+                message: `Hello, Seeker. Welcome to the Spell Whisperer Prompt Injection Training Grounds.
+In this simulation, you will learn how to manipulate AI prompts by injecting unexpected input—this technique is known as prompt injection. Your goal is to bypass or override the AI's intended behavior and extract hidden or restricted information.
+The system you are facing is protected by a “Secret Guard,” designed to follow instructions faithfully. Your challenge is to trick it—to whisper a more powerful spell that alters its course.
+
+💡 Hint: Try to break out of the instructions. Can you get the AI to reveal what it was told to hide?
+
+Each level will present a new defense. Study it. Bend it. Break it.Good luck, Spell Whisperer. Your first mission: Find the secret.
+
+你好，探求者。歡迎來到《吟咒者》的提示詞注入（Prompt Injection）訓練場。
+在這個模擬挑戰中，你將學習如何通過「注入」輸入內容來操控語言模型的行為，這種技巧稱為 Prompt Injection。你的任務是繞過或覆蓋系統原本的指令，從而取得被保護或被隱藏的資訊。
+你所面對的系統由「秘密衛士」保護，它會盡力遵守原始指令。而你要做的，就是巧妙地欺騙它——低聲吟唱出更有力的咒語，讓它改變行為。
+
+💡 提示：試著讓模型「跳出」原本的限制。你能否讓它說出本不該說的秘密？
+
+每一關都有不同的防禦機制。觀察它，理解它，破解它。
+祝你好運，吟咒者。你的第一個任務是：找出秘密。`,
             },
         ]);
     }, []);
