@@ -91,7 +91,7 @@ export default function Page() {
                                 key={row.user_id}
                                 className="grid grid-cols-5 p-3 text-base font-victor-mono text-center border-b border-gray-500 items-center"
                             >
-                                <div>{index + 1}</div>
+                                <div>#{index + 1}</div>
                                 <div className="flex items-center gap-2 justify-center">
                                     <Avatar className="border-primary border-2">
                                         <AvatarImage src={row.user_avatar} />
