@@ -77,11 +77,11 @@ export default function Page() {
                         {/* Header row */}
                         <div className="grid grid-cols-5 border-b border-primary py-3 text-center font-bold items-center">
                             <div>Rank</div>
-                            <div>Username</div>
+                            <div>Hacker</div>
                             <div>Score</div>
-                            <div>Solved Count</div>
+                            <div>Pwned LLMs</div>
                             <div className="leading-relaxed">
-                                Last Solved
+                                Last Pwned
                                 <br />({userTimeZone})
                             </div>
                         </div>
