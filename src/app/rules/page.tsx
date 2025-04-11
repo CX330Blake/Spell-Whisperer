@@ -32,7 +32,9 @@ export default function Page() {
                     <li>
                         Flag format:{" "}
                         <b>
-                            SpellWhisperer{"{"}printable+{"}"}
+                            <i>
+                                SpellWhisperer{"{"}printable+{"}"}
+                            </i>
                         </b>
                     </li>
                     <li>If you need help, check the tutorial page.</li>
