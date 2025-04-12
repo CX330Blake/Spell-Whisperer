@@ -29,7 +29,7 @@ export default function Page() {
                 <br />
                 <br />
                 This project is developed and maintained by{" "}
-                <Link href="linktr.ee/CX330Blake">
+                <Link href="https://linktr.ee/CX330Blake" target="_blank">
                     <i>
                         <u>CX330</u>
                     </i>
@@ -55,6 +55,7 @@ export default function Page() {
                     <li>
                         <Link
                             href="https://linktr.ee/kazma.tw"
+                            target="_blank"
                             className="underline"
                         >
                             Kazma
