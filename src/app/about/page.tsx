@@ -52,6 +52,7 @@ export default function Page() {
                 <br />
                 <br />
                 <ol type="1" className="list-decimal ml-8">
+                    {/* Kazma */}
                     <li>
                         <Link
                             href="https://linktr.ee/kazma.tw"
@@ -59,6 +60,16 @@ export default function Page() {
                             className="underline"
                         >
                             Kazma
+                        </Link>
+                    </li>
+                    {/* Jackoha */}
+                    <li>
+                        <Link
+                            href="https://jackoha.github.io/"
+                            target="_blank"
+                            className="underline"
+                        >
+                            Jackoha
                         </Link>
                     </li>
                 </ol>
