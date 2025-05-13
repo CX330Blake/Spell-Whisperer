@@ -62,7 +62,7 @@ export default function MyNavbar() {
             href: "https://github.com/CX330Blake/Spell-Whisperer",
         },
 
-        { label: "Sponsor", href: "https://buymeacoffee.com/cx330" },
+        { label: "Sponsor", href: "/sponsor" },
         { label: "About", href: "/about" },
         // ...(!session ? [{ label: "Login", href: "/login" }] : []),
     ];
