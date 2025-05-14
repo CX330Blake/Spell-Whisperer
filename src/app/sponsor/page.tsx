@@ -17,7 +17,7 @@ export default function Page() {
             </div>
             <div className="md:w-2/3 w-full mb-10 font-victor-mono">
                 {/* Sponsor description */}
-                There's 2 ways of sponsorship, non-commercial (personal) or
+                There are 2 ways of sponsorship, non-commercial (personal) or
                 commercial. Your sponsorship is making Spell Whisperer more
                 better, we really appreciate that.
                 <br />
