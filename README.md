@@ -29,6 +29,7 @@ Spell whisperer is a prompt injection challenge based on Grok API (of course, yo
 By clicking the following button, you will clone a repo from here and deploy your own app on Vercel.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/CX330Blake/Spell-Whisperer)
+[![Deploy to PandaStack](https://dashboard.pandastack.io/deploy-button.svg)](https://dashboard.pandastack.io/deploy?repo=CX330Blake/Spell-Whisperer&type=static&buildCmd=npm+run+build&outputDir=dist)
 
 ### Deploy on your own
 
